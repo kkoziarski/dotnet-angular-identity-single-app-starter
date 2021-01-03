@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>CleanArchWeb.Domain</RootNamespace>
+    <AssemblyName>CleanArchWeb.Domain</AssemblyName>
+  </PropertyGroup>
+
+</Project>

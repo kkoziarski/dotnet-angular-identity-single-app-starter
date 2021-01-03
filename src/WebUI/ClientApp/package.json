@@ -1,0 +1,100 @@
+{
+  "name": "cleanarchweb.webui",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "ng": "ng",
+    "ngstart": "ng serve",
+    "ngbuild": "ng build",
+    "build": "npm run env -s && ng build --prod",
+    "start": "npm run env -s && ng serve --proxy-config proxy.conf.js",
+    "serve:sw": "npm run build -s && npx http-server ./dist -p 4200",
+    "lint": "ng lint && stylelint \"src/**/*.scss\" --syntax scss && htmlhint \"src\" --config .htmlhintrc",
+    "test": "npm run env -s && ng test",
+    "test:ci": "npm run env -s && npm run lint -s && ng test --configuration=ci",
+    "e2e": "npm run env -s && ng e2e",
+    "translations:extract": "ngx-translate-extract --input ./src --output ./src/translations/template.json --format=json --clean --sort",
+    "docs": "hads ./docs -o",
+    "env": "ngx-scripts env npm_package_version",
+    "prettier": "prettier --write \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
+    "prettier:check": "prettier --list-different \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
+    "postinstall": "npm run prettier -s",
+    "generate": "ng generate"
+  },
+  "dependencies": {
+    "@angular/animations": "^10.1.4",
+    "@angular/common": "^10.1.4",
+    "@angular/compiler": "^10.1.4",
+    "@angular/core": "^10.1.4",
+    "@angular/forms": "^10.1.4",
+    "@angular/localize": "^10.1.4",
+    "@angular/platform-browser": "^10.1.4",
+    "@angular/platform-browser-dynamic": "^10.1.4",
+    "@angular/platform-server": "^10.2.4",
+    "@angular/router": "^10.1.4",
+    "@angular/service-worker": "^10.1.4",
+    "@fortawesome/angular-fontawesome": "^0.8.1",
+    "@fortawesome/fontawesome-free": "^5.14.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@ng-bootstrap/ng-bootstrap": "^7.0.0",
+    "@ngx-translate/core": "^13.0.0",
+    "aspnet-prerendering": "^3.0.1",
+    "bootstrap": "^4.5.2",
+    "oidc-client": "^1.10.1",
+    "rxjs": "^6.6.3",
+    "tslib": "^2.0.1",
+    "zone.js": "~0.10.3"
+  },
+  "devDependencies": {
+    "@angular-builders/jest": "^10.0.0",
+    "@angular/cli": "~10.1.4",
+    "@angular/compiler-cli": "^10.1.4",
+    "@angular/language-service": "^10.1.4",
+    "@angular-devkit/build-angular": "^0.1001.4",
+    "@angularclass/hmr": "^3.0.0",
+    "@biesbjerg/ngx-translate-extract": "^7.0.3",
+    "@biesbjerg/ngx-translate-extract-marker": "^1.0.0",
+    "@ngx-rocket/scripts": "^4.0.0",
+    "@types/jasmine": "^3.5.14",
+    "@types/jasminewd2": "^2.0.8",
+    "@types/jest": "^26.0.12",
+    "@types/node": "^12.12.62",
+    "codelyzer": "^6.0.1",
+    "hads": "^2.1.0",
+    "htmlhint": "^0.14.1",
+    "https-proxy-agent": "^5.0.0",
+    "jasmine-core": "~3.6.0",
+    "jasmine-spec-reporter": "~5.0.1",
+    "jest": "^26.4.2",
+    "prettier": "^2.1.1",
+    "tslint-config-prettier": "^1.18.0",
+    "stylelint-config-prettier": "^8.0.2",
+    "pretty-quick": "^3.0.0",
+    "husky": "^4.2.5",
+    "protractor": "~7.0.0",
+    "stylelint": "~13.7.2",
+    "stylelint-config-recommended-scss": "~4.2.0",
+    "stylelint-config-standard": "~20.0.0",
+    "stylelint-scss": "~3.18.0",
+    "ts-node": "^9.0.0",
+    "tslint": "~6.1.0",
+    "typescript": "~4.0.3"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.scss",
+        "options": {
+          "singleQuote": false
+        }
+      }
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
+}
