@@ -12,12 +12,12 @@ export class Shell {
    * @param routes The routes to add.
    * @return The new route using shell as the base.
    */
-  static childRoutes(routes: Routes): Route {
+  static childRoutes(routes: Routes, useAuthGuard: boolean = true): Route {
     return {
       path: '',
       component: ShellComponent,
       children: routes,
-      canActivate: [AuthenticationGuard],
+      canActivate: useAuthGuard ? [AuthenticationGuard] : [],
       // Reuse ShellComponent instance when navigating between child views
       data: { reuse: true },
     };

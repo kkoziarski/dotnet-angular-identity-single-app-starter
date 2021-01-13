@@ -15,7 +15,6 @@ namespace CleanArchWeb.Application.UnitTests.Common.Behaviours
         private readonly Mock<ICurrentUserService> _currentUserService;
         private readonly Mock<IIdentityService> _identityService;
 
-
         public RequestLoggerTests()
         {
             _logger = new Mock<ILogger<CreateTodoItemCommand>>();

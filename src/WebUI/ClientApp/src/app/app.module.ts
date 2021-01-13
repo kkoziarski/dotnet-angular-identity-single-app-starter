@@ -44,19 +44,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HomeModule,
     AboutModule,
     AuthModule,
-    AppRoutingModule, // must be imported as the last module as it contains the fallback route
+
     // cleanarch
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    FontAwesomeModule,
-    // ApiAuthorizationModule,
-    // RouterModule.forRoot([
-    //   { path: '', component: HomeComponent, pathMatch: 'full' },
-    //   { path: 'counter', component: CounterComponent },
-    //   { path: 'fetch-data', component: FetchDataComponent },
-    //   { path: 'todo', component: TodoComponent, canActivate: [AuthorizeGuard] },
-    // ]),
-    BrowserAnimationsModule,
-    // ModalModule.forRoot()
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }), // cleanarch
+    FontAwesomeModule, // cleanarch
+    // ApiAuthorizationModule, // cleanarch
+    // RouterModule.forRoot([ // cleanarch
+    //   { path: '', component: HomeComponent, pathMatch: 'full' }, // cleanarch
+    //   { path: 'counter', component: CounterComponent }, // cleanarch
+    //   { path: 'fetch-data', component: FetchDataComponent }, // cleanarch
+    //   { path: 'todo', component: TodoComponent, canActivate: [AuthorizeGuard] }, // cleanarch
+    // ]), // cleanarch
+    BrowserAnimationsModule, // cleanarch
+    // ModalModule.forRoot() // cleanarch
+    // end cleanarch
+
+    AppRoutingModule, // must be imported as the last module as it contains the fallback route
   ],
   declarations: [
     AppComponent,
