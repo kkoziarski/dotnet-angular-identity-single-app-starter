@@ -12,11 +12,20 @@ namespace CleanArchWeb.WebUI.Controllers
     [Authorize]
     public class TodoListsController : ApiControllerBase
     {
+        [HttpGet("public/list")]
+        [AllowAnonymous]
+        public async Task<ActionResult<TodosVm>> GetPublic()
+        {
+            return await Mediator.Send(new GetTodosQuery());
+        }
+
         [HttpGet]
         public async Task<ActionResult<TodosVm>> Get()
         {
             return await Mediator.Send(new GetTodosQuery());
         }
+
+
 
         [HttpGet("{id}")]
         public async Task<FileResult> Get(int id)

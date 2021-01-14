@@ -8,9 +8,7 @@
   "paths": {
     "/api/TodoItems": {
       "get": {
-        "tags": [
-          "TodoItems"
-        ],
+        "tags": ["TodoItems"],
         "operationId": "TodoItems_GetTodoItemsWithPagination",
         "parameters": [
           {
@@ -60,9 +58,7 @@
         ]
       },
       "post": {
-        "tags": [
-          "TodoItems"
-        ],
+        "tags": ["TodoItems"],
         "operationId": "TodoItems_Create",
         "requestBody": {
           "x-name": "command",
@@ -98,9 +94,7 @@
     },
     "/api/TodoItems/{id}": {
       "put": {
-        "tags": [
-          "TodoItems"
-        ],
+        "tags": ["TodoItems"],
         "operationId": "TodoItems_Update",
         "parameters": [
           {
@@ -146,9 +140,7 @@
         ]
       },
       "delete": {
-        "tags": [
-          "TodoItems"
-        ],
+        "tags": ["TodoItems"],
         "operationId": "TodoItems_Delete",
         "parameters": [
           {
@@ -184,9 +176,7 @@
     },
     "/api/TodoItems/UpdateItemDetails": {
       "put": {
-        "tags": [
-          "TodoItems"
-        ],
+        "tags": ["TodoItems"],
         "operationId": "TodoItems_UpdateItemDetails",
         "parameters": [
           {
@@ -231,11 +221,27 @@
         ]
       }
     },
+    "/api/TodoLists/public/list": {
+      "get": {
+        "tags": ["TodoLists"],
+        "operationId": "TodoLists_GetPublic",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TodosVm"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/TodoLists": {
       "get": {
-        "tags": [
-          "TodoLists"
-        ],
+        "tags": ["TodoLists"],
         "operationId": "TodoLists_Get",
         "responses": {
           "200": {
@@ -256,9 +262,7 @@
         ]
       },
       "post": {
-        "tags": [
-          "TodoLists"
-        ],
+        "tags": ["TodoLists"],
         "operationId": "TodoLists_Create",
         "requestBody": {
           "x-name": "command",
@@ -294,9 +298,7 @@
     },
     "/api/TodoLists/{id}": {
       "get": {
-        "tags": [
-          "TodoLists"
-        ],
+        "tags": ["TodoLists"],
         "operationId": "TodoLists_Get2",
         "parameters": [
           {
@@ -330,9 +332,7 @@
         ]
       },
       "put": {
-        "tags": [
-          "TodoLists"
-        ],
+        "tags": ["TodoLists"],
         "operationId": "TodoLists_Update",
         "parameters": [
           {
@@ -378,9 +378,7 @@
         ]
       },
       "delete": {
-        "tags": [
-          "TodoLists"
-        ],
+        "tags": ["TodoLists"],
         "operationId": "TodoLists_Delete",
         "parameters": [
           {
@@ -416,9 +414,7 @@
     },
     "/api/WeatherForecast": {
       "get": {
-        "tags": [
-          "WeatherForecast"
-        ],
+        "tags": ["WeatherForecast"],
         "operationId": "WeatherForecast_Get",
         "responses": {
           "200": {
@@ -555,18 +551,8 @@
       "PriorityLevel": {
         "type": "integer",
         "description": "",
-        "x-enumNames": [
-          "None",
-          "Low",
-          "Medium",
-          "High"
-        ],
-        "enum": [
-          0,
-          1,
-          2,
-          3
-        ]
+        "x-enumNames": ["None", "Low", "Medium", "High"],
+        "enum": [0, 1, 2, 3]
       },
       "TodosVm": {
         "type": "object",

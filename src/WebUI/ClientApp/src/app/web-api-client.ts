@@ -387,6 +387,7 @@ export class TodoItemsClient implements ITodoItemsClient {
 }
 
 export interface ITodoListsClient {
+  getPublic(): Observable<TodosVm>;
   get(): Observable<TodosVm>;
   create(command: CreateTodoListCommand): Observable<number>;
   get2(id: number): Observable<FileResponse>;
@@ -405,6 +406,72 @@ export class TodoListsClient implements ITodoListsClient {
   constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
     this.http = http;
     this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : '';
+  }
+
+  getPublic(): Observable<TodosVm> {
+    let url_ = this.baseUrl + '/api/TodoLists/public/list';
+    url_ = url_.replace(/[?&]$/, '');
+
+    let options_: any = {
+      observe: 'response',
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        Accept: 'application/json',
+      }),
+    };
+
+    return this.http
+      .request('get', url_, options_)
+      .pipe(
+        _observableMergeMap((response_: any) => {
+          return this.processGetPublic(response_);
+        })
+      )
+      .pipe(
+        _observableCatch((response_: any) => {
+          if (response_ instanceof HttpResponseBase) {
+            try {
+              return this.processGetPublic(<any>response_);
+            } catch (e) {
+              return <Observable<TodosVm>>(<any>_observableThrow(e));
+            }
+          } else return <Observable<TodosVm>>(<any>_observableThrow(response_));
+        })
+      );
+  }
+
+  protected processGetPublic(response: HttpResponseBase): Observable<TodosVm> {
+    const status = response.status;
+    const responseBlob =
+      response instanceof HttpResponse
+        ? response.body
+        : (<any>response).error instanceof Blob
+        ? (<any>response).error
+        : undefined;
+
+    let _headers: any = {};
+    if (response.headers) {
+      for (let key of response.headers.keys()) {
+        _headers[key] = response.headers.get(key);
+      }
+    }
+    if (status === 200) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          let result200: any = null;
+          let resultData200 = _responseText === '' ? null : JSON.parse(_responseText, this.jsonParseReviver);
+          result200 = TodosVm.fromJS(resultData200);
+          return _observableOf(result200);
+        })
+      );
+    } else if (status !== 200 && status !== 204) {
+      return blobToText(responseBlob).pipe(
+        _observableMergeMap((_responseText) => {
+          return throwException('An unexpected server error occurred.', status, _responseText, _headers);
+        })
+      );
+    }
+    return _observableOf<TodosVm>(<any>null);
   }
 
   get(): Observable<TodosVm> {
