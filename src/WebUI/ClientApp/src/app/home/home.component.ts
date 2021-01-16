@@ -10,7 +10,6 @@ import { QuoteService } from './quote.service';
 })
 export class HomeComponent implements OnInit {
   quote: string | undefined;
-  todos: any | undefined;
   isLoading = false;
 
   constructor(private quoteService: QuoteService) {}
@@ -26,17 +25,6 @@ export class HomeComponent implements OnInit {
       )
       .subscribe((quote: string) => {
         this.quote = quote;
-      });
-
-    this.quoteService
-      .getTodos()
-      .pipe(
-        finalize(() => {
-          this.isLoading = false;
-        })
-      )
-      .subscribe((todos: any) => {
-        this.todos = todos;
       });
   }
 }

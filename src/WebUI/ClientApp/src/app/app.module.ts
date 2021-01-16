@@ -13,17 +13,15 @@ import { AuthModule } from '@app/auth';
 import { HomeModule } from './home/home.module';
 import { ShellModule } from './shell/shell.module';
 import { AboutModule } from './about/about.module';
+import { TodoModule } from './todo/todo.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 // cleanarch
-// import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NavMenuComponent } from './shell/header/nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
-// import { TodoComponent } from './todo/todo.component';
 // import { ApiAuthorizationModule } from '@app/auth/api-authorization.module';
 import { AuthorizeGuard } from '@app/auth/authorize.guard';
 import { AuthorizeInterceptor } from '@app/auth/authorize.interceptor';
@@ -43,11 +41,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ShellModule,
     HomeModule,
     AboutModule,
+    TodoModule,
     AuthModule,
 
     // cleanarch
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }), // cleanarch
-    FontAwesomeModule, // cleanarch
+    FontAwesomeModule, // x cleanarch
     // ApiAuthorizationModule, // cleanarch
     // RouterModule.forRoot([ // cleanarch
     //   { path: '', component: HomeComponent, pathMatch: 'full' }, // cleanarch
@@ -64,12 +63,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   declarations: [
     AppComponent,
     // cleanarch
-    // AppComponent,
+    // x AppComponent,
     // NavMenuComponent,
-    // HomeComponent,
+    // x HomeComponent,
     // CounterComponent,
     // FetchDataComponent,
-    // TodoComponent,
+    // x TodoComponent,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }],
   bootstrap: [AppComponent],
