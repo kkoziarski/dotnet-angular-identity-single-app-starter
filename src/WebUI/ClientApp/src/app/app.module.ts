@@ -15,13 +15,13 @@ import { ShellModule } from './shell/shell.module';
 import { AboutModule } from './about/about.module';
 import { TodoModule } from './todo/todo.module';
 import { CounterModule } from './counter/counter.module';
+import { FetchDataModule } from './fetch-data/fetch-data.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 // cleanarch
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NavMenuComponent } from './shell/header/nav-menu/nav-menu.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 // import { ApiAuthorizationModule } from '@app/auth/api-authorization.module';
 import { AuthorizeGuard } from '@app/auth/authorize.guard';
 import { AuthorizeInterceptor } from '@app/auth/authorize.interceptor';
@@ -43,6 +43,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AboutModule,
     TodoModule,
     CounterModule,
+    FetchDataModule,
     AuthModule,
 
     // cleanarch
@@ -68,7 +69,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     // NavMenuComponent,
     // x HomeComponent,
     // x CounterComponent,
-    // FetchDataComponent,
+    // x FetchDataComponent,
     // x TodoComponent,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }],
