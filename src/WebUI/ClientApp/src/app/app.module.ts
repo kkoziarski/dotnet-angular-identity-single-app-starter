@@ -14,13 +14,13 @@ import { HomeModule } from './home/home.module';
 import { ShellModule } from './shell/shell.module';
 import { AboutModule } from './about/about.module';
 import { TodoModule } from './todo/todo.module';
+import { CounterModule } from './counter/counter.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 // cleanarch
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NavMenuComponent } from './shell/header/nav-menu/nav-menu.component';
-import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 // import { ApiAuthorizationModule } from '@app/auth/api-authorization.module';
 import { AuthorizeGuard } from '@app/auth/authorize.guard';
@@ -42,6 +42,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HomeModule,
     AboutModule,
     TodoModule,
+    CounterModule,
     AuthModule,
 
     // cleanarch
@@ -66,7 +67,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     // x AppComponent,
     // NavMenuComponent,
     // x HomeComponent,
-    // CounterComponent,
+    // x CounterComponent,
     // FetchDataComponent,
     // x TodoComponent,
   ],
