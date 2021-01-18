@@ -1,7 +1,7 @@
 // cleanarch
 import { Injectable } from '@angular/core';
 import { User, UserManager, WebStorageStateStore } from 'oidc-client';
-import { BehaviorSubject, concat, from, Observable } from 'rxjs';
+import { BehaviorSubject, concat, from, Observable, of } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { ApplicationPaths, ApplicationName } from './api-authorization.constants';
 
@@ -45,8 +45,15 @@ export class AuthorizeService {
   private userManager: UserManager;
   private userSubject: BehaviorSubject<IUser | null> = new BehaviorSubject(null);
 
+  private fakeIsAuth = new BehaviorSubject(false);
+
   public isAuthenticated(): Observable<boolean> {
+    return this.fakeIsAuth.asObservable();
     return this.getUser().pipe(map((u) => !!u));
+  }
+
+  public fakeSetAuth(isAuth: boolean): void {
+    this.fakeIsAuth.next(isAuth);
   }
 
   public getUser(): Observable<IUser | null> {

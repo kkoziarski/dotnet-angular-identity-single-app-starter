@@ -14,5 +14,6 @@ import { LogoutComponent as CleanArchLogoutComponent } from './logout/logout.com
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, TranslateModule, NgbModule, I18nModule, AuthRoutingModule],
   declarations: [LoginComponent, CleanArchLoginComponent, CleanArchLoginMenuComponent, CleanArchLogoutComponent],
+  exports: [CleanArchLoginComponent, CleanArchLoginMenuComponent, CleanArchLogoutComponent],
 })
 export class AuthModule {}
