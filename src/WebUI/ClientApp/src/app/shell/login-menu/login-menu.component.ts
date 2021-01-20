@@ -1,8 +1,8 @@
 // cleanarch
 import { Component, OnInit } from '@angular/core';
-import { AuthorizeService } from '../authorize.service';
+import { AuthorizeService } from '@app/auth/authorize.service';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-menu',

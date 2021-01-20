@@ -45,15 +45,8 @@ export class AuthorizeService {
   private userManager: UserManager;
   private userSubject: BehaviorSubject<IUser | null> = new BehaviorSubject(null);
 
-  private fakeIsAuth = new BehaviorSubject(false);
-
   public isAuthenticated(): Observable<boolean> {
-    return this.fakeIsAuth.asObservable();
     return this.getUser().pipe(map((u) => !!u));
-  }
-
-  public fakeSetAuth(isAuth: boolean): void {
-    this.fakeIsAuth.next(isAuth);
   }
 
   public getUser(): Observable<IUser | null> {
@@ -166,7 +159,7 @@ export class AuthorizeService {
     try {
       const state = await this.userManager.signoutCallback(url);
       this.userSubject.next(null);
-      return this.success(state && state.state); //state.data);
+      return this.success(state && state.state); // state.data);
     } catch (error) {
       console.log(`There was an error trying to log out '${error}'.`);
       return this.error(error);

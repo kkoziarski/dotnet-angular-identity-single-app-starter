@@ -37,42 +37,6 @@
       <div class="navbar-nav ml-auto">
         <app-language-selector inNavbar="true" menuClass="dropdown-menu dropdown-menu-right"></app-language-selector>
         <app-login-menu></app-login-menu>
-
-        <div class="nav-item" ngbDropdown *ngIf="isAuthenticated | async">
-          <a id="user-dropdown" class="nav-link" ngbDropdownToggle>
-            <i class="fas fa-user-circle"></i>
-          </a>
-          <div ngbDropdownMenu aria-labelledby="user-dropdown" class="dropdown-menu dropdown-menu-right">
-            <!-- <div class="dropdown-divider"></div> -->
-            <a class="dropdown-item" routerLink="/authentication/profile" title="Profile" translate
-              >Hello {{ username }}</a
-            >
-            <a
-              class="dropdown-item"
-              (click)="logout()"
-              routerLink="/authentication/logout"
-              state="{ local: true }"
-              title="Logout"
-              translate
-              >Logout</a
-            >
-          </div>
-        </div>
-        <div class="nav-item" ngbDropdown *ngIf="!(isAuthenticated | async)">
-          <a id="user-dropdown" class="nav-link" ngbDropdownToggle>
-            <i class="fas fa-user-circle"></i>
-          </a>
-          <div ngbDropdownMenu aria-labelledby="user-dropdown" class="dropdown-menu dropdown-menu-right">
-            <!-- <h6 class="dropdown-header">
-              <span translate>Logged in as</span> <b>{{ username }}</b>
-            </h6> 
-            <div class="dropdown-divider"></div> -->
-            <a class="dropdown-item" routerLink="/authentication/register" title="Register" translate>Register</a>
-            <a class="dropdown-item" (click)="login()" routerLink="/authentication/login" title="Login" translate
-              >Login</a
-            >
-          </div>
-        </div>
       </div>
     </div>
   </nav>

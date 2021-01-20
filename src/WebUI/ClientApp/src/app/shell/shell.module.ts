@@ -8,9 +8,10 @@ import { I18nModule } from '@app/i18n';
 import { AuthModule } from '@app/auth';
 import { ShellComponent } from './shell.component';
 import { HeaderComponent } from './header/header.component';
+import { LoginMenuComponent } from './login-menu/login-menu.component';
 
 @NgModule({
   imports: [CommonModule, TranslateModule, NgbModule, AuthModule, I18nModule, RouterModule],
-  declarations: [HeaderComponent, ShellComponent],
+  declarations: [HeaderComponent, LoginMenuComponent, ShellComponent],
 })
 export class ShellModule {}
