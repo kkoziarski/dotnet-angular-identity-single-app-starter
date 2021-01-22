@@ -1,9 +1,8 @@
 // cleanarch
-import { TestBed, inject } from '@angular/core/testing';
-
+import { inject, TestBed } from '@angular/core/testing';
 import { AuthorizeGuard } from './authorize.guard';
 
-describe('AuthorizeGuard', () => {
+xdescribe('AuthorizeGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [AuthorizeGuard],
