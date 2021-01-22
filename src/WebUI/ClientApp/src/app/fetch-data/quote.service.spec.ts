@@ -1,7 +1,6 @@
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-
 import { CoreModule } from '@core';
 import { QuoteService } from './quote.service';
 

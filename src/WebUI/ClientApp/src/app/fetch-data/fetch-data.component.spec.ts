@@ -2,23 +2,25 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CoreModule } from '@core';
 import { SharedModule } from '@shared';
-import { HomeComponent } from './home.component';
+import { FetchDataComponent } from './fetch-data.component';
+import { QuoteService } from './quote.service';
 
-describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+describe('FetchDataComponent', () => {
+  let component: FetchDataComponent;
+  let fixture: ComponentFixture<FetchDataComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [CoreModule, SharedModule, HttpClientTestingModule],
-        declarations: [HomeComponent],
+        declarations: [FetchDataComponent],
+        providers: [QuoteService],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(FetchDataComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

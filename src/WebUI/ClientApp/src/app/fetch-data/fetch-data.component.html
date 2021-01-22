@@ -1,5 +1,9 @@
-<h1 id="tableLabel">Weather forecast</h1>
+<div class="jumbotron text-center">
+  <app-loader [isLoading]="isLoading"></app-loader>
+  <q [hidden]="isLoading">{{ quote }}</q>
+</div>
 
+<h1 id="tableLabel">Weather forecast</h1>
 <p>This component demonstrates fetching data from the server.</p>
 
 <p *ngIf="!forecasts"><em>Loading...</em></p>
