@@ -1,21 +1,20 @@
 // cleanarch
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { CoreModule } from './../../@core/core.module';
-import { SharedModule } from './../../@shared/shared.module';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MockAuthorizeService } from '../authorize.service.mock';
 import { AuthorizeService } from './../authorize.service';
 import { LoginComponent } from './login.component';
 
-xdescribe('LoginComponent', () => {
+describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [CoreModule, SharedModule, HttpClientTestingModule],
+        imports: [RouterTestingModule],
         declarations: [LoginComponent],
-        providers: [AuthorizeService],
+        providers: [{ provide: AuthorizeService, useClass: MockAuthorizeService }],
       }).compileComponents();
     })
   );

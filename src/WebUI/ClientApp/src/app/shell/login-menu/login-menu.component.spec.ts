@@ -1,33 +1,24 @@
 // cleanarch
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
-import { CoreModule } from '@core';
-import { SharedModule } from '@shared';
-import { AuthModule } from './../../auth/auth.module';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MockAuthorizeService } from '@app/auth/authorize.service.mock';
+import { I18nModule } from '@app/i18n';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 import { AuthorizeService } from './../../auth/authorize.service';
 import { LoginMenuComponent } from './login-menu.component';
 
-xdescribe('LoginMenuComponent', () => {
+describe('LoginMenuComponent', () => {
   let component: LoginMenuComponent;
   let fixture: ComponentFixture<LoginMenuComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          // CommonModule,
-          // TranslateModule,
-          // NgbModule,
-          // I18nModule,
-          RouterModule,
-          CoreModule,
-          SharedModule,
-          AuthModule,
-          HttpClientTestingModule,
-        ],
+        imports: [RouterTestingModule, NgbModule, TranslateModule.forRoot(), I18nModule, HttpClientTestingModule],
         declarations: [LoginMenuComponent],
-        providers: [AuthorizeService],
+        providers: [{ provide: AuthorizeService, useClass: MockAuthorizeService }],
       }).compileComponents();
     })
   );

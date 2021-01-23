@@ -1,28 +1,24 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthenticationService, CredentialsService } from '@app/auth';
-import { MockAuthenticationService } from '@app/auth/authentication.service.mock';
-import { MockCredentialsService } from '@app/auth/credentials.service.mock';
+import { AuthorizeService } from '@app/auth/authorize.service';
+import { MockAuthorizeService } from '@app/auth/authorize.service.mock';
 import { I18nModule } from '@app/i18n';
-import { CoreModule } from '@core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { HeaderComponent } from './header/header.component';
+import { LoginMenuComponent } from './login-menu/login-menu.component';
 import { ShellComponent } from './shell.component';
 
-xdescribe('ShellComponent', () => {
+describe('ShellComponent', () => {
   let component: ShellComponent;
   let fixture: ComponentFixture<ShellComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, TranslateModule.forRoot(), I18nModule, NgbModule, CoreModule],
-        providers: [
-          { provide: AuthenticationService, useClass: MockAuthenticationService },
-          { provide: CredentialsService, useClass: MockCredentialsService },
-        ],
-        declarations: [HeaderComponent, ShellComponent],
+        imports: [RouterTestingModule, NgbModule, TranslateModule.forRoot(), I18nModule],
+        providers: [{ provide: AuthorizeService, useClass: MockAuthorizeService }],
+        declarations: [HeaderComponent, LoginMenuComponent, ShellComponent],
       }).compileComponents();
     })
   );

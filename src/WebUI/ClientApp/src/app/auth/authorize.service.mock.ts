@@ -2,7 +2,7 @@ import { Observable, of } from 'rxjs';
 import { IUser } from './authorize.service';
 
 export class MockAuthorizeService {
-  user: IUser | null = {
+  public user: IUser | null = {
     name: 'test',
   };
 

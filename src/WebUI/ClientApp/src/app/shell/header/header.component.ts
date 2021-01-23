@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthorizeService, CredentialsService } from '@app/auth';
+import { AuthorizeService } from '@app/auth';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -12,10 +11,10 @@ export class HeaderComponent implements OnInit {
   menuHidden = true;
   public isAuthenticated: Observable<boolean>;
 
-  constructor(private authorizeService: AuthorizeService, private credentialsService: CredentialsService) {}
+  constructor(private authorizeService: AuthorizeService) {}
 
   ngOnInit() {
-    this.isAuthenticated = this.authorizeService.isAuthenticated().pipe(tap((x) => console.log('isAuth....', x)));
+    this.isAuthenticated = this.authorizeService.isAuthenticated();
   }
 
   toggleMenu() {

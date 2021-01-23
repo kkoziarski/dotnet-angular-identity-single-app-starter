@@ -4,7 +4,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ErrorHandlerInterceptor } from './error-handler.interceptor';
 
-xdescribe('ErrorHandlerInterceptor', () => {
+describe('ErrorHandlerInterceptor', () => {
   let errorHandlerInterceptor: ErrorHandlerInterceptor;
   let http: HttpClient;
   let httpMock: HttpTestingController;
