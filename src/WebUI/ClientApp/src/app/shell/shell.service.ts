@@ -1,5 +1,5 @@
 import { Route, Routes } from '@angular/router';
-import { AuthenticationGuard } from '@app/auth/x_authentication.guard';
+import { AuthorizeGuard } from '@app/auth';
 import { ShellComponent } from './shell.component';
 
 /**
@@ -16,7 +16,7 @@ export class Shell {
       path: '',
       component: ShellComponent,
       children: routes,
-      canActivate: useAuthGuard ? [AuthenticationGuard] : [],
+      canActivate: useAuthGuard ? [AuthorizeGuard] : [],
       // Reuse ShellComponent instance when navigating between child views
       data: { reuse: true },
     };
