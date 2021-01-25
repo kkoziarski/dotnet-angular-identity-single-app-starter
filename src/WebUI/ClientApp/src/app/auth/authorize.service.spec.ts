@@ -1,6 +1,5 @@
-// cleanarch
-import { TestBed, inject } from '@angular/core/testing';
-
+// cleanarch ✓
+import { inject, TestBed } from '@angular/core/testing';
 import { AuthorizeService } from './authorize.service';
 
 describe('AuthorizeService', () => {

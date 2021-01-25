@@ -2,6 +2,9 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports": true
   },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "cSpell.words": [
+    "cleanarch"
+  ]
 }
 
