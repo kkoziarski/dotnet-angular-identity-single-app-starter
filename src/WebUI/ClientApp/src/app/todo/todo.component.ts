@@ -1,17 +1,17 @@
 import { Component, TemplateRef } from '@angular/core';
+import { faEllipsisH, faPlus } from '@fortawesome/free-solid-svg-icons';
 import {
-  TodoItemsClient,
   CreateTodoItemCommand,
-  TodoItemDto,
-  UpdateTodoItemCommand,
-  TodosVm,
-  TodoListsClient,
-  TodoListDto,
   CreateTodoListCommand,
-  UpdateTodoListCommand,
+  TodoItemDto,
+  TodoItemsClient,
+  TodoListDto,
+  TodoListsClient,
+  TodosVm,
+  UpdateTodoItemCommand,
   UpdateTodoItemDetailCommand,
+  UpdateTodoListCommand,
 } from '../web-api-client';
-import { faPlus, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 // import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -45,7 +45,7 @@ export class TodoComponent {
     private listsClient: TodoListsClient,
     private itemsClient: TodoItemsClient // private modalService: BsModalService
   ) {
-    listsClient.getPublic().subscribe(
+    listsClient.get().subscribe(
       (result) => {
         this.vm = result;
         if (this.vm.lists.length) {

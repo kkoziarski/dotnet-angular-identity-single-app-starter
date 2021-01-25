@@ -1,9 +1,12 @@
 // cleanarch
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { Logger } from '@core';
 import { Observable } from 'rxjs';
-import { AuthorizeService } from './authorize.service';
 import { mergeMap } from 'rxjs/operators';
+import { AuthorizeService } from './authorize.service';
+
+const log = new Logger('AuthorizeGuard');
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +22,7 @@ export class AuthorizeInterceptor implements HttpInterceptor {
   // and adds it to the request in case it's targeted at the same origin as the
   // single page application.
   private processRequestWithToken(token: string, req: HttpRequest<any>, next: HttpHandler) {
+    log.info({ token });
     if (!!token && this.isSameOriginUrl(req)) {
       req = req.clone({
         setHeaders: {

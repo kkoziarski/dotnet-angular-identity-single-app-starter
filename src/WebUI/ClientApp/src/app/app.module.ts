@@ -1,11 +1,10 @@
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AuthModule } from '@app/auth';
-import { AuthorizeInterceptor } from '@app/auth/authorize.interceptor';
 import { CoreModule } from '@core';
 import { environment } from '@env/environment';
 // cleanarch
@@ -51,7 +50,6 @@ import { TodoModule } from './todo/todo.module';
     AppRoutingModule, // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
