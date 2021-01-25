@@ -1,10 +1,13 @@
 // cleanarch ✓
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { Logger } from '@core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ApplicationPaths, QueryParameterNames } from './api-authorization.constants';
 import { AuthorizeService } from './authorize.service';
+
+const log = new Logger('AuthorizeGuard');
 
 @Injectable({
   providedIn: 'root',

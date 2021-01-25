@@ -1,8 +1,7 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-
-import { AuthenticationService } from './authentication.service';
-import { CredentialsService, Credentials } from './credentials.service';
-import { MockCredentialsService } from './credentials.service.mock';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { AuthenticationService } from './x_authentication.service';
+import { Credentials, CredentialsService } from './x_credentials.service';
+import { MockCredentialsService } from './x_credentials.service.mock';
 
 describe('AuthenticationService', () => {
   let authenticationService: AuthenticationService;

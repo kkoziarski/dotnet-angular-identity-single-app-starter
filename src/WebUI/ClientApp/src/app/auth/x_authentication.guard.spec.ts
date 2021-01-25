@@ -1,9 +1,9 @@
+// TODO: move to authorize.guard.spec.ts
 import { TestBed } from '@angular/core/testing';
-import { Router, ActivatedRouteSnapshot } from '@angular/router';
-
-import { CredentialsService } from './credentials.service';
-import { MockCredentialsService } from './credentials.service.mock';
-import { AuthenticationGuard } from './authentication.guard';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { AuthenticationGuard } from './x_authentication.guard';
+import { CredentialsService } from './x_credentials.service';
+import { MockCredentialsService } from './x_credentials.service.mock';
 
 describe('AuthenticationGuard', () => {
   let authenticationGuard: AuthenticationGuard;

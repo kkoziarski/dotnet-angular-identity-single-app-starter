@@ -92,6 +92,7 @@ export class AuthorizeService {
       try {
         if (this.popUpDisabled) {
           throw new Error(
+            // tslint:disable-next-line: quotemark
             "Popup disabled. Change 'authorize.service.ts:AuthorizeService.popupDisabled' to false to enable it."
           );
         }
@@ -134,6 +135,7 @@ export class AuthorizeService {
     try {
       if (this.popUpDisabled) {
         throw new Error(
+          // tslint:disable-next-line: quotemark
           "Popup disabled. Change 'authorize.service.ts:AuthorizeService.popupDisabled' to false to enable it."
         );
       }

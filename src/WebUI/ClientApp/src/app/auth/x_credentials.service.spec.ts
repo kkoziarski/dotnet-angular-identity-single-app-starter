@@ -1,6 +1,6 @@
-import { TestBed, inject } from '@angular/core/testing';
-
-import { CredentialsService, Credentials } from './credentials.service';
+// TODO: remove
+import { TestBed } from '@angular/core/testing';
+import { Credentials, CredentialsService } from './x_credentials.service';
 
 const credentialsKey = 'credentials';
 

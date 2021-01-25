@@ -1,4 +1,5 @@
-import { Credentials } from './credentials.service';
+// TODO: remove
+import { Credentials } from './x_credentials.service';
 
 export class MockCredentialsService {
   credentials: Credentials | null = {
