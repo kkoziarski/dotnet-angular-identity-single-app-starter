@@ -29,6 +29,7 @@ export class AuthorizeGuard implements CanActivate {
       this.router.navigate(ApplicationPaths.LoginPathComponents, {
         queryParams: {
           [QueryParameterNames.ReturnUrl]: state.url,
+          // replaceUrl: true,
         },
       });
     }
