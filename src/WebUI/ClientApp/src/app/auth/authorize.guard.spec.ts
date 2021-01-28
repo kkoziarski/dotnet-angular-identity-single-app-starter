@@ -44,10 +44,6 @@ describe('AuthorizeGuard', () => {
     expect(typeof authorizeGuard.canActivate).toBe('function');
   });
 
-  xit('should return true if user is authenticated', () => {
-    expect(authorizeGuard.canActivate(new ActivatedRouteSnapshot(), mockSnapshot)).toBe(true);
-  });
-
   it('should return true if user is authenticated async', (done) => {
     const canActivate$ = authorizeGuard.canActivate(new ActivatedRouteSnapshot(), mockSnapshot) as Observable<boolean>;
     canActivate$.subscribe((isAuth) => {

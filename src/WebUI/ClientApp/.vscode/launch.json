@@ -1,25 +1,30 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "ng serve (CleanArchWeb.WebUI)",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}"
-        },
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "ng test (CleanArchWeb.WebUI)",
-            "url": "http://localhost:9876/debug.html",
-            "webRoot": "${workspaceFolder}",
-            "port": 9222,
-            "timeout": 600000,
-            "sourceMaps": true,
-            "pathMapping": {
-                "/_karma_webpack_": "${workspaceFolder}"
-            }
-        },
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "ng serve (CleanArchWeb.WebUI)",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "ng test (CleanArchWeb.WebUI) - Jest single run",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": ["--inspect-brk", "${workspaceRoot}/node_modules/jest/bin/jest.js", "--runInBand"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "port": 9229
+    }
+    {
+      "name": "ng test watch (CleanArchWeb.WebUI) - Jest watch mode",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": ["--inspect-brk", "${workspaceRoot}/node_modules/jest/bin/jest.js", "--runInBand", "--watchAll"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "port": 9229
+    }
+  ]
 }
