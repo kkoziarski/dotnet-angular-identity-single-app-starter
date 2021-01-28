@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { AuthorizeInterceptor } from '@app/auth/authorize.interceptor';
 import { I18nModule } from '@app/i18n';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthRoutingModule } from './auth-routing.module';
+import { AuthorizeInterceptor } from './authorize.interceptor';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 

@@ -4,21 +4,20 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { AuthModule } from '@app/auth';
+import { AuthModule } from '@auth';
 import { CoreModule } from '@core';
 import { environment } from '@env/environment';
-// cleanarch
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '@shared';
+import { ShellModule } from '@shell';
 import { AboutModule } from './about/about.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CounterModule } from './counter/counter.module';
 import { FetchDataModule } from './fetch-data/fetch-data.module';
 import { HomeModule } from './home/home.module';
-import { ShellModule } from './shell/shell.module';
 import { TodoModule } from './todo/todo.module';
 
 // import { ModalModule } from 'ngx-bootstrap/modal';
