@@ -1,8 +1,8 @@
 // cleanarch ✓
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthorizeService } from '@app/@auth/authorize.service';
-import { MockAuthorizeService } from '@app/@auth/authorize.service.mock';
+import { AuthorizeService } from '@auth/authorize.service';
+import { MockAuthorizeService } from '@auth/authorize.service.mock';
 import { LogoutComponent } from './logout.component';
 
 describe('LogoutComponent', () => {

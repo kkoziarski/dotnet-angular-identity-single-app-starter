@@ -2,9 +2,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MockAuthorizeService } from '@app/@auth/authorize.service.mock';
 import { I18nModule } from '@app/i18n';
 import { AuthorizeService } from '@auth';
+import { MockAuthorizeService } from '@auth/authorize.service.mock';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { LoginMenuComponent } from './login-menu.component';
