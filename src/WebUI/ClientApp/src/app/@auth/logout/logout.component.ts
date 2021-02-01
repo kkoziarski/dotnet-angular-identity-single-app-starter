@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationResultStatus, AuthorizeService } from '@auth';
 import { ApplicationPaths, LogoutActions, ReturnUrlType } from '@auth/api-authorization.constants';
+import { AuthenticationResultStatus, AuthorizeService } from '@auth/authorize.service';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
