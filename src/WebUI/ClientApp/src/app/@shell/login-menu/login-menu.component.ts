@@ -1,4 +1,3 @@
-// cleanarch ✓
 import { Component, OnInit } from '@angular/core';
 import { AuthorizeService } from '@auth';
 import { Observable } from 'rxjs';

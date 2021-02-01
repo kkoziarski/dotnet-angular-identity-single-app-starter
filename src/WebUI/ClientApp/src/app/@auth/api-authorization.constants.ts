@@ -1,4 +1,3 @@
-// cleanarch ✓
 export const ApplicationName = 'CleanArchWeb.WebUI';
 
 export const ReturnUrlType = 'returnUrl';

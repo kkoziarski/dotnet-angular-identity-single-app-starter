@@ -1,4 +1,3 @@
-// cleanarch ✓
 import { inject, TestBed } from '@angular/core/testing';
 import { AuthorizeInterceptor } from './authorize.interceptor';
 

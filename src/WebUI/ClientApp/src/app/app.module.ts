@@ -20,11 +20,9 @@ import { FetchDataModule } from './fetch-data/fetch-data.module';
 import { HomeModule } from './home/home.module';
 import { TodoModule } from './todo/todo.module';
 
-// import { ModalModule } from 'ngx-bootstrap/modal';
-
 @NgModule({
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }), // cleanarch
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
     FormsModule,
     HttpClientModule,
@@ -39,13 +37,8 @@ import { TodoModule } from './todo/todo.module';
     CounterModule,
     FetchDataModule,
     AuthModule,
-
-    // cleanarch
-    FontAwesomeModule, // x cleanarch
-    BrowserAnimationsModule, // cleanarch
-    // ModalModule.forRoot() // cleanarch
-    // end cleanarch
-
+    FontAwesomeModule,
+    BrowserAnimationsModule,
     AppRoutingModule, // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],

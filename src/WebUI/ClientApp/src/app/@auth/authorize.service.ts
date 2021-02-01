@@ -1,4 +1,3 @@
-// cleanarch ✓
 import { Injectable } from '@angular/core';
 import { User, UserManager } from 'oidc-client';
 import { BehaviorSubject, concat, from, Observable } from 'rxjs';
