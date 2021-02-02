@@ -1,5 +1,6 @@
 import { Component, TemplateRef } from '@angular/core';
 import { faEllipsisH, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import {
   CreateTodoItemCommand,
   CreateTodoListCommand,
@@ -12,7 +13,6 @@ import {
   UpdateTodoItemDetailCommand,
   UpdateTodoListCommand,
 } from '../web-api-client';
-// import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-todo-component',
@@ -31,19 +31,18 @@ export class TodoComponent {
   listOptionsEditor: any = {};
   itemDetailsEditor: any = {};
 
-  newListModalRef: any = {}; // BsModalRef;
-  listOptionsModalRef: any = {}; // BsModalRef;
-  deleteListModalRef: any = {}; // BsModalRef;
-  itemDetailsModalRef: any = {}; // BsModalRef;
+  newListModalRef: NgbModalRef;
+  listOptionsModalRef: NgbModalRef;
+  deleteListModalRef: NgbModalRef;
+  itemDetailsModalRef: NgbModalRef;
 
   faPlus = faPlus;
   faEllipsisH = faEllipsisH;
 
-  modalService: any = {};
-
   constructor(
     private listsClient: TodoListsClient,
-    private itemsClient: TodoItemsClient // private modalService: BsModalService
+    private itemsClient: TodoItemsClient,
+    private modalService: NgbModal
   ) {
     listsClient.get().subscribe(
       (result) => {
@@ -62,12 +61,12 @@ export class TodoComponent {
   }
 
   showNewListModal(template: TemplateRef<any>): void {
-    this.newListModalRef = this.modalService.show(template);
+    this.newListModalRef = this.modalService.open(template);
     setTimeout(() => document.getElementById('title').focus(), 250);
   }
 
   newListCancelled(): void {
-    this.newListModalRef.hide();
+    this.newListModalRef.close();
     this.newListEditor = {};
   }
 
@@ -83,7 +82,7 @@ export class TodoComponent {
         list.id = result;
         this.vm.lists.push(list);
         this.selectedList = list;
-        this.newListModalRef.hide();
+        this.newListModalRef.close();
         this.newListEditor = {};
       },
       (error) => {
@@ -104,13 +103,13 @@ export class TodoComponent {
       title: this.selectedList.title,
     };
 
-    this.listOptionsModalRef = this.modalService.show(template);
+    this.listOptionsModalRef = this.modalService.open(template);
   }
 
   updateListOptions() {
     this.listsClient.update(this.selectedList.id, UpdateTodoListCommand.fromJS(this.listOptionsEditor)).subscribe(
       () => {
-        (this.selectedList.title = this.listOptionsEditor.title), this.listOptionsModalRef.hide();
+        (this.selectedList.title = this.listOptionsEditor.title), this.listOptionsModalRef.close();
         this.listOptionsEditor = {};
       },
       (error) => console.error(error)
@@ -118,14 +117,14 @@ export class TodoComponent {
   }
 
   confirmDeleteList(template: TemplateRef<any>) {
-    this.listOptionsModalRef.hide();
-    this.deleteListModalRef = this.modalService.show(template);
+    this.listOptionsModalRef.close();
+    this.deleteListModalRef = this.modalService.open(template);
   }
 
   deleteListConfirmed(): void {
     this.listsClient.delete(this.selectedList.id).subscribe(
       () => {
-        this.deleteListModalRef.hide();
+        this.deleteListModalRef.close();
         this.vm.lists = this.vm.lists.filter((t) => t.id !== this.selectedList.id);
         this.selectedList = this.vm.lists.length ? this.vm.lists[0] : null;
       },
@@ -141,7 +140,7 @@ export class TodoComponent {
       ...this.selectedItem,
     };
 
-    // this.itemDetailsModalRef = this.modalService.show(template);
+    this.itemDetailsModalRef = this.modalService.open(template);
   }
 
   updateItemDetails(): void {
@@ -158,7 +157,7 @@ export class TodoComponent {
 
           this.selectedItem.priority = this.itemDetailsEditor.priority;
           this.selectedItem.note = this.itemDetailsEditor.note;
-          // this.itemDetailsModalRef.hide();
+          this.itemDetailsModalRef.close();
           this.itemDetailsEditor = {};
         },
         (error) => console.error(error)
@@ -216,7 +215,7 @@ export class TodoComponent {
   // Delete item
   deleteItem(item: TodoItemDto) {
     if (this.itemDetailsModalRef) {
-      // this.itemDetailsModalRef.hide();
+      this.itemDetailsModalRef.close();
     }
 
     if (item.id === 0) {

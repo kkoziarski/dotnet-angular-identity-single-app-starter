@@ -101,7 +101,7 @@
 <ng-template #listOptionsModalTemplate>
   <div class="modal-header clearfix">
     <h4 class="modal-title float-left">List Options</h4>
-    <button type="button" class="close float-right" aria-label="Close" (click)="listOptionsModalRef.hide()">
+    <button type="button" class="close float-right" aria-label="Close" (click)="listOptionsModalRef.close()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -127,7 +127,7 @@
         <button class="btn btn-default text-danger" (click)="confirmDeleteList(deleteListModalTemplate)">Delete</button>
       </div>
       <div class="float-right">
-        <button class="btn btn-default" (click)="listOptionsModalRef.hide()">Cancel</button>
+        <button class="btn btn-default" (click)="listOptionsModalRef.close()">Cancel</button>
         <button class="btn btn-primary" (click)="updateListOptions()">Update</button>
       </div>
     </div>
@@ -137,7 +137,7 @@
 <ng-template #itemDetailsModalTemplate>
   <div class="modal-header clearfix">
     <h4 class="modal-title float-left">Item Details</h4>
-    <button type="button" class="close float-right" aria-label="Close" (click)="itemDetailsModalRef.hide()">
+    <button type="button" class="close float-right" aria-label="Close" (click)="itemDetailsModalRef.close()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -170,7 +170,7 @@
         <button class="btn btn-default text-danger" (click)="deleteItem(selectedItem)">Delete</button>
       </div>
       <div class="float-right">
-        <button class="btn btn-default" (click)="itemDetailsModalRef.hide()">Cancel</button>
+        <button class="btn btn-default" (click)="itemDetailsModalRef.close()">Cancel</button>
         <button class="btn btn-primary" (click)="updateItemDetails()">Update</button>
       </div>
     </div>
@@ -180,7 +180,7 @@
 <ng-template #deleteListModalTemplate>
   <div class="modal-header clearfix">
     <h4 class="modal-title float-left">Delete "{{ selectedList?.title }}"?</h4>
-    <button type="button" class="close float-right" aria-label="Close" (click)="deleteListModalRef.hide()">
+    <button type="button" class="close float-right" aria-label="Close" (click)="deleteListModalRef.close()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -192,7 +192,7 @@
   </div>
   <div class="modal-footer">
     <div class="text-right">
-      <button type="button" class="btn btn-default" (click)="deleteListModalRef.hide()">Cancel</button>
+      <button type="button" class="btn btn-default" (click)="deleteListModalRef.close()">Cancel</button>
       <button type="button" class="btn btn-danger" (click)="deleteListConfirmed()">Delete</button>
     </div>
   </div>
