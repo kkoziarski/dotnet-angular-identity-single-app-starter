@@ -33,8 +33,9 @@ public class Testing
             .AddEnvironmentVariables();
 
         _configuration = builder.Build();
-
-        var startup = new Startup(_configuration);
+        var envMock = new Mock<IWebHostEnvironment>();
+        envMock.SetupGet(m => m.EnvironmentName).Returns(Microsoft.Extensions.Hosting.Environments.Development);
+        var startup = new Startup(_configuration, envMock.Object);
 
         var services = new ServiceCollection();
 
