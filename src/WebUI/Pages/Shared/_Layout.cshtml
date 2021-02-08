@@ -6,14 +6,40 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- needs to be right at the top to prevent Chrome from reloading favicon on every route change -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <title>@ViewData["Title"] - WebUI</title>
-    @*<link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/Identity/css/site.css" />*@
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#4e8ef7" />
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    @*
+        <link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/Identity/css/site.css" />
+    *@
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+</environment>
+<environment exclude="Development">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+          integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu"
+          asp-fallback-href="~/lib/fontawesome/css/all.min.css"
+          crossorigin="anonymous">
+</environment>
 </head>
 <body>
+    <!--[if lt IE 10]>
+      <p>
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+    <noscript>
+        <p>This page requires JavaScript to work properly. Please enable JavaScript in your browser.</p>
+    </noscript>
+
     <header>
         <nav class="navbar navbar-expand-sm navbar-light navbar-toggleable-sm bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -51,13 +77,25 @@
             &copy; 2021 - WebUI - <a asp-area="" asp-page="Privacy">Privacy</a>
         </div>
     </footer>
-    @*<script src="~/Identity/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/Identity/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/Identity/js/site.js" asp-append-version="true"></script>*@
+    @*
+        <script src="~/Identity/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/Identity/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/Identity/js/site.js" asp-append-version="true"></script>
+    *@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <environment include="Development">
+        <script defer src="~/lib/font-awesome/js/all.min.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script defer src="https://use.fontawesome.com/releases/v5.15.2/js/all.js"
+                asp-fallback-src="~/lib/font-awesome/js/all.min.js"
+                integrity="sha384-vuFJ2JiSdUpXLKGK+tDteQZBqNlMwAjhZ3TvPaDfN9QmbPb7Q8qUpbSNapQev3YF"
+                crossorigin="anonymous"></script>
+    </environment>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
