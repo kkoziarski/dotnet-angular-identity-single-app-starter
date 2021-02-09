@@ -19,15 +19,15 @@
         <link rel="stylesheet" href="~/Identity/css/site.css" />
     *@
 
-<environment include="Development">
-    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
-</environment>
-<environment exclude="Development">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
-          integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu"
-          asp-fallback-href="~/lib/fontawesome/css/all.min.css"
-          crossorigin="anonymous">
-</environment>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+            integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu"
+            asp-fallback-href="~/lib/fontawesome/css/all.min.css"
+            crossorigin="anonymous">
+    </environment>
 </head>
 <body>
     <!--[if lt IE 10]>
@@ -41,14 +41,43 @@
     </noscript>
 
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light navbar-toggleable-sm bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" href="~/">WebUI</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="~/">WebUI</a>
+            <button class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target=".navbar-collapse"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="navbar-menu" class="collapse navbar-collapse float-xs-none">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link text-uppercase" href="~/home">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    <a class="nav-item nav-link text-uppercase" href="~/about">
+                        <i class="fas fa-question-circle"></i>
+                        <span>About</span>
+                    </a>
+                    <a class="nav-item nav-link text-uppercase" href="~/todo">
+                        <i class="fas fa-check-square"></i>
+                        <span>Todos</span>
+                    </a>
+                    <a class="nav-item nav-link text-uppercase" href="~/counter">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Counter</span>
+                    </a>
+                    <a class="nav-item nav-link text-uppercase" href="~/fetch-data">
+                        <i class="fas fa-toolbox"></i>
+                        <span>Fetch data</span>
+                    </a>
+                </div>
+                <div class="navbar-nav ml-auto">
+                    @*<app-language-selector inNavbar="true" menuClass="dropdown-menu dropdown-menu-right"></app-language-selector>*@
+
                     @{
                         var result = Engine.FindView(ViewContext, "_LoginPartial", isMainPage: false);
                     }
@@ -68,7 +97,7 @@
     </header>
 
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
