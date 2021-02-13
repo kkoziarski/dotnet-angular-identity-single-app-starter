@@ -8,9 +8,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { HeaderComponent } from './header/header.component';
 import { LoginMenuComponent } from './login-menu/login-menu.component';
 import { ShellComponent } from './shell.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   imports: [CommonModule, TranslateModule, NgbModule, AuthModule, I18nModule, RouterModule],
-  declarations: [HeaderComponent, LoginMenuComponent, ShellComponent],
+  declarations: [HeaderComponent, LoginMenuComponent, ShellComponent, FooterComponent],
 })
 export class ShellModule {}
