@@ -14,10 +14,6 @@
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    @*
-        <link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/Identity/css/site.css" />
-    *@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/fortawesome/fontawesome-free/css/all.min.css" />
@@ -76,8 +72,6 @@
                     </a>
                 </div>
                 <div class="navbar-nav ml-auto">
-                    @*<app-language-selector inNavbar="true" menuClass="dropdown-menu dropdown-menu-right"></app-language-selector>*@
-
                     @{
                         var result = Engine.FindView(ViewContext, "_LoginPartial", isMainPage: false);
                     }
@@ -104,11 +98,6 @@
             &copy; 2021 - WebUI - <a asp-area="" asp-page="Privacy">Privacy</a>
         </div>
     </footer>
-    @*
-        <script src="~/Identity/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/Identity/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/Identity/js/site.js" asp-append-version="true"></script>
-    *@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
