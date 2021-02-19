@@ -20,8 +20,8 @@
     "prettier:check": "prettier --list-different \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
     "postinstall": "npm run prettier -s",
     "generate": "ng generate",
-    "scss": "node-sass ./src/main.scss  --importer=node_modules/node-sass-tilde-importer ../wwwroot/css/main.css",
-    "scss:prod": "node-sass ./src/main.scss  --output-style compressed --importer=node_modules/node-sass-tilde-importer ../wwwroot/css/main.min.css"
+    "scss": "node-sass ./src/shared.scss  --importer=node_modules/node-sass-tilde-importer ../wwwroot/css/site.shared.css",
+    "scss:prod": "node-sass ./src/shared.scss  --output-style compressed --importer=node_modules/node-sass-tilde-importer ../wwwroot/css/site.shared.min.css"
   },
   "dependencies": {
     "@angular/animations": "^11.2.1",

@@ -236,5 +236,5 @@ _Pvt_Extensions
 /CleanArchWeb.ndproj
 
 # Custom generated files
-/src/WebUI/wwwroot/css/main.min.css
+/src/WebUI/wwwroot/css/site.shared.min.css
 
