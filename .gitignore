@@ -234,3 +234,7 @@ _Pvt_Extensions
 .fake/
 /NDependOut
 /CleanArchWeb.ndproj
+
+# Custom generated files
+/src/WebUI/wwwroot/css/main.min.css
+
