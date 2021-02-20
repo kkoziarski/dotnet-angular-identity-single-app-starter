@@ -25,10 +25,10 @@ namespace CleanArchWeb.WebUI
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
 
-                    if (context.Database.IsSqlServer())
+                    if (context.Database.IsSqlite() || context.Database.IsSqlServer())
                     {
                         context.Database.Migrate();
-                    }                   
+                    }
 
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();

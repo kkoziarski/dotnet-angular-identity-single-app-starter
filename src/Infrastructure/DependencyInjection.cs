@@ -23,7 +23,8 @@ namespace CleanArchWeb.Infrastructure
             else
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(
+                    //options.UseSqlServer(
+                    options.UseSqlite(
                         configuration.GetConnectionString("DefaultConnection"),
                         b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
             }

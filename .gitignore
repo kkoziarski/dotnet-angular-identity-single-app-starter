@@ -237,4 +237,4 @@ _Pvt_Extensions
 
 # Custom generated files
 /src/WebUI/wwwroot/css/site.shared.min.css
-
+/src/WebUI/CleanArchWebDb.db
