@@ -4,8 +4,6 @@
   "private": true,
   "scripts": {
     "ng": "ng",
-    "ngstart": "ng serve",
-    "ngbuild": "ng build",
     "build": "npm run env -s && ng build --prod",
     "start": "npm run env -s && ng serve --proxy-config proxy.conf.js",
     "serve:sw": "npm run build -s && npx http-server ./dist -p 4200",
