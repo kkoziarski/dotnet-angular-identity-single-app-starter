@@ -1,5 +1,4 @@
- <img align="left" width="116" height="116" src="https://raw.githubusercontent.com/jasontaylordev/CleanArchitecture/main/.github/icon.png" />
- 
+ <img align="left" width="116" height="116" src="https://raw.githubusercontent.com/kkoziarski/dotnet-angular-identity-single-app-starter/main/.github/icon.png" />
  # Modified Clean Architecture Solution Template
 
 This is a modified copy of https://github.com/jasontaylordev/CleanArchitecture solution template for creating a Single Page App (SPA) with Angular and ASP.NET Core following the principles of Clean Architecture. Create a new project based on this template by clicking the above **Use this template** button.
