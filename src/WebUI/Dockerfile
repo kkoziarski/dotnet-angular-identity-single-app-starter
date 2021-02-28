@@ -8,7 +8,7 @@ EXPOSE 5000
 EXPOSE 5001
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_15.x | bash -
 RUN apt install -y nodejs
 WORKDIR /src
 COPY ["src/WebUI/WebUI.csproj", "src/WebUI/"]
@@ -26,4 +26,4 @@ RUN dotnet publish "WebUI.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "CleanArchitecture.WebUI.dll"]
+ENTRYPOINT ["dotnet", "CleanArchWeb.WebUI.dll"]

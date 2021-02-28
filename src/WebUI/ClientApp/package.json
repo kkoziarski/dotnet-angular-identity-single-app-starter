@@ -6,6 +6,8 @@
     "ng": "ng",
     "build": "npm run env -s && ng build --prod",
     "start": "npm run env -s && ng serve --proxy-config proxy.conf.js",
+    "start:dev": "echo 'Starting (Dev)...' && ng serve --host 0.0.0.0 --disable-host-check",
+    "build:ssr": "ng run CleanArchWeb.WebUI:server:dev",
     "serve:sw": "npm run build -s && npx http-server ./dist -p 4200",
     "lint": "ng lint && stylelint \"src/**/*.scss\" --syntax scss && htmlhint \"src\" --config .htmlhintrc",
     "test": "npm run env -s && ng test",
@@ -16,7 +18,6 @@
     "env": "ngx-scripts env npm_package_version",
     "prettier": "prettier --write \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
     "prettier:check": "prettier --list-different \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
-    "postinstall": "npm run prettier -s",
     "generate": "ng generate",
     "scss": "node-sass ./src/shared.scss  --importer=node_modules/node-sass-tilde-importer ../wwwroot/css/site.shared.css",
     "scss:prod": "node-sass ./src/shared.scss  --output-style compressed --importer=node_modules/node-sass-tilde-importer ../wwwroot/css/site.shared.min.css"

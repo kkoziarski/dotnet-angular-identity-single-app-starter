@@ -5,15 +5,22 @@ services:
     environment:
       - "ASPNETCORE_ENVIRONMENT=Development"
       - "SpaBaseUrl=http://clientapp:4200"
+      - "UseInMemoryDatabase=false"
+      #- "ConnectionStrings__DefaultConnection=Server=db;Database=CleanArchitectureDb;User=sa;Password=Your_password123;MultipleActiveResultSets=true" #SQL Server
+      - "ConnectionStrings__DefaultConnection=Data Source=/app/data/CleanArchWebDb.db" #SQLite
+      - "IdentityServer__Key__Type=Development"
+      - "ASPNETCORE_Kestrel__Certificates__Default__Path=/https/clw_aspnetapp.pfx"
+      - "ASPNETCORE_Kestrel__Certificates__Default__Password=Your_password123"
+    volumes:
+      - ~/.aspnet/https:/https:ro
+      - ${USERPROFILE}/dev_data/CleanArchWeb:/app/data
+    ports:
+      - "5000:5000"
+      - "5001:5001"
 
   clientapp:
-    image: ${DOCKER_REGISTRY-}clientapp
-    build:
-      context: src/WebUI/ClientApp
-      dockerfile: Dockerfile
-    depends_on:
-      - webui
-    restart: on-failure
+    # ports:
+    #   - "4200:4200"
 
   # db:
   #   ports:

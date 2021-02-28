@@ -35,20 +35,20 @@ In order to get Docker working, you will need to add a temporary SSL cert and mo
 You can find [Microsoft Docs](https://docs.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-5.0) that describe the steps required for Windows, macOS, and Linux.
 
 For Windows:
-The following will need to be executed from your terminal to create a cert
-`dotnet dev-certs https -ep %USERPROFILE%\.aspnet\https\aspnetapp.pfx -p Your_password123`
+The following will need to be executed from your terminal to create a cert in PowerShell
+`dotnet dev-certs https -ep $env:USERPROFILE\.aspnet\https\clw_aspnetapp.pfx -p Your_password123`
 `dotnet dev-certs https --trust`
 
-NOTE: When using PowerShell, replace %USERPROFILE% with $env:USERPROFILE.
+NOTE: When using CMD/batch, replace `$env:USERPROFILE` with `%USERPROFILE%`
 
 FOR macOS:
-`dotnet dev-certs https -ep ${HOME}/.aspnet/https/aspnetapp.pfx -p Your_password123`
+`dotnet dev-certs https -ep ${HOME}/.aspnet/https/clw_aspnetapp.pfx -p Your_password123`
 `dotnet dev-certs https --trust`
 
 FOR Linux:
-`dotnet dev-certs https -ep ${HOME}/.aspnet/https/aspnetapp.pfx -p Your_password123`
+`dotnet dev-certs https -ep ${HOME}/.aspnet/https/clw_aspnetapp.pfx -p Your_password123`
 
-In order to build and run the docker containers, execute `docker-compose -f 'docker-compose.yml' up --build` from the root of the solution where you find the docker-compose.yml file.  You can also use "Docker Compose" from Visual Studio for Debugging purposes.
+In order to build and run the docker containers, execute `docker-compose -f 'docker-compose.yml' up -d --build` from the root of the solution where you find the docker-compose.yml file.  You can also use "Docker Compose" from Visual Studio for Debugging purposes.
 Then open http://localhost:5000 on your browser.
 
 ### Database Configuration
@@ -56,7 +56,7 @@ Then open http://localhost:5000 on your browser.
 Default database engine is set as **SQLite**, but it can be easily switched to **SQL Server** or **InMemory**
 
 
-The template is configured to use an **SQLite** database by default. This ensures that all users will be able to run the solution without needing to set up additional infrastructure (e.g. SQL Server).
+The template is configured to use a **SQLite** database by default. This ensures that all users will be able to run the solution without needing to set up additional infrastructure (e.g. SQL Server).
 
 When you run the application the database will be automatically created (if necessary) and the latest migrations will be applied.
 
