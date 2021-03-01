@@ -1,4 +1,5 @@
- <img align="left" width="116" height="116" src="https://raw.githubusercontent.com/kkoziarski/dotnet-angular-identity-single-app-starter/main/.github/icon.png" />
+ <img align="left" width="116" height="116" src=".github/icon.png" />
+
  # Modified Clean Architecture Solution Template
 
 This is a modified copy of https://github.com/jasontaylordev/CleanArchitecture solution template for creating a Single Page App (SPA) with Angular and ASP.NET Core following the principles of Clean Architecture. Create a new project based on this template by clicking the above **Use this template** button.
@@ -170,6 +171,22 @@ Major modification compared with original [CleanArchitecture](https://github.com
 * Changed layout to match this from **ngX Starter Kit**
 * Added `libman.json`
 * Shared styles `WebUI\ClientApp\src\shared.scss` -> `WebUI\wwwroot\css\site.shared.css`
+
+
+## Screens
+
+### UI
+![Home page - Angular](.github/home-page.png)
+---
+![Login page - Razor](.github/login-page.png)
+
+### Solution
+---
+![Solution explorer - backend](.github/solution-structure.png)
+
+### ClientApp
+---
+![ClientApp - Angular](.github/clientapp-solution.png)
 
 ## License
 
