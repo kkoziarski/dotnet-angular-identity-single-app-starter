@@ -23,14 +23,14 @@ namespace CleanArchWeb.Application.TodoLists.Commands.CreateTodoList
         public async Task<int> Handle(CreateTodoListCommand request, CancellationToken cancellationToken)
         {
             var entity = new TodoList();
-
+            
             entity.Title = request.Title;
-
-            _context.TodoLists.Add(entity);
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return entity.Id;
+            
+            // _context.TodoLists.Add(entity);
+            //
+            // await _context.SaveChangesAsync(cancellationToken);
+            //
+            return await Task.FromResult(entity.Id);
         }
     }
 }

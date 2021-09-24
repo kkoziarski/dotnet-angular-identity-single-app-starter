@@ -1,11 +1,9 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using CleanArchWeb.Application.Common.Interfaces;
-using CleanArchWeb.Application.Common.Mappings;
 using CleanArchWeb.Application.Common.Models;
 using CleanArchWeb.Application.TodoLists.Queries.GetTodos;
 using MediatR;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,11 +29,14 @@ namespace CleanArchWeb.Application.TodoItems.Queries.GetTodoItemsWithPagination
 
         public async Task<PaginatedList<TodoItemDto>> Handle(GetTodoItemsWithPaginationQuery request, CancellationToken cancellationToken)
         {
-            return await _context.TodoItems
-                .Where(x => x.ListId == request.ListId)
-                .OrderBy(x => x.Title)
-                .ProjectTo<TodoItemDto>(_mapper.ConfigurationProvider)
-                .PaginatedListAsync(request.PageNumber, request.PageSize); ;
+            // return await _context.TodoItems
+            //     .Where(x => x.ListId == request.ListId)
+            //     .OrderBy(x => x.Title)
+            //     .ProjectTo<TodoItemDto>(_mapper.ConfigurationProvider)
+            //     .PaginatedListAsync(request.PageNumber, request.PageSize);
+
+            var items = new List<TodoItemDto> { new TodoItemDto() };
+            return await Task.FromResult(new PaginatedList<TodoItemDto>(items, 1, request.PageNumber, request.PageSize));
         }
     }
 }

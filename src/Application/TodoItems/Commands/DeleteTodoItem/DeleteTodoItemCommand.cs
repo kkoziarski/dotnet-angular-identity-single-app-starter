@@ -1,6 +1,4 @@
-﻿using CleanArchWeb.Application.Common.Exceptions;
-using CleanArchWeb.Application.Common.Interfaces;
-using CleanArchWeb.Domain.Entities;
+﻿using CleanArchWeb.Application.Common.Interfaces;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,18 +21,19 @@ namespace CleanArchWeb.Application.TodoItems.Commands.DeleteTodoItem
 
         public async Task<Unit> Handle(DeleteTodoItemCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.TodoItems.FindAsync(request.Id);
-
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(TodoItem), request.Id);
-            }
-
-            _context.TodoItems.Remove(entity);
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return Unit.Value;
+            // var entity = await _context.TodoItems.FindAsync(request.Id);
+            //
+            // if (entity == null)
+            // {
+            //     throw new NotFoundException(nameof(TodoItem), request.Id);
+            // }
+            //
+            // _context.TodoItems.Remove(entity);
+            //
+            // await _context.SaveChangesAsync(cancellationToken);
+            //
+            // return Unit.Value;
+            return await Unit.Task;
         }
     }
 }

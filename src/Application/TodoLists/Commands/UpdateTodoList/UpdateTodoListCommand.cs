@@ -1,6 +1,4 @@
-﻿using CleanArchWeb.Application.Common.Exceptions;
-using CleanArchWeb.Application.Common.Interfaces;
-using CleanArchWeb.Domain.Entities;
+﻿using CleanArchWeb.Application.Common.Interfaces;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,18 +23,19 @@ namespace CleanArchWeb.Application.TodoLists.Commands.UpdateTodoList
 
         public async Task<Unit> Handle(UpdateTodoListCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.TodoLists.FindAsync(request.Id);
+            // var entity = await _context.TodoLists.FindAsync(request.Id);
+            //
+            // if (entity == null)
+            // {
+            //     throw new NotFoundException(nameof(TodoList), request.Id);
+            // }
+            //
+            // entity.Title = request.Title;
+            //
+            // await _context.SaveChangesAsync(cancellationToken);
+            // return Unit.Value;
 
-            if (entity == null)
-            {
-                throw new NotFoundException(nameof(TodoList), request.Id);
-            }
-
-            entity.Title = request.Title;
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return Unit.Value;
+            return await Unit.Task;
         }
     }
 }

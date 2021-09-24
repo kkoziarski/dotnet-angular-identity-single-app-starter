@@ -5,7 +5,6 @@ using CleanArchWeb.WebUI;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -74,7 +73,8 @@ public class Testing
 
         var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
-        context.Database.Migrate();
+        throw new NotImplementedException();
+        // context.Database.Migrate();
     }
 
     public static async Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request)
@@ -143,7 +143,9 @@ public class Testing
 
         var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
-        return await context.FindAsync<TEntity>(keyValues);
+        await Task.CompletedTask;
+        throw new NotImplementedException();
+        // return await context.FindAsync<TEntity>(keyValues);
     }
 
     public static async Task AddAsync<TEntity>(TEntity entity)
@@ -153,9 +155,12 @@ public class Testing
 
         var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
-        context.Add(entity);
+        await Task.CompletedTask;
+        throw new NotImplementedException();
 
-        await context.SaveChangesAsync();
+        // context.Add(entity);
+        //
+        // await context.SaveChangesAsync();
     }
 
     public static async Task<int> CountAsync<TEntity>() where TEntity : class
@@ -164,7 +169,10 @@ public class Testing
 
         var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
-        return await context.Set<TEntity>().CountAsync();
+        await Task.CompletedTask;
+        throw new NotImplementedException();
+
+        // return await context.Set<TEntity>().CountAsync();
     }
 
     [OneTimeTearDown]

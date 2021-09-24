@@ -1,6 +1,5 @@
 ﻿using CleanArchWeb.Application.Common.Interfaces;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,8 +21,9 @@ namespace CleanArchWeb.Application.TodoLists.Commands.CreateTodoList
 
         public async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
         {
-            return await _context.TodoLists
-                .AllAsync(l => l.Title != title);
+            return await Task.FromResult(false);
+            // return await _context.TodoLists
+            //     .AllAsync(l => l.Title != title);
         }
     }
 }

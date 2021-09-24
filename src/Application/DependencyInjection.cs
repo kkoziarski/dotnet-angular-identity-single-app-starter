@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using CleanArchWeb.Application.Common.Behaviours;
+﻿using CleanArchWeb.Application.Common.Behaviours;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

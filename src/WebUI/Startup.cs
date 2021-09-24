@@ -1,14 +1,12 @@
 using CleanArchWeb.Application;
 using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Infrastructure;
-using CleanArchWeb.Infrastructure.Persistence;
 using CleanArchWeb.WebUI.Filters;
 using CleanArchWeb.WebUI.Services;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -35,14 +33,14 @@ namespace CleanArchWeb.WebUI
             services.AddApplication();
             services.AddInfrastructure(Configuration);
 
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            //TODO: services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
             services.AddHttpContextAccessor();
 
-            services.AddHealthChecks()
-                .AddDbContextCheck<ApplicationDbContext>();
+            services.AddHealthChecks();
+                //TODO: .AddDbContextCheck<ApplicationDbContext>();
 
             services.AddControllersWithViews(options =>
                 options.Filters.Add<ApiExceptionFilterAttribute>())
@@ -92,7 +90,7 @@ namespace CleanArchWeb.WebUI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
+                //TODO: app.UseMigrationsEndPoint();
             }
             else
             {

@@ -23,11 +23,12 @@ namespace CleanArchWeb.Application.TodoLists.Commands.PurgeTodoLists
 
         public async Task<Unit> Handle(PurgeTodoListsCommand request, CancellationToken cancellationToken)
         {
-            _context.TodoLists.RemoveRange(_context.TodoLists);
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return Unit.Value;
+            // _context.TodoLists.RemoveRange(_context.TodoLists);
+            //
+            // await _context.SaveChangesAsync(cancellationToken);
+            //
+            // return Unit.Value;
+            return await Unit.Task;
         }
     }
 }

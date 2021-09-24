@@ -1,12 +1,6 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using CleanArchWeb.Application.Common.Interfaces;
-using CleanArchWeb.Application.Common.Security;
-using CleanArchWeb.Domain.Enums;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,19 +23,20 @@ namespace CleanArchWeb.Application.TodoLists.Queries.GetTodos
 
         public async Task<TodosVm> Handle(GetTodosQuery request, CancellationToken cancellationToken)
         {
-            return new TodosVm
-            {
-                PriorityLevels = Enum.GetValues(typeof(PriorityLevel))
-                    .Cast<PriorityLevel>()
-                    .Select(p => new PriorityLevelDto { Value = (int)p, Name = p.ToString() })
-                    .ToList(),
-
-                Lists = await _context.TodoLists
-                    .AsNoTracking()
-                    .ProjectTo<TodoListDto>(_mapper.ConfigurationProvider)
-                    .OrderBy(t => t.Title)
-                    .ToListAsync(cancellationToken)
-            };
+            return await Task.FromResult(new TodosVm());
+            // return new TodosVm
+            // {
+            //     PriorityLevels = Enum.GetValues(typeof(PriorityLevel))
+            //         .Cast<PriorityLevel>()
+            //         .Select(p => new PriorityLevelDto { Value = (int)p, Name = p.ToString() })
+            //         .ToList(),
+            //
+            //     Lists = await _context.TodoLists
+            //         .AsNoTracking()
+            //         .ProjectTo<TodoListDto>(_mapper.ConfigurationProvider)
+            //         .OrderBy(t => t.Title)
+            //         .ToListAsync(cancellationToken)
+            // };
         }
     }
 }

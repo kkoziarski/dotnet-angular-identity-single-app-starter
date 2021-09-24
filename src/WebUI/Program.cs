@@ -2,7 +2,6 @@ using CleanArchWeb.Infrastructure.Identity;
 using CleanArchWeb.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -13,7 +12,7 @@ namespace CleanArchWeb.WebUI
 {
     public class Program
     {
-        public async static Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
 
@@ -24,11 +23,11 @@ namespace CleanArchWeb.WebUI
                 try
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
-
-                    if (context.Database.IsSqlite() || context.Database.IsSqlServer())
-                    {
-                        context.Database.Migrate();
-                    }
+                    //
+                    // if (context.Database.IsSqlite() || context.Database.IsSqlServer())
+                    // {
+                    //     context.Database.Migrate();
+                    // }
 
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();

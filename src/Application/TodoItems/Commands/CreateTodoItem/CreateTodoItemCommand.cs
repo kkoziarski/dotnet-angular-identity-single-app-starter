@@ -34,11 +34,11 @@ namespace CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem
 
             entity.DomainEvents.Add(new TodoItemCreatedEvent(entity));
 
-            _context.TodoItems.Add(entity);
+            // _context.TodoItems.Add(entity);
+            //
+            // await _context.SaveChangesAsync(cancellationToken);
 
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return entity.Id;
+            return await Task.FromResult(entity.Id);
         }
     }
 }

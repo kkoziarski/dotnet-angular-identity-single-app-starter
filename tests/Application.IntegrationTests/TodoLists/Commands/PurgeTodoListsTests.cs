@@ -2,7 +2,6 @@
 using CleanArchWeb.Application.Common.Security;
 using CleanArchWeb.Application.TodoLists.Commands.CreateTodoList;
 using CleanArchWeb.Application.TodoLists.Commands.PurgeTodoLists;
-using CleanArchWeb.Application.TodoLists.Queries.ExportTodos;
 using CleanArchWeb.Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
