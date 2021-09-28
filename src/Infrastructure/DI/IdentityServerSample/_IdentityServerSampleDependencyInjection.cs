@@ -1,34 +1,31 @@
-﻿using CleanArchWeb.Application.Common.Interfaces;
-using CleanArchWeb.Infrastructure.Files;
+using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Infrastructure.Identity;
-using CleanArchWeb.Infrastructure.Persistence;
-using CleanArchWeb.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchWeb.Infrastructure
+namespace CleanArchWeb.Infrastructure.DI.IdentityServerSample
 {
-    public static class DependencyInjection
+    public static class IdentityDependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection ConfigureIdentity(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
-
-            services.AddScoped<IDomainEventService, DomainEventService>();
-
+            
             // services
             //     .AddDefaultIdentity<ApplicationUser>()
             //     .AddRoles<IdentityRole>()
             //     .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddIdentityServer();
-                // .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+            // .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
-            services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<IIdentityService, IdentityService>();
-            services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
 
+            return services;
+        }
+        
+        public static IServiceCollection AddAuthz(this IServiceCollection services, IConfiguration configuration)
+        {
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 

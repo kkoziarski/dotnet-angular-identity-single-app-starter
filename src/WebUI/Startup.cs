@@ -1,6 +1,6 @@
 using CleanArchWeb.Application;
 using CleanArchWeb.Application.Common.Interfaces;
-using CleanArchWeb.Infrastructure;
+using CleanArchWeb.Infrastructure.DI;
 using CleanArchWeb.WebUI.Filters;
 using CleanArchWeb.WebUI.Services;
 using FluentValidation.AspNetCore;
@@ -40,7 +40,7 @@ namespace CleanArchWeb.WebUI
             services.AddHttpContextAccessor();
 
             services.AddHealthChecks();
-                //TODO: .AddDbContextCheck<ApplicationDbContext>();
+            //TODO: .AddDbContextCheck<ApplicationDbContext>();
 
             services.AddControllersWithViews(options =>
                 options.Filters.Add<ApiExceptionFilterAttribute>())

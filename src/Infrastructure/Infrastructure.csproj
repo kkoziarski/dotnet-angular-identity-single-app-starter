@@ -7,9 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DI\IdentityServerContrib\**" />
+    <Compile Remove="DI\IdentityServerSample\**" />
+    <Compile Remove="DI\identityserver\**" />
+    <EmbeddedResource Remove="DI\IdentityServerContrib\**" />
+    <EmbeddedResource Remove="DI\IdentityServerSample\**" />
+    <EmbeddedResource Remove="DI\identityserver\**" />
+    <None Remove="DI\IdentityServerContrib\**" />
+    <None Remove="DI\IdentityServerSample\**" />
+    <None Remove="DI\identityserver\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.Identity.Mongo" Version="8.3.0" />
     <PackageReference Include="AspNetCore.Identity.MongoDbCore" Version="3.1.1" />
     <PackageReference Include="CsvHelper" Version="24.0.1" />
+    <PackageReference Include="IdentityServer4.Contrib.MongoDB" Version="4.0.0-rc.2" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.3" />
+    <PackageReference Include="MongoDB.Bson" Version="2.13.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.13.1" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.13.1" />
   </ItemGroup>
 
   <ItemGroup>

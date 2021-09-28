@@ -1,5 +1,6 @@
 using CleanArchWeb.Infrastructure.Identity;
 using CleanArchWeb.Infrastructure.Persistence;
+using IdentityServer4.MongoDB.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,17 +24,17 @@ namespace CleanArchWeb.WebUI
                 try
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
-                    //
-                    // if (context.Database.IsSqlite() || context.Database.IsSqlServer())
-                    // {
-                    //     context.Database.Migrate();
-                    // }
 
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
 
                     await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager, roleManager);
                     await ApplicationDbContextSeed.SeedSampleDataAsync(context);
+
+                    if (false)
+                    {
+                        ApplicationDbContextSeed.SeedIdentityServiceData(services.GetRequiredService<IConfigurationDbContext>());
+                    }
                 }
                 catch (Exception ex)
                 {

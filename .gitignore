@@ -239,3 +239,4 @@ _Pvt_Extensions
 /src/WebUI/wwwroot/css/site.shared.min.css
 /src/WebUI/CleanArchWebDb.db
 /src/WebUI/CleanArchWebTestDb.db
+/src/WebUI/tempkey.jwk

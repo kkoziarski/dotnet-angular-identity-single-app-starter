@@ -1,4 +1,7 @@
 ﻿using CleanArchWeb.Infrastructure.Identity;
+using CleanArchWeb.Infrastructure.Persistence.IdentityServer;
+using IdentityServer4.MongoDB.Interfaces;
+using IdentityServer4.MongoDB.Mappers;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,21 +10,21 @@ namespace CleanArchWeb.Infrastructure.Persistence
 {
     public static class ApplicationDbContextSeed
     {
-        public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
-            var administratorRole = new IdentityRole("Administrator");
+            var administratorRole = new ApplicationRole("Administrator");
 
-            if (roleManager.Roles.All(r => r.Name != administratorRole.Name))
+            if (!roleManager.Roles.Any(r => r.Name == administratorRole.Name))
             {
                 await roleManager.CreateAsync(administratorRole);
             }
 
             var administrator = new ApplicationUser { UserName = "administrator@localhost", Email = "administrator@localhost" };
 
-            if (userManager.Users.All(u => u.UserName != administrator.UserName))
+            if (!userManager.Users.Any(u => u.UserName == administrator.UserName))
             {
                 await userManager.CreateAsync(administrator, "Administrator1!");
-                await userManager.AddToRolesAsync(administrator, new [] { administratorRole.Name });
+                await userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
             }
         }
 
@@ -51,6 +54,41 @@ namespace CleanArchWeb.Infrastructure.Persistence
             //     await context.SaveChangesAsync();
             // }
             await Task.CompletedTask;
+        }
+
+        public static void SeedIdentityServiceData(IConfigurationDbContext context)
+        {
+            if (!context.Clients.Any())
+            {
+                foreach (var client in Clients.Get().ToList())
+                {
+                    context.AddClient(client.ToEntity());
+                }
+            }
+
+            if (!context.IdentityResources.Any())
+            {
+                foreach (var resource in Resources.GetIdentityResources().ToList())
+                {
+                    context.AddIdentityResource(resource.ToEntity());
+                }
+            }
+
+            if (!context.ApiResources.Any())
+            {
+                foreach (var resource in Resources.GetApiResources().ToList())
+                {
+                    context.AddApiResource(resource.ToEntity());
+                }
+            }
+
+            if (!context.ApiScopes.Any())
+            {
+                foreach (var resource in Resources.GetApiScopes().ToList())
+                {
+                    context.AddApiScope(resource.ToEntity());
+                }
+            }
         }
     }
 }
