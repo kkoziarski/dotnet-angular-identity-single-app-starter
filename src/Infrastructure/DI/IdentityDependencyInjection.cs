@@ -21,11 +21,6 @@ namespace CleanArchWeb.Infrastructure.DI
             services.Configure<MongoConfig>(configuration.GetSection("MongoConfig"));
             var mongoConfig = configuration.GetSection("MongoConfig").Get<MongoConfig>();
 
-            //var mongoDbContext = new MongoDbContext(mongoConfig.ConnectionString, mongoConfig.DatabaseName);
-            //services.AddIdentity<ApplicationUser, ApplicationRole>()
-            //    .AddMongoDbStores<ApplicationUser, ApplicationRole, string>(mongoDbContext)
-            //    .AddDefaultTokenProviders();
-
             var mongoDbIdentityConfiguration = new MongoDbIdentityConfiguration
             {
                 MongoDbSettings = new MongoDbSettings
@@ -35,15 +30,11 @@ namespace CleanArchWeb.Infrastructure.DI
                 },
                 IdentityOptionsAction = options =>
                 {
-                    //options.Password.RequireDigit = false;
+                    //// Password settings
                     //options.Password.RequiredLength = 8;
-                    //options.Password.RequireNonAlphanumeric = false;
-                    //options.Password.RequireUppercase = false;
-                    //options.Password.RequireLowercase = false;
 
                     //// Lockout settings
                     //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-                    //options.Lockout.MaxFailedAccessAttempts = 10;
 
                     //// ApplicationUser settings
                     options.User.RequireUniqueEmail = true;
@@ -66,7 +57,6 @@ namespace CleanArchWeb.Infrastructure.DI
         private static void ConfigureIdentityServer(this IServiceCollection services, MongoConfig mongoConfig, IConfiguration configuration)
         {
             services.TryAddScoped<SignInManager<ApplicationUser>>();
-            //this is the same as .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
             services.AddIdentityServer(options =>
                 {
                     options.Events.RaiseSuccessEvents = true;
@@ -87,13 +77,7 @@ namespace CleanArchWeb.Infrastructure.DI
                 .AddIdentityResources()
                 .AddApiResources()
                 .AddClients()
-                //.AddDeveloperSigningCredential()
                 .AddSigningCredentials();
-            //.AddExtensionGrantValidator<Identity.Extensions.ExtensionGrantValidator>()
-            //.AddExtensionGrantValidator<Identity.Extensions.NoSubjectExtensionGrantValidator>()
-            //.AddJwtBearerClientAuthentication()
-            //.AddAppAuthRedirectUriValidator();
-            //.AddTestUsers(TestUsers.Users);
         }
 
         public static IServiceCollection ConfigureAuth(this IServiceCollection services, IConfiguration configuration)
@@ -109,7 +93,7 @@ namespace CleanArchWeb.Infrastructure.DI
             return services;
         }
 
-        // NOT USED
+        //// NOT USED
         public static IServiceCollection AddExternalIdentityProviders(this IServiceCollection services)
         {
             // configures the OpenIdConnect handlers to persist the state parameter into the server-side IDistributedCache.

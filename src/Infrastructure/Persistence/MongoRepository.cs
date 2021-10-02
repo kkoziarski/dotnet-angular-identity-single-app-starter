@@ -1,22 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CleanArchWeb.Infrastructure.Persistence.Configurations;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace CleanArchWeb.Infrastructure.DI.identityserver.Storage
+namespace CleanArchWeb.Infrastructure.Persistence
 {
     public class MongoRepository : IRepository
     {
         private readonly IMongoClient _client;
         private readonly IMongoDatabase _database;
 
-        public MongoRepository(string mongoConnection, string mongoDatabaseName)
+        public MongoRepository(IMongoClient mongoClient, IOptions<MongoConfig> mongoConfig)
         {
-            _client = new MongoClient(mongoConnection);
-            _database = _client.GetDatabase(mongoDatabaseName);
+            _client = mongoClient;
+            _database = _client.GetDatabase(mongoConfig.Value.DatabaseName);
         }
 
-        public IQueryable<T> All<T>() where T : class, new() 
+        public IQueryable<T> All<T>() where T : class, new()
             => _database.GetCollection<T>(typeof(T).Name).AsQueryable();
 
         public IQueryable<T> Where<T>(System.Linq.Expressions.Expression<Func<T, bool>> expression) where T : class, new()

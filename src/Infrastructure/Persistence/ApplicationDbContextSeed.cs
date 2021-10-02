@@ -1,10 +1,7 @@
-﻿using CleanArchWeb.Infrastructure.Identity;
-using CleanArchWeb.Infrastructure.Persistence.IdentityServer;
-using IdentityServer4.MongoDB.Interfaces;
-using IdentityServer4.MongoDB.Mappers;
-using Microsoft.AspNetCore.Identity;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using CleanArchWeb.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace CleanArchWeb.Infrastructure.Persistence
 {
@@ -54,41 +51,6 @@ namespace CleanArchWeb.Infrastructure.Persistence
             //     await context.SaveChangesAsync();
             // }
             await Task.CompletedTask;
-        }
-
-        public static void SeedIdentityServiceData(IConfigurationDbContext context)
-        {
-            if (!context.Clients.Any())
-            {
-                foreach (var client in Clients.Get().ToList())
-                {
-                    context.AddClient(client.ToEntity());
-                }
-            }
-
-            if (!context.IdentityResources.Any())
-            {
-                foreach (var resource in Resources.GetIdentityResources().ToList())
-                {
-                    context.AddIdentityResource(resource.ToEntity());
-                }
-            }
-
-            if (!context.ApiResources.Any())
-            {
-                foreach (var resource in Resources.GetApiResources().ToList())
-                {
-                    context.AddApiResource(resource.ToEntity());
-                }
-            }
-
-            if (!context.ApiScopes.Any())
-            {
-                foreach (var resource in Resources.GetApiScopes().ToList())
-                {
-                    context.AddApiScope(resource.ToEntity());
-                }
-            }
         }
     }
 }

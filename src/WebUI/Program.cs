@@ -1,13 +1,12 @@
+using System;
+using System.Threading.Tasks;
 using CleanArchWeb.Infrastructure.Identity;
 using CleanArchWeb.Infrastructure.Persistence;
-using IdentityServer4.MongoDB.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 
 namespace CleanArchWeb.WebUI
 {
@@ -30,11 +29,6 @@ namespace CleanArchWeb.WebUI
 
                     await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager, roleManager);
                     await ApplicationDbContextSeed.SeedSampleDataAsync(context);
-
-                    if (false)
-                    {
-                        ApplicationDbContextSeed.SeedIdentityServiceData(services.GetRequiredService<IConfigurationDbContext>());
-                    }
                 }
                 catch (Exception ex)
                 {
@@ -51,9 +45,6 @@ namespace CleanArchWeb.WebUI
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
     }
 }

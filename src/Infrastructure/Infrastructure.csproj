@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.Identity.Mongo" Version="8.3.0" />
     <PackageReference Include="AspNetCore.Identity.MongoDbCore" Version="3.1.1" />
     <PackageReference Include="CsvHelper" Version="24.0.1" />
     <PackageReference Include="IdentityServer4.Contrib.MongoDB" Version="4.0.0-rc.2" />

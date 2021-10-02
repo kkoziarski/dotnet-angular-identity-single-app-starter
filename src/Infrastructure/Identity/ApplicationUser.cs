@@ -2,10 +2,6 @@
 
 namespace CleanArchWeb.Infrastructure.Identity
 {
-    //public class ApplicationUser : IdentityUser
-    //{
-    //}
-
     public class ApplicationUser : MongoIdentityUser<string>
     {
         public ApplicationUser() : base()
