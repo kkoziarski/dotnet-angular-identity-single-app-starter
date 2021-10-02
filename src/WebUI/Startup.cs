@@ -1,3 +1,4 @@
+using System.Linq;
 using CleanArchWeb.Application;
 using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Infrastructure.DI;
@@ -12,7 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSwag;
 using NSwag.Generation.Processors.Security;
-using System.Linq;
 
 namespace CleanArchWeb.WebUI
 {
@@ -118,6 +118,7 @@ namespace CleanArchWeb.WebUI
             app.UseAuthentication();
             app.UseIdentityServer();
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

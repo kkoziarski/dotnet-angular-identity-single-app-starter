@@ -1,10 +1,8 @@
-﻿using CleanArchWeb.Application.Common.Interfaces;
+﻿using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Application.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CleanArchWeb.Infrastructure.Identity
 {
@@ -26,7 +24,7 @@ namespace CleanArchWeb.Infrastructure.Identity
 
         public async Task<string> GetUserNameAsync(string userId)
         {
-            var user = await _userManager.Users.FirstAsync(u => u.Id == userId);
+            var user = await _userManager.FindByIdAsync(userId);
 
             return user.UserName;
         }
@@ -46,14 +44,14 @@ namespace CleanArchWeb.Infrastructure.Identity
 
         public async Task<bool> IsInRoleAsync(string userId, string role)
         {
-            var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
+            var user = await _userManager.FindByIdAsync(userId);
 
             return await _userManager.IsInRoleAsync(user, role);
         }
 
         public async Task<bool> AuthorizeAsync(string userId, string policyName)
         {
-            var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
+            var user = await _userManager.FindByIdAsync(userId);
 
             var principal = await _userClaimsPrincipalFactory.CreateAsync(user);
 
@@ -64,7 +62,7 @@ namespace CleanArchWeb.Infrastructure.Identity
 
         public async Task<Result> DeleteUserAsync(string userId)
         {
-            var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
+            var user = await _userManager.FindByIdAsync(userId);
 
             if (user != null)
             {

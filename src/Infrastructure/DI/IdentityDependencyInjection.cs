@@ -3,13 +3,13 @@ using AspNetCore.Identity.MongoDbCore.Infrastructure;
 using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Infrastructure.Identity;
 using CleanArchWeb.Infrastructure.Persistence.Configurations;
-using CleanArchWeb.Infrastructure.Persistence.IdentityServer;
 using IdentityServer4;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CleanArchWeb.Infrastructure.DI
@@ -50,47 +50,50 @@ namespace CleanArchWeb.Infrastructure.DI
                     //options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@.-_";
                 }
             };
-            services.ConfigureMongoDbIdentity<ApplicationUser, ApplicationRole, string>(mongoDbIdentityConfiguration)
-                 .AddDefaultTokenProviders();
 
-            services.ConfigureIdentityServer(mongoConfig);
+            services.AddDefaultIdentity<ApplicationUser>();
+            services
+                .ConfigureMongoDbIdentity<ApplicationUser, ApplicationRole, string>(mongoDbIdentityConfiguration)
+                .AddDefaultTokenProviders();
+
+            services.ConfigureIdentityServer(mongoConfig, configuration);
 
             services.AddTransient<IIdentityService, IdentityService>();
 
             return services;
         }
 
-        private static void ConfigureIdentityServer(this IServiceCollection services, MongoConfig mongoConfig)
+        private static void ConfigureIdentityServer(this IServiceCollection services, MongoConfig mongoConfig, IConfiguration configuration)
         {
+            services.TryAddScoped<SignInManager<ApplicationUser>>();
+            //this is the same as .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
             services.AddIdentityServer(options =>
-            {
-                options.Events.RaiseSuccessEvents = true;
-                options.Events.RaiseFailureEvents = true;
-                options.Events.RaiseErrorEvents = true;
-            })
-            .AddConfigurationStore(c =>
-            {
-                c.ConnectionString = mongoConfig.ConnectionString;
-                c.Database = mongoConfig.DatabaseName;
-            })
-            .AddOperationalStore(c =>
-            {
-                c.ConnectionString = mongoConfig.ConnectionString;
-                c.Database = mongoConfig.DatabaseName;
-            })
-            // THIS IS BAAAAD!!!!!
-            //},
-            //(tco) =>
-            //{
-            //    tco.Enable = true;
-            //    tco.Interval = 3600;
-            //})
-            .AddDeveloperSigningCredential()
-            .AddExtensionGrantValidator<Identity.Extensions.ExtensionGrantValidator>()
-            .AddExtensionGrantValidator<Identity.Extensions.NoSubjectExtensionGrantValidator>()
-            .AddJwtBearerClientAuthentication()
-            .AddAppAuthRedirectUriValidator()
-            .AddTestUsers(TestUsers.Users);
+                {
+                    options.Events.RaiseSuccessEvents = true;
+                    options.Events.RaiseFailureEvents = true;
+                    options.Events.RaiseErrorEvents = true;
+                })
+                .AddAspNetIdentity<ApplicationUser>()
+                .AddOperationalStore(c =>
+                {
+                    c.ConnectionString = mongoConfig.ConnectionString;
+                    c.Database = mongoConfig.DatabaseName;
+                })
+                .AddConfigurationStore(c =>
+                {
+                    c.ConnectionString = mongoConfig.ConnectionString;
+                    c.Database = mongoConfig.DatabaseName;
+                })
+                .AddIdentityResources()
+                .AddApiResources()
+                .AddClients()
+                //.AddDeveloperSigningCredential()
+                .AddSigningCredentials();
+            //.AddExtensionGrantValidator<Identity.Extensions.ExtensionGrantValidator>()
+            //.AddExtensionGrantValidator<Identity.Extensions.NoSubjectExtensionGrantValidator>()
+            //.AddJwtBearerClientAuthentication()
+            //.AddAppAuthRedirectUriValidator();
+            //.AddTestUsers(TestUsers.Users);
         }
 
         public static IServiceCollection ConfigureAuth(this IServiceCollection services, IConfiguration configuration)
