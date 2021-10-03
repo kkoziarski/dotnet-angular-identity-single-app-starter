@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace CleanArchWeb.Infrastructure.Persistence
 {
-    public interface IRepository
+    public interface IRepositorySimple
     {
         IQueryable<T> All<T>() where T : class, new();
         IQueryable<T> Where<T>(Expression<Func<T, bool>> expression) where T : class, new();

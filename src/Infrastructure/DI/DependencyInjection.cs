@@ -16,12 +16,12 @@ namespace CleanArchWeb.Infrastructure.DI
         {
             services.AddScoped<ApplicationDbContext>();
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
-            services.AddScoped<IRepository, MongoRepository>();
             services.AddSingleton<IMongoClient>(provider =>
-            {
-                var mongoConfig = provider.GetRequiredService<IOptions<MongoConfig>>();
-                return new MongoClient(mongoConfig.Value.ConnectionString);
-            });
+                {
+                    var mongoConfig = provider.GetRequiredService<IOptions<MongoConfig>>();
+                    return new MongoClient(mongoConfig.Value.ConnectionString);
+                })
+                .AddRepository();
 
             services.ConfigureIdentity(configuration);
 
@@ -30,6 +30,20 @@ namespace CleanArchWeb.Infrastructure.DI
             services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
 
             services.ConfigureAuth(configuration);
+
+            return services;
+        }
+
+        private static IServiceCollection AddRepository(this IServiceCollection services)
+        {
+            services.AddScoped<IRepositorySimple, MongoRepositorySimple>();
+
+            services.AddScoped<IMongoRepository, MongoRepository>(provider =>
+            {
+                var mongoConfig = provider.GetRequiredService<IOptions<MongoConfig>>();
+                var mongoClient = provider.GetRequiredService<IMongoClient>();
+                return new MongoRepository(mongoClient.GetDatabase(mongoConfig.Value.DatabaseName));
+            });
 
             return services;
         }
