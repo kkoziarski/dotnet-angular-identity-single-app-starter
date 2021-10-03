@@ -1,4 +1,5 @@
-﻿using AspNetCore.Identity.MongoDbCore.Extensions;
+﻿using System;
+using AspNetCore.Identity.MongoDbCore.Extensions;
 using AspNetCore.Identity.MongoDbCore.Infrastructure;
 using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Infrastructure.Identity;
@@ -44,7 +45,7 @@ namespace CleanArchWeb.Infrastructure.DI
 
             services.AddDefaultIdentity<ApplicationUser>();
             services
-                .ConfigureMongoDbIdentity<ApplicationUser, ApplicationRole, string>(mongoDbIdentityConfiguration)
+                .ConfigureMongoDbIdentity<ApplicationUser, ApplicationRole, Guid>(mongoDbIdentityConfiguration)
                 .AddDefaultTokenProviders();
 
             services.ConfigureIdentityServer(mongoConfig, configuration);

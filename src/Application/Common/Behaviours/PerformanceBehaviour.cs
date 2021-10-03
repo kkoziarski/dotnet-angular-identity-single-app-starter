@@ -1,9 +1,9 @@
-﻿using MediatR;
-using Microsoft.Extensions.Logging;
-using CleanArchWeb.Application.Common.Interfaces;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Interfaces;
+using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace CleanArchWeb.Application.Common.Behaviours
 {
@@ -15,7 +15,7 @@ namespace CleanArchWeb.Application.Common.Behaviours
         private readonly IIdentityService _identityService;
 
         public PerformanceBehaviour(
-            ILogger<TRequest> logger, 
+            ILogger<TRequest> logger,
             ICurrentUserService currentUserService,
             IIdentityService identityService)
         {
@@ -39,12 +39,12 @@ namespace CleanArchWeb.Application.Common.Behaviours
             if (elapsedMilliseconds > 500)
             {
                 var requestName = typeof(TRequest).Name;
-                var userId = _currentUserService.UserId ?? string.Empty;
+                var userId = _currentUserService.UserId;
                 var userName = string.Empty;
 
-                if (!string.IsNullOrEmpty(userId))
+                if (userId != null)
                 {
-                    userName = await _identityService.GetUserNameAsync(userId);
+                    userName = await _identityService.GetUserNameAsync(userId.Value);
                 }
 
                 _logger.LogWarning("CleanArchWeb Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@UserName} {@Request}",

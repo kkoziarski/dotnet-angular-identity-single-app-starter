@@ -1,8 +1,9 @@
-﻿using AspNetCore.Identity.MongoDbCore.Models;
+﻿using System;
+using AspNetCore.Identity.MongoDbCore.Models;
 
 namespace CleanArchWeb.Infrastructure.Identity
 {
-    public class ApplicationUser : MongoIdentityUser<string>
+    public class ApplicationUser : MongoIdentityUser<Guid>
     {
         public ApplicationUser() : base()
         {
@@ -13,7 +14,7 @@ namespace CleanArchWeb.Infrastructure.Identity
         }
     }
 
-    public class ApplicationRole : MongoIdentityRole<string>
+    public class ApplicationRole : MongoIdentityRole<Guid>
     {
         public ApplicationRole() : base()
         {

@@ -1,6 +1,7 @@
-﻿using CleanArchWeb.Application.Common.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using System;
 using System.Security.Claims;
+using CleanArchWeb.Application.Common.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace CleanArchWeb.WebUI.Services
 {
@@ -13,6 +14,6 @@ namespace CleanArchWeb.WebUI.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public string UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        public Guid? UserId => Guid.TryParse(_httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier), out var userId) ? userId : null;
     }
 }

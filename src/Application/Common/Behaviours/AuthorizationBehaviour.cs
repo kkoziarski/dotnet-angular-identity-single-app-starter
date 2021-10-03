@@ -1,12 +1,12 @@
-﻿using CleanArchWeb.Application.Common.Exceptions;
-using CleanArchWeb.Application.Common.Interfaces;
-using CleanArchWeb.Application.Common.Security;
-using MediatR;
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Exceptions;
+using CleanArchWeb.Application.Common.Interfaces;
+using CleanArchWeb.Application.Common.Security;
+using MediatR;
 
 namespace CleanArchWeb.Application.Common.Behaviours
 {
@@ -45,7 +45,7 @@ namespace CleanArchWeb.Application.Common.Behaviours
                         var authorized = false;
                         foreach (var role in roles)
                         {
-                            var isInRole = await _identityService.IsInRoleAsync(_currentUserService.UserId, role.Trim());
+                            var isInRole = await _identityService.IsInRoleAsync(_currentUserService.UserId.Value, role.Trim());
                             if (isInRole)
                             {
                                 authorized = true;
@@ -65,9 +65,9 @@ namespace CleanArchWeb.Application.Common.Behaviours
                 var authorizeAttributesWithPolicies = authorizeAttributes.Where(a => !string.IsNullOrWhiteSpace(a.Policy));
                 if (authorizeAttributesWithPolicies.Any())
                 {
-                    foreach(var policy in authorizeAttributesWithPolicies.Select(a => a.Policy))
+                    foreach (var policy in authorizeAttributesWithPolicies.Select(a => a.Policy))
                     {
-                        var authorized = await _identityService.AuthorizeAsync(_currentUserService.UserId, policy);
+                        var authorized = await _identityService.AuthorizeAsync(_currentUserService.UserId.Value, policy);
 
                         if (!authorized)
                         {

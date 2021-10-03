@@ -21,7 +21,7 @@ public class Testing
     private static IConfigurationRoot _configuration;
     private static IServiceScopeFactory _scopeFactory;
     private static Checkpoint _checkpoint;
-    private static string _currentUserId;
+    private static Guid? _currentUserId;
 
     [OneTimeSetUp]
     public void RunBeforeAnyTests()
@@ -86,21 +86,21 @@ public class Testing
         return await mediator.Send(request);
     }
 
-    public static async Task<string> RunAsDefaultUserAsync()
+    public static async Task<Guid> RunAsDefaultUserAsync()
     {
         return await RunAsUserAsync("test@local", "Testing1234!", new string[] { });
     }
 
-    public static async Task<string> RunAsAdministratorAsync()
+    public static async Task<Guid> RunAsAdministratorAsync()
     {
         return await RunAsUserAsync("administrator@local", "Administrator1234!", new[] { "Administrator" });
     }
 
-    public static async Task<string> RunAsUserAsync(string userName, string password, string[] roles)
+    private static async Task<Guid> RunAsUserAsync(string userName, string password, string[] roles)
     {
         using var scope = _scopeFactory.CreateScope();
 
-        var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
         var user = new ApplicationUser { UserName = userName, Email = userName };
 
@@ -108,7 +108,7 @@ public class Testing
 
         if (roles.Any())
         {
-            var roleManager = scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
             foreach (var role in roles)
             {
@@ -122,7 +122,7 @@ public class Testing
         {
             _currentUserId = user.Id;
 
-            return _currentUserId;
+            return _currentUserId.Value;
         }
 
         var errors = string.Join(Environment.NewLine, result.ToApplicationResult().Errors);

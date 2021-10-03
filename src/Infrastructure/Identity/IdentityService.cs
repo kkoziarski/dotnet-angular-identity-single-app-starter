@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Application.Common.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -22,14 +24,14 @@ namespace CleanArchWeb.Infrastructure.Identity
             _authorizationService = authorizationService;
         }
 
-        public async Task<string> GetUserNameAsync(string userId)
+        public async Task<string> GetUserNameAsync(Guid userId)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId.ToString());
 
             return user.UserName;
         }
 
-        public async Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password)
+        public async Task<(Result Result, Guid UserId)> CreateUserAsync(string userName, string password)
         {
             var user = new ApplicationUser
             {
@@ -42,16 +44,16 @@ namespace CleanArchWeb.Infrastructure.Identity
             return (result.ToApplicationResult(), user.Id);
         }
 
-        public async Task<bool> IsInRoleAsync(string userId, string role)
+        public async Task<bool> IsInRoleAsync(Guid userId, string role)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = _userManager.Users.First(u => u.Id == userId);
 
             return await _userManager.IsInRoleAsync(user, role);
         }
 
-        public async Task<bool> AuthorizeAsync(string userId, string policyName)
+        public async Task<bool> AuthorizeAsync(Guid userId, string policyName)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = _userManager.Users.First(u => u.Id == userId);
 
             var principal = await _userClaimsPrincipalFactory.CreateAsync(user);
 
@@ -60,9 +62,9 @@ namespace CleanArchWeb.Infrastructure.Identity
             return result.Succeeded;
         }
 
-        public async Task<Result> DeleteUserAsync(string userId)
+        public async Task<Result> DeleteUserAsync(Guid userId)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = _userManager.Users.First(u => u.Id == userId);
 
             if (user != null)
             {
@@ -72,7 +74,7 @@ namespace CleanArchWeb.Infrastructure.Identity
             return Result.Success();
         }
 
-        public async Task<Result> DeleteUserAsync(ApplicationUser user)
+        private async Task<Result> DeleteUserAsync(ApplicationUser user)
         {
             var result = await _userManager.DeleteAsync(user);
 

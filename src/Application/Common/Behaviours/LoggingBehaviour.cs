@@ -1,8 +1,8 @@
-﻿using CleanArchWeb.Application.Common.Interfaces;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Interfaces;
 using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CleanArchWeb.Application.Common.Behaviours
 {
@@ -22,12 +22,12 @@ namespace CleanArchWeb.Application.Common.Behaviours
         public async Task Process(TRequest request, CancellationToken cancellationToken)
         {
             var requestName = typeof(TRequest).Name;
-            var userId = _currentUserService.UserId ?? string.Empty;
+            var userId = _currentUserService.UserId;
             string userName = string.Empty;
 
-            if (!string.IsNullOrEmpty(userId))
+            if (userId != null)
             {
-                userName = await _identityService.GetUserNameAsync(userId);
+                userName = await _identityService.GetUserNameAsync(userId.Value);
             }
 
             _logger.LogInformation("CleanArchWeb Request: {Name} {@UserId} {@UserName} {@Request}",

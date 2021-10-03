@@ -20,7 +20,7 @@ namespace CleanArchWeb.Application.TodoLists.Commands.UpdateTodoList
                 .MustAsync(BeUniqueTitle).WithMessage("The specified title already exists.");
         }
 
-        public async Task<bool> BeUniqueTitle(UpdateTodoListCommand model, string title, CancellationToken cancellationToken)
+        private Task<bool> BeUniqueTitle(UpdateTodoListCommand model, string title, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
             // return await _context.TodoLists

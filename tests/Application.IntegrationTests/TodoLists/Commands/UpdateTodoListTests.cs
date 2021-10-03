@@ -73,7 +73,7 @@ namespace CleanArchWeb.Application.IntegrationTests.TodoLists.Commands
 
             list.Title.Should().Be(command.Title);
             list.LastModifiedBy.Should().NotBeNull();
-            list.LastModifiedBy.Should().Be(userId);
+            list.LastModifiedBy.Should().Be(userId.ToString());
             list.LastModified.Should().NotBeNull();
             list.LastModified.Should().BeCloseTo(DateTime.Now, 1000);
         }

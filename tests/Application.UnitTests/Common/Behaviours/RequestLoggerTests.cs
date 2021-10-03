@@ -1,11 +1,12 @@
-﻿using CleanArchWeb.Application.Common.Behaviours;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Behaviours;
 using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CleanArchWeb.Application.UnitTests.Common.Behaviours
 {
@@ -27,13 +28,13 @@ namespace CleanArchWeb.Application.UnitTests.Common.Behaviours
         [Test]
         public async Task ShouldCallGetUserNameAsyncOnceIfAuthenticated()
         {
-            _currentUserService.Setup(x => x.UserId).Returns("Administrator");
+            _currentUserService.Setup(x => x.UserId).Returns(Guid.NewGuid());
 
             var requestLogger = new LoggingBehaviour<CreateTodoItemCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
 
             await requestLogger.Process(new CreateTodoItemCommand { ListId = 1, Title = "title" }, new CancellationToken());
 
-            _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<string>()), Times.Once);
+            _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<Guid>()), Times.Once);
         }
 
         [Test]
@@ -43,7 +44,7 @@ namespace CleanArchWeb.Application.UnitTests.Common.Behaviours
 
             await requestLogger.Process(new CreateTodoItemCommand { ListId = 1, Title = "title" }, new CancellationToken());
 
-            _identityService.Verify(i => i.GetUserNameAsync(null), Times.Never);
+            _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<Guid>()), Times.Never);
         }
     }
 }

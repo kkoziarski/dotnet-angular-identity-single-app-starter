@@ -55,7 +55,7 @@ namespace CleanArchWeb.Application.IntegrationTests.TodoItems.Commands
 
             item.Title.Should().Be(command.Title);
             item.LastModifiedBy.Should().NotBeNull();
-            item.LastModifiedBy.Should().Be(userId);
+            item.LastModifiedBy.Should().Be(userId.ToString());
             item.LastModified.Should().NotBeNull();
             item.LastModified.Should().BeCloseTo(DateTime.Now, 1000);
         }
