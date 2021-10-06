@@ -3,13 +3,22 @@ using CleanArchWeb.Domain.Entities;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 
 namespace CleanArchWeb.Infrastructure.Persistence
 {
     public class ApplicationDbContext : IApplicationDbContext
     {
-        // fake class
+        public ApplicationDbContext(IMongoRepository repository)
+        {
+            this.Repository = repository;
+            this.Database = repository.Database;
+        }
+
+        public IMongoRepository Repository { get; }
+        public IMongoDatabase Database { get; }
     }
+
     public class ApplicationDbContextTOREMOVE //: IApplicationDbContext, ApiAuthorizationDbContext<ApplicationUser>
     {
         private readonly ICurrentUserService _currentUserService;
@@ -30,7 +39,7 @@ namespace CleanArchWeb.Infrastructure.Persistence
 
         public DbSet<TodoItem> TodoItems { get; set; }
 
-        public DbSet<TodoList> TodoLists { get; set; }
+        public DbSet<TodoListDocument> TodoLists { get; set; }
 
         // public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         // {

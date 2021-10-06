@@ -1,4 +1,6 @@
-﻿using CleanArchWeb.Application.Common.Models;
+﻿using System;
+using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Models;
 using CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem;
 using CleanArchWeb.Application.TodoItems.Commands.DeleteTodoItem;
 using CleanArchWeb.Application.TodoItems.Commands.UpdateTodoItem;
@@ -7,7 +9,6 @@ using CleanArchWeb.Application.TodoItems.Queries.GetTodoItemsWithPagination;
 using CleanArchWeb.Application.TodoLists.Queries.GetTodos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace CleanArchWeb.WebUI.Controllers
 {
@@ -21,13 +22,13 @@ namespace CleanArchWeb.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Create(CreateTodoItemCommand command)
+        public async Task<ActionResult<Guid>> Create(CreateTodoItemCommand command)
         {
             return await Mediator.Send(command);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, UpdateTodoItemCommand command)
+        public async Task<ActionResult> Update(Guid id, UpdateTodoItemCommand command)
         {
             if (id != command.Id)
             {
@@ -40,7 +41,7 @@ namespace CleanArchWeb.WebUI.Controllers
         }
 
         [HttpPut("[action]")]
-        public async Task<ActionResult> UpdateItemDetails(int id, UpdateTodoItemDetailCommand command)
+        public async Task<ActionResult> UpdateItemDetails(Guid id, UpdateTodoItemDetailCommand command)
         {
             if (id != command.Id)
             {
@@ -52,10 +53,10 @@ namespace CleanArchWeb.WebUI.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [HttpDelete("{listId}/{id}")]
+        public async Task<ActionResult> Delete(Guid listId, Guid id)
         {
-            await Mediator.Send(new DeleteTodoItemCommand { Id = id });
+            await Mediator.Send(new DeleteTodoItemCommand { Id = id, ListId = listId });
 
             return NoContent();
         }

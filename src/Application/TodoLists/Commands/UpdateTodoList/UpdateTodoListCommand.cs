@@ -1,4 +1,5 @@
-﻿using CleanArchWeb.Application.Common.Interfaces;
+﻿using System;
+using CleanArchWeb.Application.Common.Interfaces;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ namespace CleanArchWeb.Application.TodoLists.Commands.UpdateTodoList
 {
     public class UpdateTodoListCommand : IRequest
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Title { get; set; }
     }

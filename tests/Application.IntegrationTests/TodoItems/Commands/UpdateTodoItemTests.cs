@@ -19,7 +19,8 @@ namespace CleanArchWeb.Application.IntegrationTests.TodoItems.Commands
         {
             var command = new UpdateTodoItemCommand
             {
-                Id = 99,
+                Id = Guid.Parse("fe5f3ea8-d470-4d80-9fdf-4895ea41d503"),
+                ListId = Guid.Parse("c4c59f7d-3a5b-4982-84a0-75046712a179"),
                 Title = "New Title"
             };
 
@@ -46,6 +47,7 @@ namespace CleanArchWeb.Application.IntegrationTests.TodoItems.Commands
             var command = new UpdateTodoItemCommand
             {
                 Id = itemId,
+                ListId = listId,
                 Title = "Updated Item Title"
             };
 

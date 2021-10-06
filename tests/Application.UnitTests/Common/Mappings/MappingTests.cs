@@ -30,7 +30,7 @@ namespace CleanArchWeb.Application.UnitTests.Common.Mappings
         }
         
         [Test]
-        [TestCase(typeof(TodoList), typeof(TodoListDto))]
+        [TestCase(typeof(TodoListDocument), typeof(TodoListDto))]
         [TestCase(typeof(TodoItem), typeof(TodoItemDto))]
         public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
         {

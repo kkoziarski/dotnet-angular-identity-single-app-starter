@@ -1,18 +1,18 @@
-﻿using CleanArchWeb.Domain.Common;
+﻿using System;
+using System.Collections.Generic;
+using CleanArchWeb.Domain.Common;
 using CleanArchWeb.Domain.Enums;
 using CleanArchWeb.Domain.Events;
-using System;
-using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace CleanArchWeb.Domain.Entities
 {
     public class TodoItem : AuditableEntity, IHasDomainEvent
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
-        public TodoList List { get; set; }
-
-        public int ListId { get; set; }
+        [BsonIgnore]
+        public Guid ListId { get; set; }
 
         public string Title { get; set; }
 

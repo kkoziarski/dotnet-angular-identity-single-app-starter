@@ -32,7 +32,7 @@ namespace CleanArchWeb.Application.UnitTests.Common.Behaviours
 
             var requestLogger = new LoggingBehaviour<CreateTodoItemCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
 
-            await requestLogger.Process(new CreateTodoItemCommand { ListId = 1, Title = "title" }, new CancellationToken());
+            await requestLogger.Process(new CreateTodoItemCommand { ListId = Guid.Parse("fd3ed5a0-9449-49e2-a4f8-dff077f35612"), Title = "title" }, new CancellationToken());
 
             _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<Guid>()), Times.Once);
         }
@@ -42,7 +42,7 @@ namespace CleanArchWeb.Application.UnitTests.Common.Behaviours
         {
             var requestLogger = new LoggingBehaviour<CreateTodoItemCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
 
-            await requestLogger.Process(new CreateTodoItemCommand { ListId = 1, Title = "title" }, new CancellationToken());
+            await requestLogger.Process(new CreateTodoItemCommand { ListId = Guid.Parse("dc982276-fea3-4e36-998f-5a52997210c7"), Title = "title" }, new CancellationToken());
 
             _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<Guid>()), Times.Never);
         }

@@ -5,14 +5,14 @@ using MongoDB.Bson.Serialization;
 
 namespace CleanArchWeb.Infrastructure.Persistence.Configurations
 {
-    public class TodoListConfiguration : IEntityTypeConfiguration<TodoList>
+    public class TodoListConfiguration : IEntityTypeConfiguration<TodoListDocument>
     {
-        public void Configure(EntityTypeBuilder<TodoList> builder)
+        public void Configure(EntityTypeBuilder<TodoListDocument> builder)
         {
             //https://mongodb.github.io/mongo-csharp-driver/1.11/serialization/
-            if (!BsonClassMap.IsClassMapRegistered(typeof(TodoList)))
+            if (!BsonClassMap.IsClassMapRegistered(typeof(TodoListDocument)))
             {
-                BsonClassMap.RegisterClassMap<TodoList>(cm =>
+                BsonClassMap.RegisterClassMap<TodoListDocument>(cm =>
                 {
                     cm.AutoMap();
                     //cm.MapProperty(c => c.SomeProperty);

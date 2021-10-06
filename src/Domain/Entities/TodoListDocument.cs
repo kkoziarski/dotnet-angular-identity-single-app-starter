@@ -1,13 +1,11 @@
-﻿using CleanArchWeb.Domain.Common;
+﻿using System.Collections.Generic;
+using CleanArchWeb.Domain.Common;
 using CleanArchWeb.Domain.ValueObjects;
-using System.Collections.Generic;
 
 namespace CleanArchWeb.Domain.Entities
 {
-    public class TodoList : AuditableEntity
+    public class TodoListDocument : AuditableDocument
     {
-        public int Id { get; set; }
-
         public string Title { get; set; }
 
         public Colour Colour { get; set; } = Colour.White;

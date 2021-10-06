@@ -1,13 +1,16 @@
-﻿using CleanArchWeb.Application.Common.Interfaces;
-using MediatR;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Interfaces;
+using MediatR;
 
 namespace CleanArchWeb.Application.TodoItems.Commands.UpdateTodoItem
 {
     public class UpdateTodoItemCommand : IRequest
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
+
+        public Guid ListId { get; set; }
 
         public string Title { get; set; }
 

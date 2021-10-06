@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using CleanArchWeb.Application.Common.Mappings;
 using CleanArchWeb.Domain.Entities;
 
@@ -6,9 +7,9 @@ namespace CleanArchWeb.Application.TodoLists.Queries.GetTodos
 {
     public class TodoItemDto : IMapFrom<TodoItem>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public int ListId { get; set; }
+        public Guid ListId { get; set; }
 
         public string Title { get; set; }
 

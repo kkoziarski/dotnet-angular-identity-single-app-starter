@@ -1,4 +1,5 @@
-﻿using CleanArchWeb.Application.Common.Interfaces;
+﻿using System;
+using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Domain.Entities;
 using CleanArchWeb.Domain.Events;
 using MediatR;
@@ -7,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem
 {
-    public class CreateTodoItemCommand : IRequest<int>
+    public class CreateTodoItemCommand : IRequest<Guid>
     {
-        public int ListId { get; set; }
+        public Guid ListId { get; set; }
 
         public string Title { get; set; }
     }
 
-    public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, int>
+    public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, Guid>
     {
         private readonly IApplicationDbContext _context;
 
@@ -23,7 +24,7 @@ namespace CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem
             _context = context;
         }
 
-        public async Task<int> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
         {
             var entity = new TodoItem
             {

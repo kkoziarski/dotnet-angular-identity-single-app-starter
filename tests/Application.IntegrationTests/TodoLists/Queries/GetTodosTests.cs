@@ -25,7 +25,7 @@ namespace CleanArchWeb.Application.IntegrationTests.TodoLists.Queries
         [Test]
         public async Task ShouldReturnAllListsAndItems()
         {
-            await AddAsync(new TodoList
+            await AddAsync(new TodoListDocument
             {
                 Title = "Shopping",
                 Colour = Colour.Blue,

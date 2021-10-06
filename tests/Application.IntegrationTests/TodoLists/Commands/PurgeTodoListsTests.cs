@@ -69,7 +69,7 @@ namespace CleanArchWeb.Application.IntegrationTests.TodoLists.Commands
 
             await SendAsync(new PurgeTodoListsCommand());
 
-            var count = await CountAsync<TodoList>();
+            var count = await CountAsync<TodoListDocument>();
 
             count.Should().Be(0);
         }

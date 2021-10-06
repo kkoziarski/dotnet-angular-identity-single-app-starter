@@ -15,11 +15,11 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface ITodoItemsClient {
-    getTodoItemsWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfTodoItemDto>;
-    create(command: CreateTodoItemCommand): Observable<number>;
-    update(id: number, command: UpdateTodoItemCommand): Observable<FileResponse>;
-    delete(id: number): Observable<FileResponse>;
-    updateItemDetails(id: number | undefined, command: UpdateTodoItemDetailCommand): Observable<FileResponse>;
+    getTodoItemsWithPagination(listId: string | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfTodoItemDto>;
+    create(command: CreateTodoItemCommand): Observable<string>;
+    update(id: string, command: UpdateTodoItemCommand): Observable<FileResponse>;
+    updateItemDetails(id: string | undefined, command: UpdateTodoItemDetailCommand): Observable<FileResponse>;
+    delete(listId: string, id: string): Observable<FileResponse>;
 }
 
 @Injectable({
@@ -35,7 +35,7 @@ export class TodoItemsClient implements ITodoItemsClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getTodoItemsWithPagination(listId: number | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfTodoItemDto> {
+    getTodoItemsWithPagination(listId: string | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfTodoItemDto> {
         let url_ = this.baseUrl + "/api/TodoItems?";
         if (listId === null)
             throw new Error("The parameter 'listId' cannot be null.");
@@ -95,7 +95,7 @@ export class TodoItemsClient implements ITodoItemsClient {
         return _observableOf<PaginatedListOfTodoItemDto>(<any>null);
     }
 
-    create(command: CreateTodoItemCommand): Observable<number> {
+    create(command: CreateTodoItemCommand): Observable<string> {
         let url_ = this.baseUrl + "/api/TodoItems";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -118,14 +118,14 @@ export class TodoItemsClient implements ITodoItemsClient {
                 try {
                     return this.processCreate(<any>response_);
                 } catch (e) {
-                    return <Observable<number>><any>_observableThrow(e);
+                    return <Observable<string>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<number>><any>_observableThrow(response_);
+                return <Observable<string>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreate(response: HttpResponseBase): Observable<number> {
+    protected processCreate(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -144,10 +144,10 @@ export class TodoItemsClient implements ITodoItemsClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<number>(<any>null);
+        return _observableOf<string>(<any>null);
     }
 
-    update(id: number, command: UpdateTodoItemCommand): Observable<FileResponse> {
+    update(id: string, command: UpdateTodoItemCommand): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/TodoItems/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -200,56 +200,7 @@ export class TodoItemsClient implements ITodoItemsClient {
         return _observableOf<FileResponse>(<any>null);
     }
 
-    delete(id: number): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/TodoItems/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/octet-stream"
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDelete(<any>response_);
-                } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDelete(response: HttpResponseBase): Observable<FileResponse> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<FileResponse>(<any>null);
-    }
-
-    updateItemDetails(id: number | undefined, command: UpdateTodoItemDetailCommand): Observable<FileResponse> {
+    updateItemDetails(id: string | undefined, command: UpdateTodoItemDetailCommand): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/TodoItems/UpdateItemDetails?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -302,15 +253,67 @@ export class TodoItemsClient implements ITodoItemsClient {
         }
         return _observableOf<FileResponse>(<any>null);
     }
+
+    delete(listId: string, id: string): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/TodoItems/{listId}/{id}";
+        if (listId === undefined || listId === null)
+            throw new Error("The parameter 'listId' must be defined.");
+        url_ = url_.replace("{listId}", encodeURIComponent("" + listId));
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse>(<any>null);
+    }
 }
 
 export interface ITodoListsClient {
     getPublic(): Observable<TodosVm>;
     get(): Observable<TodosVm>;
-    create(command: CreateTodoListCommand): Observable<number>;
+    create(command: CreateTodoListCommand): Observable<string>;
     get2(id: number): Observable<FileResponse>;
-    update(id: number, command: UpdateTodoListCommand): Observable<FileResponse>;
-    delete(id: number): Observable<FileResponse>;
+    update(id: string, command: UpdateTodoListCommand): Observable<FileResponse>;
+    delete(id: string): Observable<FileResponse>;
 }
 
 @Injectable({
@@ -422,7 +425,7 @@ export class TodoListsClient implements ITodoListsClient {
         return _observableOf<TodosVm>(<any>null);
     }
 
-    create(command: CreateTodoListCommand): Observable<number> {
+    create(command: CreateTodoListCommand): Observable<string> {
         let url_ = this.baseUrl + "/api/TodoLists";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -445,14 +448,14 @@ export class TodoListsClient implements ITodoListsClient {
                 try {
                     return this.processCreate(<any>response_);
                 } catch (e) {
-                    return <Observable<number>><any>_observableThrow(e);
+                    return <Observable<string>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<number>><any>_observableThrow(response_);
+                return <Observable<string>><any>_observableThrow(response_);
         }));
     }
 
-    protected processCreate(response: HttpResponseBase): Observable<number> {
+    protected processCreate(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -471,7 +474,7 @@ export class TodoListsClient implements ITodoListsClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<number>(<any>null);
+        return _observableOf<string>(<any>null);
     }
 
     get2(id: number): Observable<FileResponse> {
@@ -523,7 +526,7 @@ export class TodoListsClient implements ITodoListsClient {
         return _observableOf<FileResponse>(<any>null);
     }
 
-    update(id: number, command: UpdateTodoListCommand): Observable<FileResponse> {
+    update(id: string, command: UpdateTodoListCommand): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/TodoLists/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -576,7 +579,7 @@ export class TodoListsClient implements ITodoListsClient {
         return _observableOf<FileResponse>(<any>null);
     }
 
-    delete(id: number): Observable<FileResponse> {
+    delete(id: string): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/TodoLists/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -761,8 +764,8 @@ export interface IPaginatedListOfTodoItemDto {
 }
 
 export class TodoItemDto implements ITodoItemDto {
-    id?: number;
-    listId?: number;
+    id?: string;
+    listId?: string;
     title?: string | undefined;
     done?: boolean;
     priority?: number;
@@ -808,8 +811,8 @@ export class TodoItemDto implements ITodoItemDto {
 }
 
 export interface ITodoItemDto {
-    id?: number;
-    listId?: number;
+    id?: string;
+    listId?: string;
     title?: string | undefined;
     done?: boolean;
     priority?: number;
@@ -817,7 +820,7 @@ export interface ITodoItemDto {
 }
 
 export class CreateTodoItemCommand implements ICreateTodoItemCommand {
-    listId?: number;
+    listId?: string;
     title?: string | undefined;
 
     constructor(data?: ICreateTodoItemCommand) {
@@ -852,12 +855,13 @@ export class CreateTodoItemCommand implements ICreateTodoItemCommand {
 }
 
 export interface ICreateTodoItemCommand {
-    listId?: number;
+    listId?: string;
     title?: string | undefined;
 }
 
 export class UpdateTodoItemCommand implements IUpdateTodoItemCommand {
-    id?: number;
+    id?: string;
+    listId?: string;
     title?: string | undefined;
     done?: boolean;
 
@@ -873,6 +877,7 @@ export class UpdateTodoItemCommand implements IUpdateTodoItemCommand {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
+            this.listId = _data["listId"];
             this.title = _data["title"];
             this.done = _data["done"];
         }
@@ -888,6 +893,7 @@ export class UpdateTodoItemCommand implements IUpdateTodoItemCommand {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["listId"] = this.listId;
         data["title"] = this.title;
         data["done"] = this.done;
         return data; 
@@ -895,14 +901,15 @@ export class UpdateTodoItemCommand implements IUpdateTodoItemCommand {
 }
 
 export interface IUpdateTodoItemCommand {
-    id?: number;
+    id?: string;
+    listId?: string;
     title?: string | undefined;
     done?: boolean;
 }
 
 export class UpdateTodoItemDetailCommand implements IUpdateTodoItemDetailCommand {
-    id?: number;
-    listId?: number;
+    id?: string;
+    listId?: string;
     priority?: PriorityLevel;
     note?: string | undefined;
 
@@ -942,8 +949,8 @@ export class UpdateTodoItemDetailCommand implements IUpdateTodoItemDetailCommand
 }
 
 export interface IUpdateTodoItemDetailCommand {
-    id?: number;
-    listId?: number;
+    id?: string;
+    listId?: string;
     priority?: PriorityLevel;
     note?: string | undefined;
 }
@@ -1052,7 +1059,7 @@ export interface IPriorityLevelDto {
 }
 
 export class TodoListDto implements ITodoListDto {
-    id?: number;
+    id?: string;
     title?: string | undefined;
     colour?: string | undefined;
     items?: TodoItemDto[] | undefined;
@@ -1101,7 +1108,7 @@ export class TodoListDto implements ITodoListDto {
 }
 
 export interface ITodoListDto {
-    id?: number;
+    id?: string;
     title?: string | undefined;
     colour?: string | undefined;
     items?: TodoItemDto[] | undefined;
@@ -1144,7 +1151,7 @@ export interface ICreateTodoListCommand {
 }
 
 export class UpdateTodoListCommand implements IUpdateTodoListCommand {
-    id?: number;
+    id?: string;
     title?: string | undefined;
 
     constructor(data?: IUpdateTodoListCommand) {
@@ -1179,7 +1186,7 @@ export class UpdateTodoListCommand implements IUpdateTodoListCommand {
 }
 
 export interface IUpdateTodoListCommand {
-    id?: number;
+    id?: string;
     title?: string | undefined;
 }
 

@@ -1,4 +1,5 @@
-﻿using CleanArchWeb.Application.Common.Interfaces;
+﻿using System;
+using CleanArchWeb.Application.Common.Interfaces;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,7 +8,8 @@ namespace CleanArchWeb.Application.TodoItems.Commands.DeleteTodoItem
 {
     public class DeleteTodoItemCommand : IRequest
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
+        public Guid ListId { get; set; }
     }
 
     public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemCommand>

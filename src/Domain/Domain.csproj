@@ -6,4 +6,8 @@
     <AssemblyName>CleanArchWeb.Domain</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MongoDbGenericRepository" Version="1.4.7" />
+  </ItemGroup>
+
 </Project>

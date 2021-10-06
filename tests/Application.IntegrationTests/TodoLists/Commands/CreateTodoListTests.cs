@@ -50,7 +50,7 @@ namespace CleanArchWeb.Application.IntegrationTests.TodoLists.Commands
 
             var id = await SendAsync(command);
 
-            var list = await FindAsync<TodoList>(id);
+            var list = await FindAsync<TodoListDocument>(id);
 
             list.Should().NotBeNull();
             list.Title.Should().Be(command.Title);

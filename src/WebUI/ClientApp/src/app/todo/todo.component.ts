@@ -184,14 +184,14 @@ export class TodoComponent {
   }
 
   updateItem(item: TodoItemDto, pressedEnter: boolean = false): void {
-    const isNewItem = item.id === 0;
+    const isNewItem = item.id === '';
 
     if (!item.title.trim()) {
       this.deleteItem(item);
       return;
     }
 
-    if (item.id === 0) {
+    if (item.id === '') {
       this.itemsClient.create(CreateTodoItemCommand.fromJS({ ...item, listId: this.selectedList.id })).subscribe(
         (result) => {
           item.id = result;
@@ -218,11 +218,11 @@ export class TodoComponent {
       this.itemDetailsModalRef.close();
     }
 
-    if (item.id === 0) {
+    if (item.id === '') {
       const itemIndex = this.selectedList.items.indexOf(this.selectedItem);
       this.selectedList.items.splice(itemIndex, 1);
     } else {
-      this.itemsClient.delete(item.id).subscribe(
+      this.itemsClient.delete(item.listId, item.id).subscribe(
         () => (this.selectedList.items = this.selectedList.items.filter((t) => t.id !== item.id)),
         (error) => console.error(error)
       );

@@ -1,4 +1,6 @@
-﻿using CleanArchWeb.Application.Common.Exceptions;
+﻿using System;
+using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Exceptions;
 using CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem;
 using CleanArchWeb.Application.TodoItems.Commands.UpdateTodoItem;
 using CleanArchWeb.Application.TodoItems.Commands.UpdateTodoItemDetail;
@@ -6,9 +8,7 @@ using CleanArchWeb.Application.TodoLists.Commands.CreateTodoList;
 using CleanArchWeb.Domain.Entities;
 using CleanArchWeb.Domain.Enums;
 using FluentAssertions;
-using System.Threading.Tasks;
 using NUnit.Framework;
-using System;
 
 namespace CleanArchWeb.Application.IntegrationTests.TodoItems.Commands
 {
@@ -21,7 +21,7 @@ namespace CleanArchWeb.Application.IntegrationTests.TodoItems.Commands
         {
             var command = new UpdateTodoItemCommand
             {
-                Id = 99,
+                Id = Guid.NewGuid(),
                 Title = "New Title"
             };
 

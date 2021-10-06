@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Application.Common.Models;
 using CleanArchWeb.Application.TodoLists.Queries.GetTodos;
 using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CleanArchWeb.Application.TodoItems.Queries.GetTodoItemsWithPagination
 {
     public class GetTodoItemsWithPaginationQuery : IRequest<PaginatedList<TodoItemDto>>
     {
-        public int ListId { get; set; }
+        public Guid ListId { get; set; }
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 10;
     }
