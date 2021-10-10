@@ -1,11 +1,11 @@
-﻿using CleanArchWeb.Application.Common.Exceptions;
+﻿using System;
+using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Exceptions;
 using CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem;
 using CleanArchWeb.Application.TodoLists.Commands.CreateTodoList;
 using CleanArchWeb.Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
 
 namespace CleanArchWeb.Application.IntegrationTests.TodoItems.Commands
 {
@@ -43,7 +43,6 @@ namespace CleanArchWeb.Application.IntegrationTests.TodoItems.Commands
             var item = await FindAsync<TodoItem>(itemId);
 
             item.Should().NotBeNull();
-            item.ListId.Should().Be(command.ListId);
             item.Title.Should().Be(command.Title);
             item.CreatedBy.Should().Be(userId.ToString());
             item.Created.Should().BeCloseTo(DateTime.Now, 10000);

@@ -166,7 +166,7 @@ export class TodoComponent {
 
   addItem() {
     const item = TodoItemDto.fromJS({
-      id: 0,
+      id: null,
       listId: this.selectedList.id,
       priority: this.vm.priorityLevels[0].value,
       title: '',
@@ -184,14 +184,14 @@ export class TodoComponent {
   }
 
   updateItem(item: TodoItemDto, pressedEnter: boolean = false): void {
-    const isNewItem = item.id === '';
+    const isNewItem = !item.id;
 
     if (!item.title.trim()) {
       this.deleteItem(item);
       return;
     }
 
-    if (item.id === '') {
+    if (isNewItem) {
       this.itemsClient.create(CreateTodoItemCommand.fromJS({ ...item, listId: this.selectedList.id })).subscribe(
         (result) => {
           item.id = result;
@@ -218,7 +218,7 @@ export class TodoComponent {
       this.itemDetailsModalRef.close();
     }
 
-    if (item.id === '') {
+    if (!item.id) {
       const itemIndex = this.selectedList.items.indexOf(this.selectedItem);
       this.selectedList.items.splice(itemIndex, 1);
     } else {

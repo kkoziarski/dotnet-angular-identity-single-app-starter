@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace CleanArchWeb.Domain.Common
 {
     public interface IHasDomainEvent
     {
+        [BsonIgnore]
         public List<DomainEvent> DomainEvents { get; set; }
     }
 

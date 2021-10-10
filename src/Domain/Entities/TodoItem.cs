@@ -11,9 +11,6 @@ namespace CleanArchWeb.Domain.Entities
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        [BsonIgnore]
-        public Guid ListId { get; set; }
-
         public string Title { get; set; }
 
         public string Note { get; set; }
@@ -37,6 +34,7 @@ namespace CleanArchWeb.Domain.Entities
             }
         }
 
+        [BsonIgnore]
         public List<DomainEvent> DomainEvents { get; set; } = new();
     }
 }

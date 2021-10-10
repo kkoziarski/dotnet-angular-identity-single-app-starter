@@ -1,8 +1,11 @@
 ﻿using System;
-using CleanArchWeb.Application.Common.Interfaces;
-using MediatR;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Exceptions;
+using CleanArchWeb.Application.Common.Interfaces;
+using CleanArchWeb.Domain.Entities;
+using MediatR;
 
 namespace CleanArchWeb.Application.TodoItems.Commands.DeleteTodoItem
 {
@@ -23,19 +26,24 @@ namespace CleanArchWeb.Application.TodoItems.Commands.DeleteTodoItem
 
         public async Task<Unit> Handle(DeleteTodoItemCommand request, CancellationToken cancellationToken)
         {
-            // var entity = await _context.TodoItems.FindAsync(request.Id);
-            //
-            // if (entity == null)
-            // {
-            //     throw new NotFoundException(nameof(TodoItem), request.Id);
-            // }
-            //
-            // _context.TodoItems.Remove(entity);
-            //
-            // await _context.SaveChangesAsync(cancellationToken);
-            //
-            // return Unit.Value;
-            return await Unit.Task;
+            var listDocument = await _context.Repository.GetByIdAsync<TodoListDocument>(request.ListId);
+
+            if (listDocument == null)
+            {
+                throw new NotFoundException(nameof(TodoListDocument), request.ListId);
+            }
+
+            var entity = listDocument.Items.SingleOrDefault(x => x.Id == request.Id);
+
+            if (entity == null)
+            {
+                throw new NotFoundException(nameof(TodoItem), request.Id);
+            }
+
+            listDocument.Items.Remove(entity);
+            await _context.Repository.UpdateOneAsync(listDocument);
+
+            return Unit.Value;
         }
     }
 }

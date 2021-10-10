@@ -57,7 +57,6 @@ namespace CleanArchWeb.Application.IntegrationTests.TodoItems.Commands
 
             var item = await FindAsync<TodoItem>(itemId);
 
-            item.ListId.Should().Be(command.ListId);
             item.Note.Should().Be(command.Note);
             item.Priority.Should().Be(command.Priority);
             item.LastModifiedBy.Should().NotBeNull();

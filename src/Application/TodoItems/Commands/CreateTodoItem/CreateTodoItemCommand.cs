@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Exceptions;
 using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Domain.Entities;
 using CleanArchWeb.Domain.Events;
 using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem
 {
@@ -28,18 +29,22 @@ namespace CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem
         {
             var entity = new TodoItem
             {
-                ListId = request.ListId,
                 Title = request.Title,
                 Done = false
             };
 
             entity.DomainEvents.Add(new TodoItemCreatedEvent(entity));
 
-            // _context.TodoItems.Add(entity);
-            //
-            // await _context.SaveChangesAsync(cancellationToken);
+            var listDocument = await _context.Repository.GetByIdAsync<TodoListDocument>(request.ListId);
 
-            return await Task.FromResult(entity.Id);
+            if (listDocument == null)
+            {
+                throw new NotFoundException(nameof(TodoListDocument), request.ListId);
+            }
+
+            listDocument.Items.Add(entity);
+            await _context.Repository.UpdateOneAsync(listDocument);
+            return entity.Id;
         }
     }
 }
