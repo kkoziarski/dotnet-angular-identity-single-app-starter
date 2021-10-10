@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Domain.Entities;
 using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CleanArchWeb.Application.TodoLists.Commands.CreateTodoList
 {
@@ -27,11 +27,8 @@ namespace CleanArchWeb.Application.TodoLists.Commands.CreateTodoList
 
             entity.Title = request.Title;
 
-            // _context.TodoLists.Add(entity);
-            //
-            // await _context.SaveChangesAsync(cancellationToken);
-            //
-            return await Task.FromResult(entity.Id);
+            await _context.Repository.AddOneAsync(entity);
+            return entity.Id;
         }
     }
 }

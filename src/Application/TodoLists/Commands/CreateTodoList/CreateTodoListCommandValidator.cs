@@ -1,7 +1,8 @@
-﻿using CleanArchWeb.Application.Common.Interfaces;
-using FluentValidation;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Interfaces;
+using CleanArchWeb.Domain.Entities;
+using FluentValidation;
 
 namespace CleanArchWeb.Application.TodoLists.Commands.CreateTodoList
 {
@@ -21,9 +22,7 @@ namespace CleanArchWeb.Application.TodoLists.Commands.CreateTodoList
 
         public async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
         {
-            return await Task.FromResult(false);
-            // return await _context.TodoLists
-            //     .AllAsync(l => l.Title != title);
+            return !await _context.Repository.AnyAsync<TodoListDocument>(c => c.Title == title);
         }
     }
 }
