@@ -1,8 +1,8 @@
-﻿using System;
-using CleanArchWeb.Application.Common.Interfaces;
-using FluentValidation;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Interfaces;
+using CleanArchWeb.Domain.Entities;
+using FluentValidation;
 
 namespace CleanArchWeb.Application.TodoLists.Commands.UpdateTodoList
 {
@@ -20,12 +20,9 @@ namespace CleanArchWeb.Application.TodoLists.Commands.UpdateTodoList
                 .MustAsync(BeUniqueTitle).WithMessage("The specified title already exists.");
         }
 
-        private Task<bool> BeUniqueTitle(UpdateTodoListCommand model, string title, CancellationToken cancellationToken)
+        private async Task<bool> BeUniqueTitle(UpdateTodoListCommand model, string title, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-            // return await _context.TodoLists
-            //     .Where(l => l.Id != model.Id)
-            //     .AllAsync(l => l.Title != title);
+            return !await _context.Repository.AnyAsync<TodoListDocument>(c => c.Id != model.Id && c.Title == title);
         }
     }
 }
