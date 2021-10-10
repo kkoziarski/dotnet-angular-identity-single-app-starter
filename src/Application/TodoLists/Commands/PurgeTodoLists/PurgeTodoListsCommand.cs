@@ -1,8 +1,9 @@
-﻿using CleanArchWeb.Application.Common.Interfaces;
-using CleanArchWeb.Application.Common.Security;
-using MediatR;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Interfaces;
+using CleanArchWeb.Application.Common.Security;
+using CleanArchWeb.Domain.Entities;
+using MediatR;
 
 namespace CleanArchWeb.Application.TodoLists.Commands.PurgeTodoLists
 {
@@ -23,12 +24,8 @@ namespace CleanArchWeb.Application.TodoLists.Commands.PurgeTodoLists
 
         public async Task<Unit> Handle(PurgeTodoListsCommand request, CancellationToken cancellationToken)
         {
-            // _context.TodoLists.RemoveRange(_context.TodoLists);
-            //
-            // await _context.SaveChangesAsync(cancellationToken);
-            //
-            // return Unit.Value;
-            return await Unit.Task;
+            await _context.Repository.DeleteManyAsync<TodoListDocument>(_ => true);
+            return Unit.Value;
         }
     }
 }
