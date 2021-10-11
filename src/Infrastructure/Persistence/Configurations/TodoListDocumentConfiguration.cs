@@ -19,6 +19,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Configurations
                     BsonClassMap.RegisterClassMap<TodoItem>(child =>
                     {
                         child.AutoMap();
+                        child.UnmapProperty(x => x.DomainEvents);
                         child.SetIgnoreExtraElements(true);
                     });
 
