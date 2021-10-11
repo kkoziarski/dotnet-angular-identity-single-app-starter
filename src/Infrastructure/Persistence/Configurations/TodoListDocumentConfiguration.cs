@@ -5,9 +5,9 @@ using MongoDB.Bson.Serialization;
 
 namespace CleanArchWeb.Infrastructure.Persistence.Configurations
 {
-    public class TodoListConfiguration : IEntityTypeConfiguration<TodoListDocument>
+    internal class TodoListDocumentConfiguration : IEntityTypeConfiguration<TodoListDocument>
     {
-        public void Configure(EntityTypeBuilder<TodoListDocument> builder)
+        internal static void ConfigureMongo()
         {
             //https://mongodb.github.io/mongo-csharp-driver/1.11/serialization/
             if (!BsonClassMap.IsClassMapRegistered(typeof(TodoListDocument)))
@@ -15,6 +15,13 @@ namespace CleanArchWeb.Infrastructure.Persistence.Configurations
                 BsonClassMap.RegisterClassMap<TodoListDocument>(cm =>
                 {
                     cm.AutoMap();
+                    cm.SetIgnoreExtraElements(true);
+                    BsonClassMap.RegisterClassMap<TodoItem>(child =>
+                    {
+                        child.AutoMap();
+                        child.SetIgnoreExtraElements(true);
+                    });
+
                     //cm.MapProperty(c => c.SomeProperty);
                     //cm.MapProperty(c => c.AnotherProperty);
                     //cm.GetMemberMap(c => c.SomeProperty).SetElementName("sp");
@@ -27,6 +34,9 @@ namespace CleanArchWeb.Infrastructure.Persistence.Configurations
                 // register class map for MyClass
             }
 
+        }
+        public void Configure(EntityTypeBuilder<TodoListDocument> builder)
+        {
             builder.Property(t => t.Title)
                 .HasMaxLength(200)
                 .IsRequired();

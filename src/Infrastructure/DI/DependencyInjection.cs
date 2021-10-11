@@ -31,6 +31,8 @@ namespace CleanArchWeb.Infrastructure.DI
 
             services.ConfigureAuth(configuration);
 
+            ConfigureMongo();
+
             return services;
         }
 
@@ -46,6 +48,11 @@ namespace CleanArchWeb.Infrastructure.DI
             });
 
             return services;
+        }
+
+        private static void ConfigureMongo()
+        {
+            TodoListDocumentConfiguration.ConfigureMongo();
         }
     }
 }

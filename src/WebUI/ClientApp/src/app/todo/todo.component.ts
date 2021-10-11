@@ -145,7 +145,15 @@ export class TodoComponent {
 
   updateItemDetails(): void {
     this.itemsClient
-      .updateItemDetails(this.selectedItem.id, UpdateTodoItemDetailCommand.fromJS(this.itemDetailsEditor))
+      .updateItemDetails(
+        this.selectedList.id,
+        this.selectedItem.id,
+        UpdateTodoItemDetailCommand.fromJS({
+          ...this.itemDetailsEditor,
+          listId: this.selectedList.id,
+          newListId: this.itemDetailsEditor.listId,
+        })
+      )
       .subscribe(
         () => {
           if (this.selectedItem.listId !== this.itemDetailsEditor.listId) {

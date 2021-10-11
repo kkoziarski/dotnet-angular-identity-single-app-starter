@@ -16,6 +16,8 @@ namespace CleanArchWeb.Application.TodoItems.Commands.UpdateTodoItemDetail
 
         public Guid ListId { get; set; }
 
+        public Guid NewListId { get; set; }
+
         public PriorityLevel Priority { get; set; }
 
         public string Note { get; set; }
@@ -46,13 +48,29 @@ namespace CleanArchWeb.Application.TodoItems.Commands.UpdateTodoItemDetail
                 throw new NotFoundException(nameof(TodoItem), request.Id);
             }
 
-            throw new NotImplementedException();
+            TodoListDocument newListDocument = null;
 
-            //entity.ListId = request.ListId; //TODO: implement change of list
+            if (request.ListId != request.NewListId)
+            {
+                newListDocument = await _context.Repository.GetByIdAsync<TodoListDocument>(request.NewListId);
+                if (newListDocument == null)
+                {
+                    throw new NotFoundException(nameof(TodoListDocument), request.NewListId);
+                }
+
+                listDocument.Items.Remove(entity);
+                newListDocument.Items.Add(entity);
+            }
+
             entity.Priority = request.Priority;
             entity.Note = request.Note;
 
+            if (newListDocument != null)
+            {
+                await _context.Repository.UpdateOneAsync(newListDocument);
+            }
             await _context.Repository.UpdateOneAsync(listDocument);
+
             return Unit.Value;
         }
     }

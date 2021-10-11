@@ -40,10 +40,10 @@ namespace CleanArchWeb.WebUI.Controllers
             return NoContent();
         }
 
-        [HttpPut("[action]")]
-        public async Task<ActionResult> UpdateItemDetails(Guid id, UpdateTodoItemDetailCommand command)
+        [HttpPut("[action]/{listId}/{id}")]
+        public async Task<ActionResult> UpdateItemDetails(Guid listId, Guid id, UpdateTodoItemDetailCommand command)
         {
-            if (id != command.Id)
+            if (id != command.Id || listId != command.ListId)
             {
                 return BadRequest();
             }

@@ -18,7 +18,7 @@ export interface ITodoItemsClient {
     getTodoItemsWithPagination(listId: string | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfTodoItemDto>;
     create(command: CreateTodoItemCommand): Observable<string>;
     update(id: string, command: UpdateTodoItemCommand): Observable<FileResponse>;
-    updateItemDetails(id: string | undefined, command: UpdateTodoItemDetailCommand): Observable<FileResponse>;
+    updateItemDetails(listId: string, id: string, command: UpdateTodoItemDetailCommand): Observable<FileResponse>;
     delete(listId: string, id: string): Observable<FileResponse>;
 }
 
@@ -200,12 +200,14 @@ export class TodoItemsClient implements ITodoItemsClient {
         return _observableOf<FileResponse>(<any>null);
     }
 
-    updateItemDetails(id: string | undefined, command: UpdateTodoItemDetailCommand): Observable<FileResponse> {
-        let url_ = this.baseUrl + "/api/TodoItems/UpdateItemDetails?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+    updateItemDetails(listId: string, id: string, command: UpdateTodoItemDetailCommand): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/TodoItems/UpdateItemDetails/{listId}/{id}";
+        if (listId === undefined || listId === null)
+            throw new Error("The parameter 'listId' must be defined.");
+        url_ = url_.replace("{listId}", encodeURIComponent("" + listId));
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(command);
@@ -910,6 +912,7 @@ export interface IUpdateTodoItemCommand {
 export class UpdateTodoItemDetailCommand implements IUpdateTodoItemDetailCommand {
     id?: string;
     listId?: string;
+    newListId?: string;
     priority?: PriorityLevel;
     note?: string | undefined;
 
@@ -926,6 +929,7 @@ export class UpdateTodoItemDetailCommand implements IUpdateTodoItemDetailCommand
         if (_data) {
             this.id = _data["id"];
             this.listId = _data["listId"];
+            this.newListId = _data["newListId"];
             this.priority = _data["priority"];
             this.note = _data["note"];
         }
@@ -942,6 +946,7 @@ export class UpdateTodoItemDetailCommand implements IUpdateTodoItemDetailCommand
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["listId"] = this.listId;
+        data["newListId"] = this.newListId;
         data["priority"] = this.priority;
         data["note"] = this.note;
         return data; 
@@ -951,6 +956,7 @@ export class UpdateTodoItemDetailCommand implements IUpdateTodoItemDetailCommand
 export interface IUpdateTodoItemDetailCommand {
     id?: string;
     listId?: string;
+    newListId?: string;
     priority?: PriorityLevel;
     note?: string | undefined;
 }

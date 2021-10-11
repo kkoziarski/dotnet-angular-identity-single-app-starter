@@ -146,7 +146,7 @@
         ]
       }
     },
-    "/api/TodoItems/UpdateItemDetails": {
+    "/api/TodoItems/UpdateItemDetails/{listId}/{id}": {
       "put": {
         "tags": [
           "TodoItems"
@@ -154,13 +154,24 @@
         "operationId": "TodoItems_UpdateItemDetails",
         "parameters": [
           {
-            "name": "id",
-            "in": "query",
+            "name": "listId",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "string",
               "format": "guid"
             },
             "x-position": 1
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 2
           }
         ],
         "requestBody": {
@@ -173,7 +184,7 @@
             }
           },
           "required": true,
-          "x-position": 2
+          "x-position": 3
         },
         "responses": {
           "200": {
@@ -576,6 +587,10 @@
             "format": "guid"
           },
           "listId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "newListId": {
             "type": "string",
             "format": "guid"
           },
