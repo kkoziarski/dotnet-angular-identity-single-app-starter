@@ -1,10 +1,13 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using CleanArchWeb.Application.Common.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using CleanArchWeb.Application.Common.Models;
+using CleanArchWeb.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 
 namespace CleanArchWeb.Application.Common.Mappings
 {
@@ -15,5 +18,14 @@ namespace CleanArchWeb.Application.Common.Mappings
 
         public static Task<List<TDestination>> ProjectToListAsync<TDestination>(this IQueryable queryable, IConfigurationProvider configuration)
             => queryable.ProjectTo<TDestination>(configuration).ToListAsync();
+
+        public static IMongoQueryable<TDestination> ProjectTo<TSource, TDestination>(this IMongoQueryable<TSource> query, IConfigurationProvider configuration) =>
+                query.ProjectTo<TDestination>(configuration) as IMongoQueryable<TDestination>;
+
+        public static ProjectionDefinition<TodoListDocument, TodoLists.Queries.GetTodos.TodoListDto> TestProjection(IMapper mapper)
+        {
+            var projection = Builders<TodoListDocument>.Projection.Expression(x => mapper.Map<TodoLists.Queries.GetTodos.TodoListDto>(x));
+            return projection;
+        }
     }
 }

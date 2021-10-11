@@ -7,6 +7,8 @@ using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Domain.Entities;
 using CleanArchWeb.Domain.Enums;
 using MediatR;
+using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 
 namespace CleanArchWeb.Application.TodoLists.Queries.GetTodos
 {
@@ -33,36 +35,8 @@ namespace CleanArchWeb.Application.TodoLists.Queries.GetTodos
                     .Cast<PriorityLevel>()
                     .Select(p => new PriorityLevelDto { Value = (int)p, Name = p.ToString() })
                     .ToList(),
-
-                Lists = await _context.Repository.ProjectManyAsync<TodoListDocument, TodoListDto>(_ => true, x => new TodoListDto
-                {
-                    Id = x.Id,
-                    Colour = x.Colour,
-                    Title = x.Title,
-                    Items = x.Items.Select(i => new CleanArchWeb.Application.TodoLists.Queries.GetTodos.TodoItemDto
-                    {
-                        Id = i.Id,
-                        ListId = x.Id,
-                        Title = i.Title,
-                        Done = i.Done,
-                        Note = i.Note,
-                        Priority = (int)i.Priority,
-                    }).ToList()
-                })
+                Lists = await _context.Repository.ProjectManyAsync<TodoListDocument, TodoListDto>(_ => true, x => _mapper.Map<TodoListDocument, TodoListDto>(x))
             };
-
-            //return new TodosVm
-            //{
-            //    PriorityLevels = Enum.GetValues(typeof(PriorityLevel))
-            //        .Cast<PriorityLevel>()
-            //        .Select(p => new PriorityLevelDto { Value = (int)p, Name = p.ToString() })
-            //        .ToList(),
-
-            //    Lists = await _context.Repository<TodoListDocument>(_ => true)
-            //        .ProjectTo<TodoListDto>(_mapper.ConfigurationProvider)
-            //        .OrderBy(t => t.Title)
-            //        .ToListAsync(cancellationToken)
-            //};
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoMapper;
+using AutoMapper.Internal;
 using CleanArchWeb.Application.Common.Mappings;
 using CleanArchWeb.Domain.Entities;
 
@@ -19,5 +21,11 @@ namespace CleanArchWeb.Application.TodoLists.Queries.GetTodos
         public string Colour { get; set; }
 
         public IList<TodoItemDto> Items { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<TodoListDocument, TodoListDto>()
+                .AfterMap((src, dest) => dest.Items.ForAll(x => x.ListId = src.Id));
+        }
     }
 }
