@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -15,6 +16,10 @@ namespace CleanArchWeb.Application.Common.Mappings
     {
         public static Task<PaginatedList<TDestination>> PaginatedListAsync<TDestination>(this IQueryable<TDestination> queryable, int pageNumber, int pageSize)
             => PaginatedList<TDestination>.CreateAsync(queryable, pageNumber, pageSize);
+
+        [Obsolete("do not use it - its working in memory instead of database")]
+        public static PaginatedList<TDestination> ToPaginatedList<TDestination>(this IEnumerable<TDestination> enumerable, int pageNumber, int pageSize)
+            => PaginatedList<TDestination>.Create(enumerable, pageNumber, pageSize);
 
         public static Task<List<TDestination>> ProjectToListAsync<TDestination>(this IQueryable queryable, IConfigurationProvider configuration)
             => queryable.ProjectTo<TDestination>(configuration).ToListAsync();
