@@ -40,6 +40,7 @@ namespace CleanArchWeb.Application.TodoItems.Queries.GetTodoItemsWithPagination
             return items
                 .ToList()
                 .OrderBy(t => t.Title)
+                .AsQueryable()
                 .ToPaginatedList(request.PageNumber, request.PageSize);
 
             //// return await _context.TodoItems
