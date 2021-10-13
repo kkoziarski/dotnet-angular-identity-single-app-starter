@@ -1,11 +1,9 @@
 ﻿using CleanArchWeb.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MongoDB.Bson.Serialization;
 
 namespace CleanArchWeb.Infrastructure.Persistence.Configurations
 {
-    internal class TodoListDocumentConfiguration : IEntityTypeConfiguration<TodoListDocument>
+    internal static class TodoListDocumentConfiguration
     {
         internal static void ConfigureMongo()
         {
@@ -32,18 +30,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Configurations
                     //cm.GetMemberMap(c => c.SomeProperty).SetDefaultValue("abc");
 
                 });
-                // register class map for MyClass
             }
-
-        }
-        public void Configure(EntityTypeBuilder<TodoListDocument> builder)
-        {
-            builder.Property(t => t.Title)
-                .HasMaxLength(200)
-                .IsRequired();
-
-            builder
-                .OwnsOne(b => b.Colour);
         }
     }
 }
