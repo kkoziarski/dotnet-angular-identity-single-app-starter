@@ -35,7 +35,7 @@ namespace CleanArchWeb.Application.TodoItems.Queries.GetTodoItemsWithPagination
         {
             //TODO: need to be changed for more optimal way - aggregate with $unwind and $project operators
             var items = await _context.Repository
-                .ProjectOneAsync<TodoListDocument, IEnumerable<TodoItemDto>>(x => x.Id == request.ListId, x => x.Items.Select(i => _mapper.Map<TodoItemDto>(i)));
+                .ProjectOneAsync<TodoListDocument, IEnumerable<TodoItemDto>>(d => d.Id == request.ListId, d => _mapper.Map<IEnumerable<TodoItemDto>>(d));
 
             return items
                 .ToList()
