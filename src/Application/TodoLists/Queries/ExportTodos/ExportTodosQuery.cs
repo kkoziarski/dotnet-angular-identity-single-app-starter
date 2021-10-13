@@ -1,14 +1,18 @@
-﻿using AutoMapper;
-using CleanArchWeb.Application.Common.Interfaces;
-using MediatR;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using CleanArchWeb.Application.Common.Interfaces;
+using CleanArchWeb.Domain.Entities;
+using MediatR;
 
 namespace CleanArchWeb.Application.TodoLists.Queries.ExportTodos
 {
     public class ExportTodosQuery : IRequest<ExportTodosVm>
     {
-        public int ListId { get; set; }
+        public Guid ListId { get; set; }
     }
 
     public class ExportTodosQueryHandler : IRequestHandler<ExportTodosQuery, ExportTodosVm>
@@ -27,18 +31,15 @@ namespace CleanArchWeb.Application.TodoLists.Queries.ExportTodos
         public async Task<ExportTodosVm> Handle(ExportTodosQuery request, CancellationToken cancellationToken)
         {
             var vm = new ExportTodosVm();
+            var records = (await _context.Repository
+                .ProjectOneAsync<TodoListDocument, IEnumerable<TodoItemRecord>>(x => x.Id == request.ListId, x => x.Items.Select(i => _mapper.Map<TodoItemRecord>(i))))
+                .ToList();
 
-            // var records = await _context.TodoItems
-            //         .Where(t => t.ListId == request.ListId)
-            //         .ProjectTo<TodoItemRecord>(_mapper.ConfigurationProvider)
-            //         .ToListAsync(cancellationToken);
-            
-            var records = new[] { new TodoItemRecord() };
             vm.Content = _fileBuilder.BuildTodoItemsFile(records);
             vm.ContentType = "text/csv";
             vm.FileName = "TodoItems.csv";
 
-            return await Task.FromResult(vm);
+            return vm;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CleanArchWeb.Application.TodoLists.Commands.CreateTodoList;
 using CleanArchWeb.Application.TodoLists.Commands.DeleteTodoList;
 using CleanArchWeb.Application.TodoLists.Commands.UpdateTodoList;
@@ -6,7 +7,6 @@ using CleanArchWeb.Application.TodoLists.Queries.ExportTodos;
 using CleanArchWeb.Application.TodoLists.Queries.GetTodos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace CleanArchWeb.WebUI.Controllers
 {
@@ -29,7 +29,7 @@ namespace CleanArchWeb.WebUI.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<FileResult> Get(int id)
+        public async Task<FileResult> Get(Guid id)
         {
             var vm = await Mediator.Send(new ExportTodosQuery { ListId = id });
 

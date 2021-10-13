@@ -313,7 +313,7 @@ export interface ITodoListsClient {
     getPublic(): Observable<TodosVm>;
     get(): Observable<TodosVm>;
     create(command: CreateTodoListCommand): Observable<string>;
-    get2(id: number): Observable<FileResponse>;
+    get2(id: string): Observable<FileResponse>;
     update(id: string, command: UpdateTodoListCommand): Observable<FileResponse>;
     delete(id: string): Observable<FileResponse>;
 }
@@ -479,7 +479,7 @@ export class TodoListsClient implements ITodoListsClient {
         return _observableOf<string>(<any>null);
     }
 
-    get2(id: number): Observable<FileResponse> {
+    get2(id: string): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/TodoLists/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
