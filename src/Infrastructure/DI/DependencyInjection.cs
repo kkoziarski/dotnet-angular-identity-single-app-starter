@@ -16,22 +16,14 @@ namespace CleanArchWeb.Infrastructure.DI
         {
             services.AddScoped<ApplicationDbContext>();
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
-            services.AddSingleton<IMongoClient>(provider =>
-                {
-                    var mongoConfig = provider.GetRequiredService<IOptions<MongoConfig>>();
-                    return new MongoClient(mongoConfig.Value.ConnectionString);
-                })
-                .AddRepository();
+            var mongoConfig = services.ConfigureMongo(configuration);
 
-            services.ConfigureIdentity(configuration);
-
+            services.ConfigureIdentity(mongoConfig);
             services.AddScoped<IDomainEventService, DomainEventService>();
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
 
-            services.ConfigureAuth(configuration);
-
-            ConfigureMongo();
+            services.ConfigureAuth();
 
             return services;
         }
@@ -42,17 +34,31 @@ namespace CleanArchWeb.Infrastructure.DI
 
             services.AddScoped<IMongoRepository, MongoRepository>(provider =>
             {
-                var mongoConfig = provider.GetRequiredService<IOptions<MongoConfig>>();
+                var mongoConfig = provider.GetRequiredService<MongoConfig>();
                 var mongoClient = provider.GetRequiredService<IMongoClient>();
-                return new MongoRepository(mongoClient.GetDatabase(mongoConfig.Value.DatabaseName));
+                return new MongoRepository(mongoClient.GetDatabase(mongoConfig.DatabaseName));
             });
 
             return services;
         }
 
-        private static void ConfigureMongo()
+        private static MongoConfig ConfigureMongo(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<MongoConfig>(configuration.GetSection("MongoConfig"));
+            services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<MongoConfig>>().Value);
+            var mongoConfig = configuration.GetSection("MongoConfig").Get<MongoConfig>();
+
+            services.AddSingleton<IMongoClient>(provider =>
+            {
+                var mongoConfig = provider.GetRequiredService<MongoConfig>();
+                return new MongoClient(mongoConfig.ConnectionString);
+            })
+            .AddScoped<IMongoDbContext, MongoDbContext>()
+            .AddRepository();
+
             TodoListDocumentConfiguration.ConfigureMongo();
+
+            return mongoConfig;
         }
     }
 }

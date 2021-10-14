@@ -8,7 +8,6 @@ using IdentityServer4;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
@@ -17,11 +16,8 @@ namespace CleanArchWeb.Infrastructure.DI
 {
     public static class IdentityDependencyInjection
     {
-        public static IServiceCollection ConfigureIdentity(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection ConfigureIdentity(this IServiceCollection services, MongoConfig mongoConfig)
         {
-            services.Configure<MongoConfig>(configuration.GetSection("MongoConfig"));
-            var mongoConfig = configuration.GetSection("MongoConfig").Get<MongoConfig>();
-
             var mongoDbIdentityConfiguration = new MongoDbIdentityConfiguration
             {
                 MongoDbSettings = new MongoDbSettings
@@ -48,14 +44,14 @@ namespace CleanArchWeb.Infrastructure.DI
                 .ConfigureMongoDbIdentity<ApplicationUser, ApplicationRole, Guid>(mongoDbIdentityConfiguration)
                 .AddDefaultTokenProviders();
 
-            services.ConfigureIdentityServer(mongoConfig, configuration);
+            services.ConfigureIdentityServer(mongoConfig);
 
             services.AddTransient<IIdentityService, IdentityService>();
 
             return services;
         }
 
-        private static void ConfigureIdentityServer(this IServiceCollection services, MongoConfig mongoConfig, IConfiguration configuration)
+        private static void ConfigureIdentityServer(this IServiceCollection services, MongoConfig mongoConfig)
         {
             services.TryAddScoped<SignInManager<ApplicationUser>>();
             services.AddIdentityServer(options =>
@@ -81,7 +77,7 @@ namespace CleanArchWeb.Infrastructure.DI
                 .AddSigningCredentials();
         }
 
-        public static IServiceCollection ConfigureAuth(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection ConfigureAuth(this IServiceCollection services)
         {
             services.AddAuthentication()
                 .AddIdentityServerJwt();

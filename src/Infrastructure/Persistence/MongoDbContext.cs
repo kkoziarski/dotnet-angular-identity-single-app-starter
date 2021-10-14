@@ -5,7 +5,6 @@ using System.Reflection;
 using CleanArchWeb.Domain.Attributes;
 using CleanArchWeb.Infrastructure.Persistence.Configurations;
 using CleanArchWeb.Infrastructure.Utils;
-using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -17,10 +16,10 @@ namespace CleanArchWeb.Infrastructure.Persistence
 
         public MongoDbContext(
             IMongoClient client,
-            IOptions<MongoConfig> mongoConfigOptions)
+            MongoConfig mongoConfig)
         {
             this.Client = client;
-            var mongoConfig = mongoConfigOptions.Value;
+            //var mongoConfig = mongoConfigOptions.Value;
             this.Database = client.GetDatabase(mongoConfig.DatabaseName);
             this.cachedCollections = new ConcurrentDictionary<string, bool>();
         }

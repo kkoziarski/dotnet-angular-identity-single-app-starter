@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Infrastructure.Persistence.Configurations;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using MongoDbGenericRepository.Attributes;
 
@@ -14,9 +13,9 @@ namespace CleanArchWeb.Infrastructure.Persistence
     {
         private readonly IMongoDatabase _database;
 
-        public MongoRepositorySimple(IMongoClient mongoClient, IOptions<MongoConfig> mongoConfig)
+        public MongoRepositorySimple(IMongoClient mongoClient, MongoConfig mongoConfig)
         {
-            _database = mongoClient.GetDatabase(mongoConfig.Value.DatabaseName);
+            _database = mongoClient.GetDatabase(mongoConfig.DatabaseName);
         }
 
         public IQueryable<T> All<T>() where T : class, new()
