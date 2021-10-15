@@ -19,7 +19,6 @@ namespace CleanArchWeb.Infrastructure.Persistence
             MongoConfig mongoConfig)
         {
             this.Client = client;
-            //var mongoConfig = mongoConfigOptions.Value;
             this.Database = client.GetDatabase(mongoConfig.DatabaseName);
             this.cachedCollections = new ConcurrentDictionary<string, bool>();
         }

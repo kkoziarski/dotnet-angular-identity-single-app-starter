@@ -2,6 +2,7 @@
 using CleanArchWeb.Infrastructure.Files;
 using CleanArchWeb.Infrastructure.Persistence;
 using CleanArchWeb.Infrastructure.Persistence.Configurations;
+using CleanArchWeb.Infrastructure.Persistence.Management;
 using CleanArchWeb.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,6 +55,7 @@ namespace CleanArchWeb.Infrastructure.DI
                 return new MongoClient(mongoConfig.ConnectionString);
             })
             .AddScoped<IMongoDbContext, MongoDbContext>()
+            .AddScoped<IMongoDbManager, MongoDbManager>()
             .AddRepository();
 
             TodoListDocumentConfiguration.ConfigureMongo();
