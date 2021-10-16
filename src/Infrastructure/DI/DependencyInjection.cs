@@ -1,6 +1,7 @@
 ﻿using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Infrastructure.Files;
 using CleanArchWeb.Infrastructure.Persistence;
+using CleanArchWeb.Infrastructure.Persistence.Adapters;
 using CleanArchWeb.Infrastructure.Persistence.Configurations;
 using CleanArchWeb.Infrastructure.Persistence.Management;
 using CleanArchWeb.Infrastructure.Services;
@@ -56,6 +57,8 @@ namespace CleanArchWeb.Infrastructure.DI
             })
             .AddScoped<IMongoDbContext, MongoDbContext>()
             .AddScoped<IMongoDbManager, MongoDbManager>()
+            .AddScoped(typeof(IMongoReadAdapter<,>), typeof(MongoReadAdapter<,>))
+            .AddScoped(typeof(IMongoWriteAdapter<,>), typeof(MongoWriteAdapter<,>))
             .AddRepository();
 
             TodoListDocumentConfiguration.ConfigureMongo();
