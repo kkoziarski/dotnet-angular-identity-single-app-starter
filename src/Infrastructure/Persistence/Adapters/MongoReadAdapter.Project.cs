@@ -8,7 +8,7 @@ using MongoDB.Driver;
 
 namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 {
-    internal partial class MongoReadAdapter<TSrc, TDst> where TSrc : class
+    internal partial class MongoReadAdapter<TSrc> where TSrc : class
     {
         public virtual List<TProjection> GroupBy<TGroupKey, TProjection>(Expression<Func<TSrc, TGroupKey>> groupingCriteria, Expression<Func<IGrouping<TGroupKey, TSrc>, TProjection>> groupProjection)
             where TProjection : class, new()

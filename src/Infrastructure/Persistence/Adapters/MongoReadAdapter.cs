@@ -7,7 +7,7 @@ using MongoDB.Driver.Linq;
 
 namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 {
-    internal partial class MongoReadAdapter<TSrc, TDst> : IMongoReadAdapter<TSrc, TDst> where TSrc : class
+    internal partial class MongoReadAdapter<TSrc> : IMongoReadAdapter<TSrc> where TSrc : class
     {
         public IMongoDbContext MongoContext { get; }
 

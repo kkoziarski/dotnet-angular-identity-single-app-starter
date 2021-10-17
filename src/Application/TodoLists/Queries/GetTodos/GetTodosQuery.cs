@@ -18,10 +18,10 @@ namespace CleanArchWeb.Application.TodoLists.Queries.GetTodos
 
     public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
     {
-        private readonly IMongoReadAdapter<TodoListDocument, Guid> _reader;
+        private readonly IMongoReadAdapter<TodoListDocument> _reader;
         private readonly IMapper _mapper;
 
-        public GetTodosQueryHandler(IMongoReadAdapter<TodoListDocument, Guid> reader, IMapper mapper)
+        public GetTodosQueryHandler(IMongoReadAdapter<TodoListDocument> reader, IMapper mapper)
         {
             _reader = reader;
             _mapper = mapper;

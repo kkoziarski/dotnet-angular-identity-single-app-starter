@@ -9,7 +9,7 @@ using MongoDB.Driver.Linq;
 
 namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 {
-    internal partial class MongoReadAdapter<TSrc, TDst> where TSrc : class
+    internal partial class MongoReadAdapter<TSrc> where TSrc : class
     {
         public virtual Task<TSrc> GetByIdAsync<TKey>(TKey id, CancellationToken cancellationToken = default)
         {

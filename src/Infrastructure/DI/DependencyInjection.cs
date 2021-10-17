@@ -57,7 +57,7 @@ namespace CleanArchWeb.Infrastructure.DI
             })
             .AddScoped<IMongoDbContext, MongoDbContext>()
             .AddScoped<IMongoDbManager, MongoDbManager>()
-            .AddScoped(typeof(IMongoReadAdapter<,>), typeof(MongoReadAdapter<,>))
+            .AddScoped(typeof(IMongoReadAdapter<>), typeof(MongoReadAdapter<>))
             .AddScoped(typeof(IMongoWriteAdapter<,>), typeof(MongoWriteAdapter<,>))
             .AddRepository();
 

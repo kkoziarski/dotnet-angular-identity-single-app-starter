@@ -9,7 +9,7 @@ using MongoDB.Driver.Linq;
 
 namespace CleanArchWeb.Application.Common.Interfaces
 {
-    public interface IMongoReadAdapter<TSrc, TDst> where TSrc : class
+    public interface IMongoReadAdapter<TSrc> where TSrc : class
     {
         IMongoDbContext MongoContext { get; }
 
