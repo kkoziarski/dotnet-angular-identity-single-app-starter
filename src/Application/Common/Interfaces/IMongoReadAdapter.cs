@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
-namespace CleanArchWeb.Infrastructure.Persistence.Adapters
+namespace CleanArchWeb.Application.Common.Interfaces
 {
     public interface IMongoReadAdapter<TSrc, TDst> where TSrc : class
     {
+        IMongoDbContext MongoContext { get; }
+
         FilterDefinitionBuilder<TSrc> Filter { get; }
         ProjectionDefinitionBuilder<TSrc> Project { get; }
         SortDefinitionBuilder<TSrc> Sort { get; }

@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Infrastructure.Persistence.Management.Models;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;

@@ -7,13 +7,18 @@ using CleanArchWeb.Domain.Entities;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
-namespace CleanArchWeb.Infrastructure.Persistence.Adapters
+namespace CleanArchWeb.Application.Common.Interfaces
 {
     public interface IMongoWriteAdapter<TSrc, TKey> where TSrc : class, IDocument<TKey>
     {
+        IMongoDbContext MongoContext { get; }
+
         FilterDefinitionBuilder<TSrc> Filter { get; }
+
         ProjectionDefinitionBuilder<TSrc> Project { get; }
+
         SortDefinitionBuilder<TSrc> Sort { get; }
+
         UpdateDefinitionBuilder<TSrc> Updater { get; }
 
         void AddMany(IEnumerable<TSrc> documents);

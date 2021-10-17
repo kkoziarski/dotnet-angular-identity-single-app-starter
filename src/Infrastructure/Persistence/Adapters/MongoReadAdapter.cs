@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using CleanArchWeb.Application.Common.Interfaces;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
@@ -8,7 +9,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 {
     internal partial class MongoReadAdapter<TSrc, TDst> : IMongoReadAdapter<TSrc, TDst> where TSrc : class
     {
-        protected IMongoDbContext MongoContext;
+        public IMongoDbContext MongoContext { get; }
 
         public MongoReadAdapter(IMongoDbContext mongoContext) => this.MongoContext = mongoContext;
 

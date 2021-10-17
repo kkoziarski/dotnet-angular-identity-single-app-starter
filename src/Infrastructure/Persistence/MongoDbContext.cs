@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Domain.Attributes;
 using CleanArchWeb.Infrastructure.Persistence.Configurations;
 using CleanArchWeb.Infrastructure.Utils;

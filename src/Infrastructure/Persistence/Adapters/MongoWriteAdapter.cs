@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Domain.Entities;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
@@ -9,7 +10,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 {
     internal partial class MongoWriteAdapter<TSrc, TKey> : IMongoWriteAdapter<TSrc, TKey> where TSrc : class, IDocument<TKey>
     {
-        protected IMongoDbContext MongoContext;
+        public IMongoDbContext MongoContext { get; }
 
         public MongoWriteAdapter(IMongoDbContext mongoContext) => this.MongoContext = mongoContext;
 

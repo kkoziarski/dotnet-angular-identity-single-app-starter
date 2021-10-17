@@ -1,8 +1,8 @@
 ﻿using MongoDB.Driver;
 
-namespace CleanArchWeb.Infrastructure.Persistence
+namespace CleanArchWeb.Application.Common.Interfaces
 {
-    internal interface IMongoDbContext
+    public interface IMongoDbContext
     {
         IMongoClient Client { get; }
 
