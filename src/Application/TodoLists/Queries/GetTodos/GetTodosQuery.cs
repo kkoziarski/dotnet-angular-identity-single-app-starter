@@ -18,12 +18,12 @@ namespace CleanArchWeb.Application.TodoLists.Queries.GetTodos
 
     public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IMongoReadAdapter<TodoListDocument, Guid> _reader;
         private readonly IMapper _mapper;
 
-        public GetTodosQueryHandler(IApplicationDbContext context, IMapper mapper)
+        public GetTodosQueryHandler(IMongoReadAdapter<TodoListDocument, Guid> reader, IMapper mapper)
         {
-            _context = context;
+            _reader = reader;
             _mapper = mapper;
         }
 
@@ -35,7 +35,7 @@ namespace CleanArchWeb.Application.TodoLists.Queries.GetTodos
                     .Cast<PriorityLevel>()
                     .Select(p => new PriorityLevelDto { Value = (int)p, Name = p.ToString() })
                     .ToList(),
-                Lists = await _context.Repository.ProjectManyAsync<TodoListDocument, TodoListDto>(_ => true, x => _mapper.Map<TodoListDocument, TodoListDto>(x))
+                Lists = await _reader.ProjectManyAsync(_ => true, x => _mapper.Map<TodoListDocument, TodoListDto>(x))
             };
         }
     }
