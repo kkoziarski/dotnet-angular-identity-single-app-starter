@@ -22,20 +22,20 @@ namespace CleanArchWeb.Application.TodoItems.Queries.GetTodoItemsWithPagination
 
     public class GetTodoItemsWithPaginationQueryHandler : IRequestHandler<GetTodoItemsWithPaginationQuery, PaginatedList<TodoItemDto>>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IMongoReadAdapter<TodoListDocument> _reader;
         private readonly IMapper _mapper;
 
-        public GetTodoItemsWithPaginationQueryHandler(IApplicationDbContext context, IMapper mapper)
+        public GetTodoItemsWithPaginationQueryHandler(IMongoReadAdapter<TodoListDocument> reader, IMapper mapper)
         {
-            _context = context;
+            _reader = reader;
             _mapper = mapper;
         }
 
         public async Task<PaginatedList<TodoItemDto>> Handle(GetTodoItemsWithPaginationQuery request, CancellationToken cancellationToken)
         {
             //TODO: need to be changed for more optimal way - aggregate with $unwind and $project operators
-            var items = await _context.Repository
-                .ProjectOneAsync<TodoListDocument, IEnumerable<TodoItemDto>>(d => d.Id == request.ListId, d => _mapper.Map<IEnumerable<TodoItemDto>>(d));
+            var items = await _reader
+                .ProjectOneAsync(d => d.Id == request.ListId, d => _mapper.Map<IEnumerable<TodoItemDto>>(d), cancellationToken);
 
             return items
                 .ToList()

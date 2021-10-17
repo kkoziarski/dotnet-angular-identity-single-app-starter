@@ -35,7 +35,7 @@ namespace CleanArchWeb.Application.TodoLists.Queries.GetTodos
                     .Cast<PriorityLevel>()
                     .Select(p => new PriorityLevelDto { Value = (int)p, Name = p.ToString() })
                     .ToList(),
-                Lists = await _reader.ProjectManyAsync(_ => true, x => _mapper.Map<TodoListDocument, TodoListDto>(x))
+                Lists = await _reader.ProjectManyAsync(_ => true, x => _mapper.Map<TodoListDocument, TodoListDto>(x), cancellationToken)
             };
         }
     }
