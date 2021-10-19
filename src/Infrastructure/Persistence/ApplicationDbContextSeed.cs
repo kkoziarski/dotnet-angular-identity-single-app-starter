@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Domain.Entities;
@@ -28,12 +29,12 @@ namespace CleanArchWeb.Infrastructure.Persistence
             }
         }
 
-        public static async Task SeedSampleDataAsync(IApplicationDbContext applicationDbContext)
+        public static async Task SeedSampleDataAsync(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, Guid> writer)
         {
             // Seed, if necessary
-            if (!await applicationDbContext.Repository.AnyAsync<TodoListDocument>(_ => true))
+            if (!await reader.AnyAsync(_ => true))
             {
-                await applicationDbContext.Repository.AddOneAsync(new TodoListDocument
+                await writer.AddOneAsync(new TodoListDocument
                 {
                     Title = "Shopping",
                     Colour = Colour.Blue,

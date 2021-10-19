@@ -1,6 +1,9 @@
-﻿using CleanArchWeb.Application.Common.Interfaces;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Infrastructure.Identity;
-using CleanArchWeb.Infrastructure.Persistence;
 using CleanArchWeb.WebUI;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
@@ -10,10 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
 using Respawn;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 [SetUpFixture]
 public class Testing
@@ -71,7 +70,7 @@ public class Testing
     {
         using var scope = _scopeFactory.CreateScope();
 
-        var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+        //var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
         throw new NotImplementedException();
         // context.Database.Migrate();
@@ -141,7 +140,7 @@ public class Testing
     {
         using var scope = _scopeFactory.CreateScope();
 
-        var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+        //var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
         await Task.CompletedTask;
         throw new NotImplementedException();
@@ -153,7 +152,7 @@ public class Testing
     {
         using var scope = _scopeFactory.CreateScope();
 
-        var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+        //var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
         await Task.CompletedTask;
         throw new NotImplementedException();
@@ -167,7 +166,7 @@ public class Testing
     {
         using var scope = _scopeFactory.CreateScope();
 
-        var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+        //var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
         await Task.CompletedTask;
         throw new NotImplementedException();

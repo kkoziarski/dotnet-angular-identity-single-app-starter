@@ -1,5 +1,7 @@
 using System;
 using System.Threading.Tasks;
+using CleanArchWeb.Application.Common.Interfaces;
+using CleanArchWeb.Domain.Entities;
 using CleanArchWeb.Infrastructure.Identity;
 using CleanArchWeb.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
@@ -22,13 +24,14 @@ namespace CleanArchWeb.WebUI
 
                 try
                 {
-                    var context = services.GetRequiredService<ApplicationDbContext>();
+                    var writer = services.GetRequiredService<IMongoWriteAdapter<TodoListDocument, Guid>>();
+                    var reader = services.GetRequiredService<IMongoReadAdapter<TodoListDocument>>();
 
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
 
                     await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager, roleManager);
-                    await ApplicationDbContextSeed.SeedSampleDataAsync(context);
+                    await ApplicationDbContextSeed.SeedSampleDataAsync(reader, writer);
                 }
                 catch (Exception ex)
                 {

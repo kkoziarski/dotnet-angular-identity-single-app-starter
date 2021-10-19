@@ -16,8 +16,8 @@ namespace CleanArchWeb.Infrastructure.DI
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<ApplicationDbContext>();
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            //services.AddScoped<ApplicationDbContext>();
+            //services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             var mongoConfig = services.ConfigureMongo(configuration);
 
             services.ConfigureIdentity(mongoConfig);
@@ -32,14 +32,14 @@ namespace CleanArchWeb.Infrastructure.DI
 
         private static IServiceCollection AddRepository(this IServiceCollection services)
         {
-            services.AddScoped<IRepositorySimple, MongoRepositorySimple>();
+            //services.AddScoped<IRepositorySimple, MongoRepositorySimple>();
 
-            services.AddScoped<IMongoRepository, MongoRepository>(provider =>
-            {
-                var mongoConfig = provider.GetRequiredService<MongoConfig>();
-                var mongoClient = provider.GetRequiredService<IMongoClient>();
-                return new MongoRepository(mongoClient.GetDatabase(mongoConfig.DatabaseName));
-            });
+            //services.AddScoped<IMongoRepository, Mongorepository>(provider =>
+            //{
+            //    var mongoconfig = provider.getrequiredService<MongoConfig>();
+            //    var mongoClient = provider.GetRequiredService<IMongoClient>();
+            //    return new MongoRepository(mongoClient.GetDatabase(mongoConfig.DatabaseName));
+            //});
 
             return services;
         }
