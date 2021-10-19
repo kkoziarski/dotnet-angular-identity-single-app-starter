@@ -18,11 +18,13 @@ namespace CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem
 
     public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, Guid>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IMongoReadAdapter<TodoListDocument> _reader;
+        private readonly IMongoWriteAdapter<TodoListDocument, Guid> _writer;
 
-        public CreateTodoItemCommandHandler(IApplicationDbContext context)
+        public CreateTodoItemCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, Guid> writer)
         {
-            _context = context;
+            _reader = reader;
+            _writer = writer;
         }
 
         public async Task<Guid> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
@@ -35,7 +37,7 @@ namespace CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem
 
             entity.DomainEvents.Add(new TodoItemCreatedEvent(entity));
 
-            var listDocument = await _context.Repository.GetByIdAsync<TodoListDocument>(request.ListId);
+            var listDocument = await _reader.GetByIdAsync(request.ListId);
 
             if (listDocument == null)
             {
@@ -43,7 +45,7 @@ namespace CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem
             }
 
             listDocument.Items.Add(entity);
-            await _context.Repository.UpdateOneAsync(listDocument);
+            await _writer.ReplaceOneAsync(listDocument);
             return entity.Id;
         }
     }

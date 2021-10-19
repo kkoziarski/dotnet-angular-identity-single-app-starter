@@ -25,16 +25,18 @@ namespace CleanArchWeb.Application.TodoItems.Commands.UpdateTodoItemDetail
 
     public class UpdateTodoItemDetailCommandHandler : IRequestHandler<UpdateTodoItemDetailCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IMongoReadAdapter<TodoListDocument> _reader;
+        private readonly IMongoWriteAdapter<TodoListDocument, Guid> _writer;
 
-        public UpdateTodoItemDetailCommandHandler(IApplicationDbContext context)
+        public UpdateTodoItemDetailCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, Guid> writer)
         {
-            _context = context;
+            _reader = reader;
+            _writer = writer;
         }
 
         public async Task<Unit> Handle(UpdateTodoItemDetailCommand request, CancellationToken cancellationToken)
         {
-            var listDocument = await _context.Repository.GetByIdAsync<TodoListDocument>(request.ListId);
+            var listDocument = await _reader.GetByIdAsync(request.ListId);
 
             if (listDocument == null)
             {
@@ -52,7 +54,7 @@ namespace CleanArchWeb.Application.TodoItems.Commands.UpdateTodoItemDetail
 
             if (request.ListId != request.NewListId)
             {
-                newListDocument = await _context.Repository.GetByIdAsync<TodoListDocument>(request.NewListId);
+                newListDocument = await _reader.GetByIdAsync(request.NewListId);
                 if (newListDocument == null)
                 {
                     throw new NotFoundException(nameof(TodoListDocument), request.NewListId);
@@ -67,9 +69,9 @@ namespace CleanArchWeb.Application.TodoItems.Commands.UpdateTodoItemDetail
 
             if (newListDocument != null)
             {
-                await _context.Repository.UpdateOneAsync(newListDocument);
+                await _writer.ReplaceOneAsync(newListDocument);
             }
-            await _context.Repository.UpdateOneAsync(listDocument);
+            await _writer.ReplaceOneAsync(listDocument);
 
             return Unit.Value;
         }

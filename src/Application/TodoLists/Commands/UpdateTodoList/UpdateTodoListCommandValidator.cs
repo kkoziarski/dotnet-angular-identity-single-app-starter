@@ -8,11 +8,11 @@ namespace CleanArchWeb.Application.TodoLists.Commands.UpdateTodoList
 {
     public class UpdateTodoListCommandValidator : AbstractValidator<UpdateTodoListCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IMongoReadAdapter<TodoListDocument> _reader;
 
-        public UpdateTodoListCommandValidator(IApplicationDbContext context)
+        public UpdateTodoListCommandValidator(IMongoReadAdapter<TodoListDocument> reader)
         {
-            _context = context;
+            _reader = reader;
 
             RuleFor(v => v.Title)
                 .NotEmpty().WithMessage("Title is required.")
@@ -22,7 +22,7 @@ namespace CleanArchWeb.Application.TodoLists.Commands.UpdateTodoList
 
         private async Task<bool> BeUniqueTitle(UpdateTodoListCommand model, string title, CancellationToken cancellationToken)
         {
-            return !await _context.Repository.AnyAsync<TodoListDocument>(c => c.Id != model.Id && c.Title == title);
+            return !await _reader.AnyAsync(c => c.Id != model.Id && c.Title == title, cancellationToken);
         }
     }
 }

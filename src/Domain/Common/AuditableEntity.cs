@@ -1,5 +1,5 @@
 ﻿using System;
-using MongoDbGenericRepository.Models;
+using CleanArchWeb.Domain.Entities;
 
 namespace CleanArchWeb.Domain.Common
 {
@@ -14,7 +14,7 @@ namespace CleanArchWeb.Domain.Common
         public string LastModifiedBy { get; set; }
     }
 
-    public abstract class AuditableDocument : AuditableEntity, IDocument
+    public abstract class AuditableDocument : AuditableEntity, IDocument, MongoDbGenericRepository.Models.IDocument
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public int Version { get; set; }

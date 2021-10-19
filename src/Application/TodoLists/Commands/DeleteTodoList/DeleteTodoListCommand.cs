@@ -15,23 +15,27 @@ namespace CleanArchWeb.Application.TodoLists.Commands.DeleteTodoList
 
     public class DeleteTodoListCommandHandler : IRequestHandler<DeleteTodoListCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IMongoReadAdapter<TodoListDocument> _reader;
+        private readonly IMongoWriteAdapter<TodoListDocument, Guid> _writer;
 
-        public DeleteTodoListCommandHandler(IApplicationDbContext context)
+        public DeleteTodoListCommandHandler(
+            IMongoReadAdapter<TodoListDocument> reader,
+            IMongoWriteAdapter<TodoListDocument, Guid> writer)
         {
-            _context = context;
+            _reader = reader;
+            _writer = writer;
         }
 
         public async Task<Unit> Handle(DeleteTodoListCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Repository.GetByIdAsync<TodoListDocument>(request.Id);
+            var entity = await _reader.GetByIdAsync(request.Id, cancellationToken);
 
             if (entity == null)
             {
                 throw new NotFoundException(nameof(TodoListDocument), request.Id);
             }
 
-            await _context.Repository.DeleteOneAsync(entity);
+            await _writer.DeleteOneAsync(entity);
             return Unit.Value;
         }
     }

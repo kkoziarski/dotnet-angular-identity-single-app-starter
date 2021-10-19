@@ -17,25 +17,25 @@ namespace CleanArchWeb.Application.TodoLists.Commands.UpdateTodoList
 
     public class UpdateTodoListCommandHandler : IRequestHandler<UpdateTodoListCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IMongoReadAdapter<TodoListDocument> _reader;
+        private readonly IMongoWriteAdapter<TodoListDocument, Guid> _writer;
 
-        public UpdateTodoListCommandHandler(IApplicationDbContext context)
+        public UpdateTodoListCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, Guid> writer)
         {
-            _context = context;
+            _reader = reader;
+            _writer = writer;
         }
 
         public async Task<Unit> Handle(UpdateTodoListCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Repository.GetByIdAsync<TodoListDocument>(request.Id);
-
+            var entity = await _reader.GetByIdAsync(request.Id, cancellationToken);
             if (entity == null)
             {
                 throw new NotFoundException(nameof(TodoListDocument), request.Id);
             }
 
-            entity.Title = request.Title;
-
-            await _context.Repository.UpdateOneAsync(entity);
+            var updateDefinition = _writer.Updater.Set(f => f.Title, request.Title);
+            await _writer.UpdateOneAsync(entity, updateDefinition);
             return Unit.Value;
         }
     }

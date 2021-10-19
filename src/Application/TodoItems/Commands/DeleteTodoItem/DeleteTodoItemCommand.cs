@@ -17,16 +17,18 @@ namespace CleanArchWeb.Application.TodoItems.Commands.DeleteTodoItem
 
     public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IMongoReadAdapter<TodoListDocument> _reader;
+        private readonly IMongoWriteAdapter<TodoListDocument, Guid> _writer;
 
-        public DeleteTodoItemCommandHandler(IApplicationDbContext context)
+        public DeleteTodoItemCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, Guid> writer)
         {
-            _context = context;
+            _reader = reader;
+            _writer = writer;
         }
 
         public async Task<Unit> Handle(DeleteTodoItemCommand request, CancellationToken cancellationToken)
         {
-            var listDocument = await _context.Repository.GetByIdAsync<TodoListDocument>(request.ListId);
+            var listDocument = await _reader.GetByIdAsync(request.ListId, cancellationToken);
 
             if (listDocument == null)
             {
@@ -41,7 +43,7 @@ namespace CleanArchWeb.Application.TodoItems.Commands.DeleteTodoItem
             }
 
             listDocument.Items.Remove(entity);
-            await _context.Repository.UpdateOneAsync(listDocument);
+            await _writer.ReplaceOneAsync(listDocument);
 
             return Unit.Value;
         }

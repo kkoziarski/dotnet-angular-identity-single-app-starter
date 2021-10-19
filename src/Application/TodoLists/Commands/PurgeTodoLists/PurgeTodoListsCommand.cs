@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using CleanArchWeb.Application.Common.Interfaces;
 using CleanArchWeb.Application.Common.Security;
@@ -15,16 +16,16 @@ namespace CleanArchWeb.Application.TodoLists.Commands.PurgeTodoLists
 
     public class PurgeTodoListsCommandHandler : IRequestHandler<PurgeTodoListsCommand>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IMongoWriteAdapter<TodoListDocument, Guid> _writer;
 
-        public PurgeTodoListsCommandHandler(IApplicationDbContext context)
+        public PurgeTodoListsCommandHandler(IMongoWriteAdapter<TodoListDocument, Guid> writer)
         {
-            _context = context;
+            _writer = writer;
         }
 
         public async Task<Unit> Handle(PurgeTodoListsCommand request, CancellationToken cancellationToken)
         {
-            await _context.Repository.DeleteManyAsync<TodoListDocument>(_ => true);
+            await _writer.DeleteManyAsync(_ => true);
             return Unit.Value;
         }
     }
