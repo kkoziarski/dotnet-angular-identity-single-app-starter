@@ -16,8 +16,6 @@ namespace CleanArchWeb.Infrastructure.DI
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddScoped<ApplicationDbContext>();
-            //services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             var mongoConfig = services.ConfigureMongo(configuration);
 
             services.ConfigureIdentity(mongoConfig);
@@ -26,20 +24,6 @@ namespace CleanArchWeb.Infrastructure.DI
             services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
 
             services.ConfigureAuth();
-
-            return services;
-        }
-
-        private static IServiceCollection AddRepository(this IServiceCollection services)
-        {
-            //services.AddScoped<IRepositorySimple, MongoRepositorySimple>();
-
-            //services.AddScoped<IMongoRepository, Mongorepository>(provider =>
-            //{
-            //    var mongoconfig = provider.getrequiredService<MongoConfig>();
-            //    var mongoClient = provider.GetRequiredService<IMongoClient>();
-            //    return new MongoRepository(mongoClient.GetDatabase(mongoConfig.DatabaseName));
-            //});
 
             return services;
         }
@@ -58,8 +42,7 @@ namespace CleanArchWeb.Infrastructure.DI
             .AddScoped<IMongoDbContext, MongoDbContext>()
             .AddScoped<IMongoDbManager, MongoDbManager>()
             .AddScoped(typeof(IMongoReadAdapter<>), typeof(MongoReadAdapter<>))
-            .AddScoped(typeof(IMongoWriteAdapter<,>), typeof(MongoWriteAdapter<,>))
-            .AddRepository();
+            .AddScoped(typeof(IMongoWriteAdapter<,>), typeof(MongoWriteAdapter<,>));
 
             TodoListDocumentConfiguration.ConfigureMongo();
 
