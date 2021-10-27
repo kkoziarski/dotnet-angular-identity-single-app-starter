@@ -10,9 +10,15 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 {
     internal partial class MongoWriteAdapter<TSrc, TKey> : IMongoWriteAdapter<TSrc, TKey> where TSrc : class, IDocument<TKey>
     {
+        private readonly ICurrentUserService _currentUserService;
+
         public IMongoDbContext MongoContext { get; }
 
-        public MongoWriteAdapter(IMongoDbContext mongoContext) => this.MongoContext = mongoContext;
+        public MongoWriteAdapter(IMongoDbContext mongoContext, ICurrentUserService currentUserService)
+        {
+            MongoContext = mongoContext;
+            _currentUserService = currentUserService;
+        }
 
         public virtual IMongoCollection<TSrc> GetCollection()
             => this.MongoContext.GetWriteCollection<TSrc>();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using CleanArchWeb.Domain.Common;
 using CleanArchWeb.Domain.Entities;
 using MongoDB.Driver;
 
@@ -12,6 +13,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
     {
         public virtual async Task<bool> ReplaceOneAsync(TSrc modifiedDocument)
         {
+            UpdateAuditable(modifiedDocument);
             var filter = Builders<TSrc>.Filter.Eq("Id", modifiedDocument.Id);
             var updateRes = await this.GetCollection().ReplaceOneAsync(filter, modifiedDocument);
             return updateRes.ModifiedCount == 1;
@@ -19,6 +21,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 
         public virtual async Task<bool> ReplaceOneAsync(TSrc modifiedDocument, ReplaceOptions replaceOptions)
         {
+            UpdateAuditable(modifiedDocument);
             var filter = Builders<TSrc>.Filter.Eq("Id", modifiedDocument.Id);
             var updateRes = await this.GetCollection().ReplaceOneAsync(filter, modifiedDocument, replaceOptions);
             return updateRes.ModifiedCount == 1;
@@ -26,6 +29,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 
         public virtual bool ReplaceOne(TSrc modifiedDocument)
         {
+            UpdateAuditable(modifiedDocument);
             var filter = Builders<TSrc>.Filter.Eq("Id", modifiedDocument.Id);
             var updateRes = this.GetCollection().ReplaceOne(filter, modifiedDocument);
             return updateRes.ModifiedCount == 1;
@@ -37,6 +41,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 
             foreach (var doc in modifiedDocuments)
             {
+                UpdateAuditable(doc);
                 var filter = Builders<TSrc>.Filter.Eq("Id", doc.Id);
                 updates.Add(new ReplaceOneModel<TSrc>(filter, doc));
             }
@@ -50,6 +55,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
             var updates = new List<WriteModel<TSrc>>();
             foreach (var doc in modifiedDocuments)
             {
+                UpdateAuditable(doc);
                 var filter = Builders<TSrc>.Filter.Eq("Id", doc.Id);
                 var replaceOneModel = new ReplaceOneModel<TSrc>(filter, doc) { IsUpsert = true };
                 updates.Add(replaceOneModel);
@@ -65,6 +71,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 
             foreach (var doc in modifiedDocuments)
             {
+                UpdateAuditable(doc);
                 var filter = Builders<TSrc>.Filter.Eq("Id", doc.Id);
                 updates.Add(new ReplaceOneModel<TSrc>(filter, doc));
             }
@@ -75,6 +82,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 
         public virtual async Task<bool> UpdateOneAsync(TSrc documentToModify, UpdateDefinition<TSrc> update)
         {
+            UpdateAuditable(documentToModify);
             var filter = Builders<TSrc>.Filter.Eq("Id", documentToModify.Id);
             var updateRes = await this.GetCollection().UpdateOneAsync(filter, update);
             return updateRes.ModifiedCount == 1;
@@ -82,6 +90,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 
         public virtual bool UpdateOne(TSrc documentToModify, UpdateDefinition<TSrc> update)
         {
+            UpdateAuditable(documentToModify);
             var filter = Builders<TSrc>.Filter.Eq("Id", documentToModify.Id);
             var updateRes = this.GetCollection().UpdateOne(filter, update);
             return updateRes.ModifiedCount == 1;
@@ -89,6 +98,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 
         public virtual async Task<bool> UpdateOneAsync<TField>(TSrc documentToModify, Expression<Func<TSrc, TField>> field, TField value)
         {
+            UpdateAuditable(documentToModify);
             var filter = Builders<TSrc>.Filter.Eq("Id", documentToModify.Id);
             var updateRes = await this.GetCollection().UpdateOneAsync(filter, Builders<TSrc>.Update.Set(field, value));
             return updateRes.ModifiedCount == 1;
@@ -96,6 +106,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 
         public virtual bool UpdateOne<TField>(TSrc documentToModify, Expression<Func<TSrc, TField>> field, TField value)
         {
+            UpdateAuditable(documentToModify);
             var filter = Builders<TSrc>.Filter.Eq("Id", documentToModify.Id);
             var updateRes = this.GetCollection().UpdateOne(filter, Builders<TSrc>.Update.Set(field, value));
             return updateRes.ModifiedCount == 1;
@@ -103,6 +114,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 
         public virtual async Task<bool> UpdateOneAsync<TField>(FilterDefinition<TSrc> filter, Expression<Func<TSrc, TField>> field, TField value)
         {
+            //TODO: update auditable
             var updateRes = await this.GetCollection().UpdateOneAsync(filter, Builders<TSrc>.Update.Set(field, value));
             return updateRes.ModifiedCount == 1;
         }
@@ -112,6 +124,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 
         public virtual bool UpdateOne<TField>(FilterDefinition<TSrc> filter, Expression<Func<TSrc, TField>> field, TField value)
         {
+            //TODO: update auditable
             var updateRes = this.GetCollection().UpdateOne(filter, Builders<TSrc>.Update.Set(field, value));
             return updateRes.ModifiedCount == 1;
         }
@@ -124,6 +137,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 
         public virtual async Task<long> UpdateManyAsync<TField>(FilterDefinition<TSrc> filter, Expression<Func<TSrc, TField>> field, TField value)
         {
+            //TODO: update auditable
             var updateRes = await this.GetCollection().UpdateManyAsync(filter, Builders<TSrc>.Update.Set(field, value));
             return updateRes.ModifiedCount;
         }
@@ -133,6 +147,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 
         public virtual async Task<long> UpdateManyAsync(FilterDefinition<TSrc> filter, UpdateDefinition<TSrc> updateDefinition)
         {
+            //TODO: update auditable
             var updateRes = await this.GetCollection().UpdateManyAsync(filter, updateDefinition);
             return updateRes.ModifiedCount;
         }
@@ -142,18 +157,21 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 
         public virtual long UpdateMany<TField>(FilterDefinition<TSrc> filter, Expression<Func<TSrc, TField>> field, TField value)
         {
+            //TODO: update auditable
             var updateRes = this.GetCollection().UpdateMany(filter, Builders<TSrc>.Update.Set(field, value));
             return updateRes.ModifiedCount;
         }
 
         public virtual long UpdateMany(FilterDefinition<TSrc> filter, UpdateDefinition<TSrc> UpdateDefinition)
         {
+            //TODO: update auditable
             var updateRes = this.GetCollection().UpdateMany(filter, UpdateDefinition);
             return updateRes.ModifiedCount;
         }
 
         public virtual async Task<bool> UpdateOneAsync(TSrc modifiedDocument, UpdateOptions options)
         {
+            this.UpdateAuditable(modifiedDocument);
             var filter = Builders<TSrc>.Filter.Eq("Id", modifiedDocument.Id);
             var update = Builders<TSrc>.Update;
 
@@ -173,6 +191,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
 
                 foreach (var doc in modifiedDocuments)
                 {
+                    this.UpdateAuditable(doc);
                     var filter = Builders<TSrc>.Filter.Eq("Id", doc.Id);
                     var update = Builders<TSrc>.Update;
 
@@ -187,6 +206,17 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
                 updateRes = await this.GetCollection().BulkWriteAsync(writeUpdates, bulkWriteOptions);
             }
             return updateRes.ModifiedCount > 0;
+        }
+
+        protected virtual void UpdateAuditable(TSrc document)
+        {
+            if (document != null && document is AuditableEntity auditableEntity)
+            {
+                auditableEntity.Created = auditableEntity.Created == default ? DateTime.UtcNow : auditableEntity.Created;
+                auditableEntity.CreatedBy ??= _currentUserService.UserId.ToString();
+                auditableEntity.LastModifiedBy = _currentUserService.UserId.ToString();
+                auditableEntity.LastModified = DateTime.UtcNow;
+            }
         }
     }
 }

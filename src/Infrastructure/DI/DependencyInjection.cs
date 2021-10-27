@@ -8,6 +8,9 @@ using CleanArchWeb.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
 namespace CleanArchWeb.Infrastructure.DI
@@ -30,6 +33,9 @@ namespace CleanArchWeb.Infrastructure.DI
 
         private static MongoConfig ConfigureMongo(this IServiceCollection services, IConfiguration configuration)
         {
+            BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+            BsonSerializer.RegisterSerializationProvider(new CustomSerializationProvider());
+
             services.Configure<MongoConfig>(configuration.GetSection("MongoConfig"));
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<MongoConfig>>().Value);
             var mongoConfig = configuration.GetSection("MongoConfig").Get<MongoConfig>();
