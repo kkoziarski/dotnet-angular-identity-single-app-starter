@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using CleanArchWeb.Application.Common.Interfaces;
+using CleanArchWeb.Domain.Common;
 using CleanArchWeb.Domain.Entities;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
@@ -36,7 +38,68 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
                 ? this.GetCollection().AsQueryable().Where(filter)
                 : this.GetCollection().AsQueryable();
 
+        public virtual TSrc SetAuditable(TSrc document)
+        {
+            if (document != null && document is AuditableEntity auditableEntity)
+            {
+                auditableEntity.Created = auditableEntity.Created == default ? DateTime.UtcNow : auditableEntity.Created;
+                auditableEntity.CreatedBy ??= _currentUserService.UserId.ToString();
+                auditableEntity.LastModifiedBy = _currentUserService.UserId.ToString();
+                auditableEntity.LastModified = DateTime.UtcNow;
+            }
+            return document;
+        }
+
+        public virtual IEnumerable<TSrc> SetAuditable(IEnumerable<TSrc> documents)
+        {
+            foreach (var doc in documents)
+            {
+                SetAuditable(doc);
+            }
+            return documents;
+        }
+
+        protected virtual UpdateDefinition<TSrc> SetAuditable<TField>(Expression<Func<TSrc, TField>> field, TField value)
+        {
+            var builder = Builders<TSrc>.Update;
+            if (typeof(TSrc).IsAssignableTo(typeof(AuditableEntity)))
+            {
+                Expression<Func<AuditableEntity, DateTime?>> auditExpressionModified = x => x.LastModified;
+                Expression<Func<AuditableEntity, string>> auditExpressionModifiedBy = x => x.LastModifiedBy;
+                return builder
+                    .Set(ConvertExpression(auditExpressionModified), DateTime.UtcNow)
+                    .Set(ConvertExpression(auditExpressionModifiedBy), _currentUserService.UserId)
+                    .Set(field, value);
+            }
+
+            return builder.Set(field, value);
+        }
+
+        protected virtual UpdateDefinition<TSrc> SetAuditable(UpdateDefinition<TSrc> updateDefinition)
+        {
+            if (typeof(TSrc).IsAssignableTo(typeof(AuditableEntity)))
+            {
+                Expression<Func<AuditableEntity, DateTime?>> auditExpressionModified = x => x.LastModified;
+                Expression<Func<AuditableEntity, string>> auditExpressionModifiedBy = x => x.LastModifiedBy;
+                var auditableUpdateDefinition = Builders<TSrc>.Update
+                    .Set(ConvertExpression(auditExpressionModified), DateTime.UtcNow)
+                    .Set(ConvertExpression(auditExpressionModifiedBy), _currentUserService.UserId);
+
+                return Builders<TSrc>.Update.Combine(auditableUpdateDefinition, updateDefinition);
+            }
+
+            return updateDefinition;
+        }
+
         protected virtual Expression<Func<TSrc, object>> ConvertExpression<TValue>(Expression<Func<TSrc, TValue>> expression)
+        {
+            var param = expression.Parameters[0];
+            var body = expression.Body;
+            var convert = Expression.Convert(body, typeof(object));
+            return Expression.Lambda<Func<TSrc, object>>(convert, param);
+        }
+
+        protected virtual Expression<Func<TSrc, object>> ConvertExpression<TValue>(Expression<Func<AuditableEntity, TValue>> expression)
         {
             var param = expression.Parameters[0];
             var body = expression.Body;

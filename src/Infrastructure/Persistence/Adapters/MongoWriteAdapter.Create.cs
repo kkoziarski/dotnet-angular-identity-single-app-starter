@@ -10,14 +10,14 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
     internal partial class MongoWriteAdapter<TSrc, TKey> where TSrc : class, IDocument<TKey>
     {
         public virtual Task AddOneAsync(TSrc document, CancellationToken cancellationToken = default)
-            => this.GetCollection().InsertOneAsync(document, null, cancellationToken);
+            => this.GetCollection().InsertOneAsync(SetAuditable(document), null, cancellationToken);
 
         public virtual Task AddOneAsync(TSrc document, InsertOneOptions options, CancellationToken cancellationToken = default)
-            => this.GetCollection().InsertOneAsync(document, options, cancellationToken);
+            => this.GetCollection().InsertOneAsync(SetAuditable(document), options, cancellationToken);
 
-        public virtual void AddOne(TSrc document) => this.GetCollection().InsertOne(document);
+        public virtual void AddOne(TSrc document) => this.GetCollection().InsertOne(SetAuditable(document));
 
-        public virtual void AddOne(TSrc document, InsertOneOptions options) => this.GetCollection().InsertOne(document, options);
+        public virtual void AddOne(TSrc document, InsertOneOptions options) => this.GetCollection().InsertOne(SetAuditable(document), options);
 
         public virtual async Task AddManyAsync(IEnumerable<TSrc> documents, CancellationToken cancellationToken = default)
         {
@@ -26,7 +26,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
                 return;
             }
 
-            await this.GetCollection().InsertManyAsync(documents.ToList(), null, cancellationToken);
+            await this.GetCollection().InsertManyAsync(SetAuditable(documents).ToList(), null, cancellationToken);
         }
 
         public virtual async Task AddManyAsync(IEnumerable<TSrc> documents, InsertManyOptions insertManyOptions, CancellationToken cancellationToken = default)
@@ -36,7 +36,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
                 return;
             }
 
-            await this.GetCollection().InsertManyAsync(documents.ToList(), insertManyOptions, cancellationToken);
+            await this.GetCollection().InsertManyAsync(SetAuditable(documents).ToList(), insertManyOptions, cancellationToken);
         }
 
         public virtual void AddMany(IEnumerable<TSrc> documents)
@@ -46,7 +46,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
                 return;
             }
 
-            this.GetCollection().InsertMany(documents.ToList());
+            this.GetCollection().InsertMany(SetAuditable(documents).ToList());
         }
 
         public virtual void AddMany(IEnumerable<TSrc> documents, InsertManyOptions insertManyOptions)
@@ -56,7 +56,7 @@ namespace CleanArchWeb.Infrastructure.Persistence.Adapters
                 return;
             }
 
-            this.GetCollection().InsertMany(documents.ToList(), insertManyOptions);
+            this.GetCollection().InsertMany(SetAuditable(documents).ToList(), insertManyOptions);
         }
     }
 }
