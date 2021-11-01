@@ -27,16 +27,18 @@ namespace CleanArchWeb.Application.TodoItems.Commands.UpdateTodoItemDetail
     {
         private readonly IMongoReadAdapter<TodoListDocument> _reader;
         private readonly IMongoWriteAdapter<TodoListDocument, Guid> _writer;
+        private readonly IAuditableService _auditableService;
 
-        public UpdateTodoItemDetailCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, Guid> writer)
+        public UpdateTodoItemDetailCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, Guid> writer, IAuditableService auditableService)
         {
             _reader = reader;
             _writer = writer;
+            _auditableService = auditableService;
         }
 
         public async Task<Unit> Handle(UpdateTodoItemDetailCommand request, CancellationToken cancellationToken)
         {
-            var listDocument = await _reader.GetByIdAsync(request.ListId);
+            var listDocument = await _reader.GetByIdAsync(request.ListId, cancellationToken);
 
             if (listDocument == null)
             {
@@ -66,6 +68,7 @@ namespace CleanArchWeb.Application.TodoItems.Commands.UpdateTodoItemDetail
 
             entity.Priority = request.Priority;
             entity.Note = request.Note;
+            _auditableService.SetAuditable(entity);
 
             if (newListDocument != null)
             {

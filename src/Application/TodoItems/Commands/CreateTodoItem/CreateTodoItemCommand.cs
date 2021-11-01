@@ -20,11 +20,13 @@ namespace CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem
     {
         private readonly IMongoReadAdapter<TodoListDocument> _reader;
         private readonly IMongoWriteAdapter<TodoListDocument, Guid> _writer;
+        private readonly IAuditableService _auditableService;
 
-        public CreateTodoItemCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, Guid> writer)
+        public CreateTodoItemCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, Guid> writer, IAuditableService auditableService)
         {
             _reader = reader;
             _writer = writer;
+            _auditableService = auditableService;
         }
 
         public async Task<Guid> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
@@ -37,13 +39,14 @@ namespace CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem
 
             entity.DomainEvents.Add(new TodoItemCreatedEvent(entity));
 
-            var listDocument = await _reader.GetByIdAsync(request.ListId);
+            var listDocument = await _reader.GetByIdAsync(request.ListId, cancellationToken);
 
             if (listDocument == null)
             {
                 throw new NotFoundException(nameof(TodoListDocument), request.ListId);
             }
 
+            _auditableService.SetAuditable(entity);
             listDocument.Items.Add(entity);
             await _writer.ReplaceOneAsync(listDocument);
             return entity.Id;
