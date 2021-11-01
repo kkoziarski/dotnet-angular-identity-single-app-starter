@@ -25,6 +25,7 @@ namespace CleanArchWeb.Infrastructure.DI
             services.AddScoped<IDomainEventService, DomainEventService>();
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
+            services.AddScoped<IAuditableService, AuditableService>();
 
             services.ConfigureAuth();
 
