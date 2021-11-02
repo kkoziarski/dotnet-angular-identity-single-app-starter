@@ -1,10 +1,10 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Runtime.Serialization;
+using AutoMapper;
 using CleanArchWeb.Application.Common.Mappings;
 using CleanArchWeb.Application.TodoLists.Queries.GetTodos;
 using CleanArchWeb.Domain.Entities;
 using NUnit.Framework;
-using System;
-using System.Runtime.Serialization;
 
 namespace CleanArchWeb.Application.UnitTests.Common.Mappings
 {
@@ -28,7 +28,7 @@ namespace CleanArchWeb.Application.UnitTests.Common.Mappings
         {
             _configuration.AssertConfigurationIsValid();
         }
-        
+
         [Test]
         [TestCase(typeof(TodoListDocument), typeof(TodoListDto))]
         [TestCase(typeof(TodoItem), typeof(TodoItemDto))]

@@ -36,15 +36,5 @@ namespace CleanArchWeb.Application.UnitTests.Common.Behaviours
 
             _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<Guid>()), Times.Once);
         }
-
-        [Test]
-        public async Task ShouldNotCallGetUserNameAsyncOnceIfUnauthenticated()
-        {
-            var requestLogger = new LoggingBehaviour<CreateTodoItemCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
-
-            await requestLogger.Process(new CreateTodoItemCommand { ListId = Guid.Parse("dc982276-fea3-4e36-998f-5a52997210c7"), Title = "title" }, new CancellationToken());
-
-            _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<Guid>()), Times.Never);
-        }
     }
 }
