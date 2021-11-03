@@ -24,6 +24,7 @@ namespace CleanArchWeb.Application.TodoLists.Queries.GetTodos
         public void Mapping(Profile profile)
         {
             profile.CreateMap<TodoItem, TodoItemDto>()
+                .ForMember(d => d.ListId, opt => opt.Ignore())
                 .ForMember(d => d.Priority, opt => opt.MapFrom(s => (int)s.Priority));
 
             profile.CreateMap<TodoListDocument, IEnumerable<TodoItemDto>>()
