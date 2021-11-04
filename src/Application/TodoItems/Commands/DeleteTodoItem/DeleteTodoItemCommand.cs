@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CleanArchWeb.Application.Common.Exceptions;
@@ -11,7 +10,7 @@ namespace CleanArchWeb.Application.TodoItems.Commands.DeleteTodoItem
 {
     public class DeleteTodoItemCommand : IRequest
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string ListId { get; set; }
     }

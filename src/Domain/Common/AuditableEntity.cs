@@ -20,7 +20,7 @@ namespace CleanArchWeb.Domain.Common
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
         public int Version { get; set; }
     }
 }

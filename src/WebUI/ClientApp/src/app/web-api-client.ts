@@ -764,7 +764,7 @@ export interface IPaginatedListOfTodoItemDto {
 }
 
 export class TodoItemDto implements ITodoItemDto {
-    id?: string;
+    id?: string | undefined;
     listId?: string | undefined;
     title?: string | undefined;
     done?: boolean;
@@ -811,7 +811,7 @@ export class TodoItemDto implements ITodoItemDto {
 }
 
 export interface ITodoItemDto {
-    id?: string;
+    id?: string | undefined;
     listId?: string | undefined;
     title?: string | undefined;
     done?: boolean;
@@ -860,7 +860,7 @@ export interface ICreateTodoItemCommand {
 }
 
 export class UpdateTodoItemCommand implements IUpdateTodoItemCommand {
-    id?: string;
+    id?: string | undefined;
     listId?: string | undefined;
     title?: string | undefined;
     done?: boolean;
@@ -901,14 +901,14 @@ export class UpdateTodoItemCommand implements IUpdateTodoItemCommand {
 }
 
 export interface IUpdateTodoItemCommand {
-    id?: string;
+    id?: string | undefined;
     listId?: string | undefined;
     title?: string | undefined;
     done?: boolean;
 }
 
 export class UpdateTodoItemDetailCommand implements IUpdateTodoItemDetailCommand {
-    id?: string;
+    id?: string | undefined;
     listId?: string | undefined;
     newListId?: string | undefined;
     priority?: PriorityLevel;
@@ -952,7 +952,7 @@ export class UpdateTodoItemDetailCommand implements IUpdateTodoItemDetailCommand
 }
 
 export interface IUpdateTodoItemDetailCommand {
-    id?: string;
+    id?: string | undefined;
     listId?: string | undefined;
     newListId?: string | undefined;
     priority?: PriorityLevel;

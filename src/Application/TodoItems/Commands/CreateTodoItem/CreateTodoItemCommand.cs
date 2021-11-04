@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using CleanArchWeb.Application.Common.Exceptions;
 using CleanArchWeb.Application.Common.Interfaces;
@@ -9,14 +8,14 @@ using MediatR;
 
 namespace CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem
 {
-    public class CreateTodoItemCommand : IRequest<Guid>
+    public class CreateTodoItemCommand : IRequest<string>
     {
         public string ListId { get; set; }
 
         public string Title { get; set; }
     }
 
-    public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, Guid>
+    public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, string>
     {
         private readonly IMongoReadAdapter<TodoListDocument> _reader;
         private readonly IMongoWriteAdapter<TodoListDocument, string> _writer;
@@ -29,7 +28,7 @@ namespace CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem
             _auditableService = auditableService;
         }
 
-        public async Task<Guid> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreateTodoItemCommand request, CancellationToken cancellationToken)
         {
             var entity = new TodoItem
             {

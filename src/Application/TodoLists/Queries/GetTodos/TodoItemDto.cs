@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using AutoMapper.Internal;
 using CleanArchWeb.Application.Common.Mappings;
@@ -9,7 +8,7 @@ namespace CleanArchWeb.Application.TodoLists.Queries.GetTodos
 {
     public class TodoItemDto : IMapFrom<TodoItem>
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string ListId { get; set; }
 

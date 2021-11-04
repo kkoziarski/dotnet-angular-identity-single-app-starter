@@ -82,8 +82,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "guid"
+                  "type": "string"
                 }
               }
             }
@@ -108,8 +107,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "guid"
+              "type": "string"
             },
             "x-position": 1
           }
@@ -167,8 +165,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "guid"
+              "type": "string"
             },
             "x-position": 2
           }
@@ -226,8 +223,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "guid"
+              "type": "string"
             },
             "x-position": 2
           }
@@ -514,7 +510,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "format": "guid"
+            "nullable": true
           },
           "listId": {
             "type": "string",
@@ -557,7 +553,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "format": "guid"
+            "nullable": true
           },
           "listId": {
             "type": "string",
@@ -578,7 +574,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "format": "guid"
+            "nullable": true
           },
           "listId": {
             "type": "string",

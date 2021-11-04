@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using CleanArchWeb.Domain.Common;
 using CleanArchWeb.Domain.Enums;
 using CleanArchWeb.Domain.Events;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace CleanArchWeb.Domain.Entities
 {
     public class TodoItem : AuditableEntity, IHasDomainEvent
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
 
         public string Title { get; set; }
 
