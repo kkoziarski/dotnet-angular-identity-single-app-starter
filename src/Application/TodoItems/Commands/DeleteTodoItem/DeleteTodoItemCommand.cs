@@ -12,15 +12,16 @@ namespace CleanArchWeb.Application.TodoItems.Commands.DeleteTodoItem
     public class DeleteTodoItemCommand : IRequest
     {
         public Guid Id { get; set; }
-        public Guid ListId { get; set; }
+
+        public string ListId { get; set; }
     }
 
     public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemCommand>
     {
         private readonly IMongoReadAdapter<TodoListDocument> _reader;
-        private readonly IMongoWriteAdapter<TodoListDocument, Guid> _writer;
+        private readonly IMongoWriteAdapter<TodoListDocument, string> _writer;
 
-        public DeleteTodoItemCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, Guid> writer)
+        public DeleteTodoItemCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, string> writer)
         {
             _reader = reader;
             _writer = writer;

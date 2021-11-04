@@ -11,7 +11,7 @@ namespace CleanArchWeb.Application.TodoLists.Queries.GetTodos
     {
         public Guid Id { get; set; }
 
-        public Guid ListId { get; set; }
+        public string ListId { get; set; }
 
         public string Title { get; set; }
 

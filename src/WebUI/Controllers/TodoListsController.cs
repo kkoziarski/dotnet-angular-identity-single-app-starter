@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using CleanArchWeb.Application.TodoLists.Commands.CreateTodoList;
 using CleanArchWeb.Application.TodoLists.Commands.DeleteTodoList;
@@ -29,7 +29,7 @@ namespace CleanArchWeb.WebUI.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<FileResult> Get(Guid id)
+        public async Task<FileResult> Get([NotNull] string id)
         {
             var vm = await Mediator.Send(new ExportTodosQuery { ListId = id });
 
@@ -37,13 +37,13 @@ namespace CleanArchWeb.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guid>> Create(CreateTodoListCommand command)
+        public async Task<ActionResult<string>> Create(CreateTodoListCommand command)
         {
             return await Mediator.Send(command);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(Guid id, UpdateTodoListCommand command)
+        public async Task<ActionResult> Update([NotNull] string id, UpdateTodoListCommand command)
         {
             if (id != command.Id)
             {
@@ -56,7 +56,7 @@ namespace CleanArchWeb.WebUI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult> Delete([NotNull] string id)
         {
             await Mediator.Send(new DeleteTodoListCommand { Id = id });
 

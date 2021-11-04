@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using AutoMapper.Internal;
 using CleanArchWeb.Application.Common.Mappings;
@@ -14,7 +13,7 @@ namespace CleanArchWeb.Application.TodoLists.Queries.GetTodos
             Items = new List<TodoItemDto>();
         }
 
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string Title { get; set; }
 

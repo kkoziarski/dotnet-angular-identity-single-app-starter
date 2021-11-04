@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using CleanArchWeb.Application.Common.Exceptions;
 using CleanArchWeb.Application.Common.Interfaces;
@@ -10,17 +9,17 @@ namespace CleanArchWeb.Application.TodoLists.Commands.DeleteTodoList
 {
     public class DeleteTodoListCommand : IRequest
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
     }
 
     public class DeleteTodoListCommandHandler : IRequestHandler<DeleteTodoListCommand>
     {
         private readonly IMongoReadAdapter<TodoListDocument> _reader;
-        private readonly IMongoWriteAdapter<TodoListDocument, Guid> _writer;
+        private readonly IMongoWriteAdapter<TodoListDocument, string> _writer;
 
         public DeleteTodoListCommandHandler(
             IMongoReadAdapter<TodoListDocument> reader,
-            IMongoWriteAdapter<TodoListDocument, Guid> writer)
+            IMongoWriteAdapter<TodoListDocument, string> writer)
         {
             _reader = reader;
             _writer = writer;

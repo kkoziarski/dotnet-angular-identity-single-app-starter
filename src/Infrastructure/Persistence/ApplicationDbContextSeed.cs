@@ -29,7 +29,7 @@ namespace CleanArchWeb.Infrastructure.Persistence
             }
         }
 
-        public static async Task SeedSampleDataAsync(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, Guid> writer)
+        public static async Task SeedSampleDataAsync(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, string> writer)
         {
             // Seed, if necessary
             if (!await reader.AnyAsync(_ => true))

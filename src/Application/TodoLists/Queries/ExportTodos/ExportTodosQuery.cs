@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -11,7 +10,7 @@ namespace CleanArchWeb.Application.TodoLists.Queries.ExportTodos
 {
     public class ExportTodosQuery : IRequest<ExportTodosVm>
     {
-        public Guid ListId { get; set; }
+        public string ListId { get; set; }
     }
 
     public class ExportTodosQueryHandler : IRequestHandler<ExportTodosQuery, ExportTodosVm>

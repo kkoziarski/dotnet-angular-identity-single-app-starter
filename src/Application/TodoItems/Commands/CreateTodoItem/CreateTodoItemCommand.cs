@@ -11,7 +11,7 @@ namespace CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem
 {
     public class CreateTodoItemCommand : IRequest<Guid>
     {
-        public Guid ListId { get; set; }
+        public string ListId { get; set; }
 
         public string Title { get; set; }
     }
@@ -19,10 +19,10 @@ namespace CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem
     public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, Guid>
     {
         private readonly IMongoReadAdapter<TodoListDocument> _reader;
-        private readonly IMongoWriteAdapter<TodoListDocument, Guid> _writer;
+        private readonly IMongoWriteAdapter<TodoListDocument, string> _writer;
         private readonly IAuditableService _auditableService;
 
-        public CreateTodoItemCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, Guid> writer, IAuditableService auditableService)
+        public CreateTodoItemCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, string> writer, IAuditableService auditableService)
         {
             _reader = reader;
             _writer = writer;

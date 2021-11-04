@@ -13,7 +13,7 @@ namespace CleanArchWeb.Application.TodoItems.Commands.UpdateTodoItem
     {
         public Guid Id { get; set; }
 
-        public Guid ListId { get; set; }
+        public string ListId { get; set; }
 
         public string Title { get; set; }
 
@@ -23,10 +23,10 @@ namespace CleanArchWeb.Application.TodoItems.Commands.UpdateTodoItem
     public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemCommand>
     {
         private readonly IMongoReadAdapter<TodoListDocument> _reader;
-        private readonly IMongoWriteAdapter<TodoListDocument, Guid> _writer;
+        private readonly IMongoWriteAdapter<TodoListDocument, string> _writer;
         private readonly IAuditableService _auditableService;
 
-        public UpdateTodoItemCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, Guid> writer, IAuditableService auditableService)
+        public UpdateTodoItemCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, string> writer, IAuditableService auditableService)
         {
             _reader = reader;
             _writer = writer;

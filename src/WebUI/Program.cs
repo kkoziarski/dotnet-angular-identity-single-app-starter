@@ -24,7 +24,7 @@ namespace CleanArchWeb.WebUI
 
                 try
                 {
-                    var writer = services.GetRequiredService<IMongoWriteAdapter<TodoListDocument, Guid>>();
+                    var writer = services.GetRequiredService<IMongoWriteAdapter<TodoListDocument, string>>();
                     var reader = services.GetRequiredService<IMongoReadAdapter<TodoListDocument>>();
 
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();

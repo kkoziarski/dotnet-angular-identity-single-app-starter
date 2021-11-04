@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using CleanArchWeb.Application.Common.Exceptions;
 using CleanArchWeb.Application.Common.Interfaces;
@@ -10,7 +9,7 @@ namespace CleanArchWeb.Application.TodoLists.Commands.UpdateTodoList
 {
     public class UpdateTodoListCommand : IRequest
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string Title { get; set; }
     }
@@ -18,9 +17,9 @@ namespace CleanArchWeb.Application.TodoLists.Commands.UpdateTodoList
     public class UpdateTodoListCommandHandler : IRequestHandler<UpdateTodoListCommand>
     {
         private readonly IMongoReadAdapter<TodoListDocument> _reader;
-        private readonly IMongoWriteAdapter<TodoListDocument, Guid> _writer;
+        private readonly IMongoWriteAdapter<TodoListDocument, string> _writer;
 
-        public UpdateTodoListCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, Guid> writer)
+        public UpdateTodoListCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, string> writer)
         {
             _reader = reader;
             _writer = writer;

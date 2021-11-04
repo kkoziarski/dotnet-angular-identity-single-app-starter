@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using CleanArchWeb.Application.Common.Models;
 using CleanArchWeb.Application.TodoItems.Commands.CreateTodoItem;
@@ -41,7 +42,7 @@ namespace CleanArchWeb.WebUI.Controllers
         }
 
         [HttpPut("[action]/{listId}/{id}")]
-        public async Task<ActionResult> UpdateItemDetails(Guid listId, Guid id, UpdateTodoItemDetailCommand command)
+        public async Task<ActionResult> UpdateItemDetails([NotNull] string listId, Guid id, UpdateTodoItemDetailCommand command)
         {
             if (id != command.Id || listId != command.ListId)
             {
@@ -54,7 +55,7 @@ namespace CleanArchWeb.WebUI.Controllers
         }
 
         [HttpDelete("{listId}/{id}")]
-        public async Task<ActionResult> Delete(Guid listId, Guid id)
+        public async Task<ActionResult> Delete([NotNull] string listId, Guid id)
         {
             await Mediator.Send(new DeleteTodoItemCommand { Id = id, ListId = listId });
 

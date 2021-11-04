@@ -16,9 +16,9 @@ namespace CleanArchWeb.Application.TodoLists.Commands.PurgeTodoLists
 
     public class PurgeTodoListsCommandHandler : IRequestHandler<PurgeTodoListsCommand>
     {
-        private readonly IMongoWriteAdapter<TodoListDocument, Guid> _writer;
+        private readonly IMongoWriteAdapter<TodoListDocument, string> _writer;
 
-        public PurgeTodoListsCommandHandler(IMongoWriteAdapter<TodoListDocument, Guid> writer)
+        public PurgeTodoListsCommandHandler(IMongoWriteAdapter<TodoListDocument, string> writer)
         {
             _writer = writer;
         }

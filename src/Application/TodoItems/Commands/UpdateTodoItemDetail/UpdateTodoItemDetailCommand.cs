@@ -14,9 +14,9 @@ namespace CleanArchWeb.Application.TodoItems.Commands.UpdateTodoItemDetail
     {
         public Guid Id { get; set; }
 
-        public Guid ListId { get; set; }
+        public string ListId { get; set; }
 
-        public Guid NewListId { get; set; }
+        public string NewListId { get; set; }
 
         public PriorityLevel Priority { get; set; }
 
@@ -26,10 +26,10 @@ namespace CleanArchWeb.Application.TodoItems.Commands.UpdateTodoItemDetail
     public class UpdateTodoItemDetailCommandHandler : IRequestHandler<UpdateTodoItemDetailCommand>
     {
         private readonly IMongoReadAdapter<TodoListDocument> _reader;
-        private readonly IMongoWriteAdapter<TodoListDocument, Guid> _writer;
+        private readonly IMongoWriteAdapter<TodoListDocument, string> _writer;
         private readonly IAuditableService _auditableService;
 
-        public UpdateTodoItemDetailCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, Guid> writer, IAuditableService auditableService)
+        public UpdateTodoItemDetailCommandHandler(IMongoReadAdapter<TodoListDocument> reader, IMongoWriteAdapter<TodoListDocument, string> writer, IAuditableService auditableService)
         {
             _reader = reader;
             _writer = writer;

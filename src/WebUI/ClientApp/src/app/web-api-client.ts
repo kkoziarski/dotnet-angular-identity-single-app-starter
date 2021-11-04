@@ -15,7 +15,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface ITodoItemsClient {
-    getTodoItemsWithPagination(listId: string | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfTodoItemDto>;
+    getTodoItemsWithPagination(listId: string | null | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfTodoItemDto>;
     create(command: CreateTodoItemCommand): Observable<string>;
     update(id: string, command: UpdateTodoItemCommand): Observable<FileResponse>;
     updateItemDetails(listId: string, id: string, command: UpdateTodoItemDetailCommand): Observable<FileResponse>;
@@ -35,11 +35,9 @@ export class TodoItemsClient implements ITodoItemsClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getTodoItemsWithPagination(listId: string | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfTodoItemDto> {
+    getTodoItemsWithPagination(listId: string | null | undefined, pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfTodoItemDto> {
         let url_ = this.baseUrl + "/api/TodoItems?";
-        if (listId === null)
-            throw new Error("The parameter 'listId' cannot be null.");
-        else if (listId !== undefined)
+        if (listId !== undefined && listId !== null)
             url_ += "ListId=" + encodeURIComponent("" + listId) + "&";
         if (pageNumber === null)
             throw new Error("The parameter 'pageNumber' cannot be null.");
@@ -767,7 +765,7 @@ export interface IPaginatedListOfTodoItemDto {
 
 export class TodoItemDto implements ITodoItemDto {
     id?: string;
-    listId?: string;
+    listId?: string | undefined;
     title?: string | undefined;
     done?: boolean;
     priority?: number;
@@ -814,7 +812,7 @@ export class TodoItemDto implements ITodoItemDto {
 
 export interface ITodoItemDto {
     id?: string;
-    listId?: string;
+    listId?: string | undefined;
     title?: string | undefined;
     done?: boolean;
     priority?: number;
@@ -822,7 +820,7 @@ export interface ITodoItemDto {
 }
 
 export class CreateTodoItemCommand implements ICreateTodoItemCommand {
-    listId?: string;
+    listId?: string | undefined;
     title?: string | undefined;
 
     constructor(data?: ICreateTodoItemCommand) {
@@ -857,13 +855,13 @@ export class CreateTodoItemCommand implements ICreateTodoItemCommand {
 }
 
 export interface ICreateTodoItemCommand {
-    listId?: string;
+    listId?: string | undefined;
     title?: string | undefined;
 }
 
 export class UpdateTodoItemCommand implements IUpdateTodoItemCommand {
     id?: string;
-    listId?: string;
+    listId?: string | undefined;
     title?: string | undefined;
     done?: boolean;
 
@@ -904,15 +902,15 @@ export class UpdateTodoItemCommand implements IUpdateTodoItemCommand {
 
 export interface IUpdateTodoItemCommand {
     id?: string;
-    listId?: string;
+    listId?: string | undefined;
     title?: string | undefined;
     done?: boolean;
 }
 
 export class UpdateTodoItemDetailCommand implements IUpdateTodoItemDetailCommand {
     id?: string;
-    listId?: string;
-    newListId?: string;
+    listId?: string | undefined;
+    newListId?: string | undefined;
     priority?: PriorityLevel;
     note?: string | undefined;
 
@@ -955,8 +953,8 @@ export class UpdateTodoItemDetailCommand implements IUpdateTodoItemDetailCommand
 
 export interface IUpdateTodoItemDetailCommand {
     id?: string;
-    listId?: string;
-    newListId?: string;
+    listId?: string | undefined;
+    newListId?: string | undefined;
     priority?: PriorityLevel;
     note?: string | undefined;
 }
@@ -1065,7 +1063,7 @@ export interface IPriorityLevelDto {
 }
 
 export class TodoListDto implements ITodoListDto {
-    id?: string;
+    id?: string | undefined;
     title?: string | undefined;
     colour?: string | undefined;
     items?: TodoItemDto[] | undefined;
@@ -1114,7 +1112,7 @@ export class TodoListDto implements ITodoListDto {
 }
 
 export interface ITodoListDto {
-    id?: string;
+    id?: string | undefined;
     title?: string | undefined;
     colour?: string | undefined;
     items?: TodoItemDto[] | undefined;
@@ -1157,7 +1155,7 @@ export interface ICreateTodoListCommand {
 }
 
 export class UpdateTodoListCommand implements IUpdateTodoListCommand {
-    id?: string;
+    id?: string | undefined;
     title?: string | undefined;
 
     constructor(data?: IUpdateTodoListCommand) {
@@ -1192,7 +1190,7 @@ export class UpdateTodoListCommand implements IUpdateTodoListCommand {
 }
 
 export interface IUpdateTodoListCommand {
-    id?: string;
+    id?: string | undefined;
     title?: string | undefined;
 }
 

@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace CleanArchWeb.Domain.Entities
+﻿namespace CleanArchWeb.Domain.Entities
 {
-    public interface IDocument : IDocument<Guid>
+    public interface IDocument : IDocument<string>
     {
     }
 

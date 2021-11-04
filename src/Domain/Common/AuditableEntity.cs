@@ -1,5 +1,7 @@
 ﻿using System;
 using CleanArchWeb.Domain.Entities;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace CleanArchWeb.Domain.Common
 {
@@ -16,7 +18,9 @@ namespace CleanArchWeb.Domain.Common
 
     public abstract class AuditableDocument : AuditableEntity, IDocument
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         public int Version { get; set; }
     }
 }

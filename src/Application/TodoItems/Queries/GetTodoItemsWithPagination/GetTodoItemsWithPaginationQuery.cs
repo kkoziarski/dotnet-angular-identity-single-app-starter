@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +14,7 @@ namespace CleanArchWeb.Application.TodoItems.Queries.GetTodoItemsWithPagination
 {
     public class GetTodoItemsWithPaginationQuery : IRequest<PaginatedList<TodoItemDto>>
     {
-        public Guid ListId { get; set; }
+        public string ListId { get; set; }
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 10;
     }
